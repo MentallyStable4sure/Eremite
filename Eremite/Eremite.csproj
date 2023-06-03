@@ -7,4 +7,16 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="content\**" />
+    <EmbeddedResource Remove="content\**" />
+    <None Remove="content\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DSharpPlus" Version="4.4.1" />
+    <PackageReference Include="DSharpPlus.CommandsNext" Version="4.4.1" />
+    <PackageReference Include="DSharpPlus.SlashCommands" Version="4.4.1" />
+  </ItemGroup>
+
 </Project>
