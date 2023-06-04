@@ -20,7 +20,7 @@ namespace Eremite.Commands
             var shopButton = new DiscordButtonComponent(ButtonStyle.Secondary, shopGuid.ToString(), "Mora Shop");
 
             var messageBuilder = new DiscordMessageBuilder()
-                .WithContent($"Here is your profile ${context.User.Username} [{context.User.Id}]");
+                .WithContent($"Here is your profile {context.User.Username} [{context.User.Id}]");
             messageBuilder.AddComponents(pullButton, shopButton);
 
             await context.RespondAsync(messageBuilder);
