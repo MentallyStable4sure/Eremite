@@ -1,45 +1,36 @@
 ﻿using DSharpPlus;
-using Newtonsoft.Json;
+using DSharpPlus.CommandsNext;
 using DSharpPlus.Entities;
-using Eremite.Data;
+using Eremite.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Eremite
 {
     internal class Program
     {
-        public const string SumeruVibes = "sumeru_vibes.json";
 
         static async Task Main(string[] args)
         {
-            var rawConfig = await DataHandler.ReadFromConfigs(DataHandler.StartupConfig);
-            var config = JsonConvert.DeserializeObject<Config>(rawConfig);
+            var profileService = new BotProfileHandler();
 
-            var discord = new DiscordClient(config?.CreateDiscordConfig());
-            DiscordActivity activity = await SetStatus();
+            ServiceCollection services = new ServiceCollection();
+            services.AddSingleton(profileService);
+
+            var discord = new DiscordClient(await profileService.SetConfig());
+            DiscordActivity activity = await profileService.SetStatus();
+
+            var commands = new CommandsNextConfiguration()
+            {
+                Services = services.BuildServiceProvider(),
+                StringPrefixes = profileService.GetConfig().Prefixes
+            };
+
+            var commandsNext = discord.UseCommandsNext(commands);
+            commandsNext.RegisterCommands(typeof(Program).Assembly);
 
             await discord.ConnectAsync(activity, UserStatus.Idle);
             await Task.Delay(-1);
         }
 
-        private static async Task<DiscordActivity> SetStatus()
-        {
-            return new DiscordActivity()
-            {
-                ActivityType = ActivityType.ListeningTo,
-                Name = await GetVibes()
-            };
-        }
-
-        private static async Task<string> GetVibes()
-        {
-            var currentVibe = "Sand Dunes";
-            var rawVibes = await DataHandler.ReadFromConfigs(SumeruVibes);
-
-            var sumeruVibes = JsonConvert.DeserializeObject<List<string>>(rawVibes);
-            if (sumeruVibes == null) return currentVibe;
-
-            currentVibe = sumeruVibes[Random.Shared.Next(sumeruVibes.Count)];
-            return currentVibe;
-        }
     }
 }

@@ -8,6 +8,6 @@ namespace Eremite.Data
     {
         public string Token = "your token goes here";
         public TokenType TokenType = TokenType.Bot;
-        public char Prefix = '!';
+        public string[] Prefixes = new[] { "!" };
     }
 }
