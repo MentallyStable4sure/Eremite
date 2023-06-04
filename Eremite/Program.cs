@@ -1,7 +1,7 @@
 ﻿using DSharpPlus;
-using DSharpPlus.CommandsNext;
-using DSharpPlus.Entities;
 using Eremite.Services;
+using DSharpPlus.Entities;
+using DSharpPlus.CommandsNext;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Eremite
@@ -12,9 +12,11 @@ namespace Eremite
         static async Task Main(string[] args)
         {
             var profileService = new BotProfileHandler();
+            var dataRouter = new DataRouter();
 
             ServiceCollection services = new ServiceCollection();
             services.AddSingleton(profileService);
+            services.AddSingleton(dataRouter);
 
             var discord = new DiscordClient(await profileService.SetConfig());
             DiscordActivity activity = await profileService.SetStatus();

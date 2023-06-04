@@ -4,9 +4,9 @@ namespace Eremite.Data.DiscordData
     [Serializable]
     public class UserData
     {
-        public ulong UserId; //snowflake id  prob
+        public string UserId; //snowflake id  prob
         public string Username = string.Empty;
-        public Character CurrentEquippedCharacter = null;
+        public Character CurrentEquippedCharacter;
 
         public DiscordWallet Wallet = new DiscordWallet(); //users money
         public List<Character> Characters = new List<Character>(); //users inventory
@@ -22,7 +22,7 @@ namespace Eremite.Data.DiscordData
 
         public void AddPulledCharacter(Character character)
         {
-            Character duplicate = null;
+            Character duplicate;
 
             if(Characters.Count <= 0)
             {
@@ -34,6 +34,17 @@ namespace Eremite.Data.DiscordData
 
             if (duplicate != null && duplicate.StarsRarity >= 10) Characters.Add(duplicate);
             if (duplicate == null) Characters.Add(character);
+        }
+
+        public void ResetWallet()
+        {
+            Wallet = new DiscordWallet();
+        }
+
+        public void AddCurrency(int primos, int mora)
+        {
+            Wallet.Primogems += primos;
+            Wallet.Mora += mora;
         }
     }
 }

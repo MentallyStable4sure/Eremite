@@ -1,11 +1,13 @@
-﻿namespace Eremite.Data.DiscordData
+﻿using Eremite.Data.GenshinData;
+
+namespace Eremite.Data.DiscordData
 {
     public class RecruitSystemResults
     {
-        public EremiteRecruit RandomEremiteWon = null;
-        public EremiteRecruit RandomVipEremiteWon = null;
+        public EremiteRecruit RandomEremiteWon;
+        public EremiteRecruit RandomVipEremiteWon;
 
-        public List<EremiteRecruit> GuaranteedEremitesWon = null;
+        public List<EremiteRecruit> GuaranteedEremitesWon;
         public DateTime TimestampResults = DateTime.Now.ToUniversalTime();
 
         public string GetResultsShortDate() => TimestampResults.ToShortDateString();

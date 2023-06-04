@@ -3,8 +3,8 @@
     [Serializable]
     public class RecruitSystemResultsDatabase
     {
-        public RecruitSystemResults LatestResult = null;
-        public List<RecruitSystemResults> ResultsHistory = null;
+        public RecruitSystemResults LatestResult;
+        public List<RecruitSystemResults> ResultsHistory;
         public DateTime TimestampLastResults = DateTime.Now;
     }
 }
