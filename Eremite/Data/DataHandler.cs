@@ -15,7 +15,7 @@ namespace Eremite.Data
         {
             var current = Directory.GetCurrentDirectory();
             var fullPath = Path.Combine(current, directory);
-            Console.WriteLine(fullPath);
+
             if (!Directory.Exists(fullPath)) return string.Empty;
             fullPath = Path.Combine(fullPath, file);
 
