@@ -30,7 +30,7 @@ namespace Eremite.Commands
 
             context.Client.ComponentInteractionCreated += async (client, args) =>
             {
-                if (client.CurrentUser.Id.ToString() != userClicked)
+                if (args.User.Id.ToString() != userClicked)
                 {
                     await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage, 
                         new DiscordInteractionResponseBuilder().WithContent("You are not the one who used !topup command"));

@@ -24,7 +24,14 @@ namespace Eremite.Services
             var cmd = new MySqlCommand(query, connector.Connection);
 
             var reader = cmd.ExecuteReader();
-            var id = reader.GetString("userId");
+            while (reader.Read())
+            {
+                id = reader.GetString("userid");
+                primosSaved = reader.GetInt32("primogems");
+                moraSaved = reader.GetInt32("mora");
+
+                Console.WriteLine($"UID Found: {id} |  Primos: {primosSaved} | Mora: {moraSaved}");
+            }
 
             if (id == null) query = $"INSERT INTO `users`(`userid`, `primogems`, `mora`) VALUES ('{userData.UserId}','{userData.Wallet.Primogems}','{userData.Wallet.Mora}')";
             else query = $"UPDATE users SET primogems = {userData.Wallet.Primogems}, mora = {userData.Wallet.Mora} WHERE userid = {userData.UserId}";
@@ -62,6 +69,8 @@ namespace Eremite.Services
 
                 Console.WriteLine($"UID Found: {id} |  Primos: {primosSaved} | Mora: {moraSaved}");
             }
+            reader.Close();
+            cmd.Dispose();
 
             //close connection
             await connector.DisposeAsync();
