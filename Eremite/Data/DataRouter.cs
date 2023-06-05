@@ -1,7 +1,7 @@
 ﻿
 namespace Eremite.Data
 {
-    internal class DataHandler
+    internal class DataRouter
     {
         public const string StartupConfig = "startup.json";
         public const string ContentFolder = "content";

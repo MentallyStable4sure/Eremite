@@ -12,7 +12,7 @@ namespace Eremite
         static async Task Main(string[] args)
         {
             var profileService = new BotProfileHandler();
-            var dataRouter = new DataRouter();
+            var dataRouter = new DataHandler();
 
             ServiceCollection services = new ServiceCollection();
             services.AddSingleton(profileService);

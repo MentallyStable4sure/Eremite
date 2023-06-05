@@ -36,10 +36,7 @@ namespace Eremite.Data.DiscordData
             if (duplicate == null) Characters.Add(character);
         }
 
-        public void ResetWallet()
-        {
-            Wallet = new DiscordWallet();
-        }
+        public void ResetWallet() => Wallet = new DiscordWallet();
 
         public void AddCurrency(int primos, int mora)
         {

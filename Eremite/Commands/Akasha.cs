@@ -8,7 +8,7 @@ namespace Eremite.Commands
 {
     public sealed class Akasha : BaseCommandModule
     {
-        public DataRouter DataRouter { get; set; }
+        public DataHandler DataHandler { get; set; }
 
         [Command("akasha"), Description("Shows the current user profile with the current equipped character, mora and primos")]
         public async Task ShowProfile(CommandContext context)
@@ -17,7 +17,7 @@ namespace Eremite.Commands
             var pullGuid = Guid.NewGuid();
 
             var userId = context.User.Id;
-            var user = await DataRouter.GetData(userId.ToString());
+            var user = await DataHandler.GetData(userId.ToString());
 
             var pullButton = new DiscordButtonComponent(ButtonStyle.Success, pullGuid.ToString(), "Pull");
             var shopButton = new DiscordButtonComponent(ButtonStyle.Secondary, shopGuid.ToString(), "Mora Shop");

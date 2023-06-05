@@ -39,7 +39,7 @@ namespace Eremite.Services
             OnConnectionOpened?.Invoke(Connection);
         }
 
-        public virtual async Task DisposeAsync()
+        public virtual async Task CloseAndDisposeAsync()
         {
             if (Connection == null)
             {

@@ -9,9 +9,7 @@ namespace Eremite.Commands
 {
     public sealed class Topup : BaseCommandModule
     {
-        public DataRouter DataRouter { get; set; }
-
-        private string userClicked = string.Empty;
+        public DataHandler DataHandler { get; set; }
 
         [Command("topup"), Description("Sets primogems and mora for ur ID in the database")]
         public async Task TopupBalance(CommandContext context)
@@ -19,7 +17,8 @@ namespace Eremite.Commands
             var addPrimos = Guid.NewGuid();
             var addMora = Guid.NewGuid();
 
-            userClicked = context.User.Id.ToString();
+            var userClicked = context.User.Id.ToString();
+            bool isClicked = false;
 
             var addPrimosButton = new DiscordButtonComponent(ButtonStyle.Success, addPrimos.ToString(), "Add 100 Primogems");
             var addMoraButton = new DiscordButtonComponent(ButtonStyle.Danger, addMora.ToString(), "Add 100 Mora");
@@ -30,14 +29,12 @@ namespace Eremite.Commands
 
             context.Client.ComponentInteractionCreated += async (client, args) =>
             {
-                if (args.User.Id.ToString() != userClicked)
-                {
-                    await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage, 
-                        new DiscordInteractionResponseBuilder().WithContent("You are not the one who used !topup command"));
-                    return;
-                }
+                if (isClicked) return;
+                isClicked = true; //to prevent button from being spammed while async request isnt completed
 
-                var remoteData = await DataRouter.GetData(userClicked);
+                if (args.User.Id.ToString() != userClicked) return;
+
+                var remoteData = await DataHandler.GetData(userClicked);
 
                 var user = new UserData();
                 if (remoteData.UserId != string.Empty) user = remoteData;
@@ -46,8 +43,11 @@ namespace Eremite.Commands
 
                 user.Wallet.Primogems += 100;
                 user.Wallet.Mora += 100;
+                Console.WriteLine($"Adding funds to {user.UserId}");
 
-                await DataRouter.SendData(user);
+                await DataHandler.SendData(user);
+                await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage,
+                        new DiscordInteractionResponseBuilder().WithContent("Funds successfully added!"));
             };
 
             await context.RespondAsync(messageBuilder);
