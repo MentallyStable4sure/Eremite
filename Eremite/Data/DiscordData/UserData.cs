@@ -6,19 +6,12 @@ namespace Eremite.Data.DiscordData
     {
         public string UserId; //snowflake id  prob
         public string Username = string.Empty;
-        public Character CurrentEquippedCharacter;
+        public Character EquippedCharacter;
 
         public DiscordWallet Wallet = new DiscordWallet(); //users money
         public List<Character> Characters = new List<Character>(); //users inventory
-        public List<Badge> Badges = new List<Badge>(); //player badges for future mini-games/etc.
 
-        public DateTime TimeLastTravel = DateTime.Now.AddDays(-5);
-        public DateTime TimeLastTeapotVisit = DateTime.Now.AddDays(-5);
-        public int TimesWelkinWon = 0;
-        public int TimesPulled = 0;
-        public int TimesTraveled = 0;
-        public int TimesTeapotVisited = 0;
-        public int TimesEremitesRecruitSystemEnrolled = 0;
+        public Stats Stats = new Stats(); //all the stats about visits/etc.
 
         public void AddPulledCharacter(Character character)
         {
@@ -37,6 +30,8 @@ namespace Eremite.Data.DiscordData
         }
 
         public void ResetWallet() => Wallet = new DiscordWallet();
+
+        public void ResetStats() => Stats = new Stats();
 
         public void AddCurrency(int primos, int mora)
         {

@@ -32,17 +32,15 @@ namespace Eremite.Commands
                 if (isClicked) return;
 
                 if (args.User.Id.ToString() != userClicked) return;
-                isClicked = true; //to prevent button from being spammed while async request isnt completed
+                isClicked = true; //to prevent button from being spammed while request isnt completed
 
                 var remoteData = await DataHandler.GetData(userClicked);
 
-                var user = new UserData();
-                if (remoteData.UserId != string.Empty) user = remoteData;
-
+                var user = remoteData.IsValid() ? remoteData : new UserData();
                 user.UserId = userClicked;
 
-                user.Wallet.Primogems += 100;
-                user.Wallet.Mora += 100;
+                if(args.Id == addPrimos.ToString()) user.Wallet.Primogems += 100;
+                if(args.Id == addMora.ToString()) user.Wallet.Mora += 100;
                 Console.WriteLine($"Adding funds to {user.UserId}");
 
                 await DataHandler.SendData(user);

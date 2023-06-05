@@ -17,6 +17,7 @@ namespace Eremite.Commands
             var pullGuid = Guid.NewGuid();
 
             var userId = context.User.Id;
+
             var user = await DataHandler.GetData(userId.ToString());
 
             var pullButton = new DiscordButtonComponent(ButtonStyle.Success, pullGuid.ToString(), "Pull");

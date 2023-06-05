@@ -10,24 +10,24 @@ namespace Eremite.Services
     {
         private DbConfig cachedConfig = null;
 
-        public async Task SendData(UserData userData)
+        public async Task SendData(UserData userData, string customQuery = "")
         {
             if (cachedConfig == null) await CacheConfig(); //read connection config
 
             var connector = new DbConnector(cachedConfig); //open connection
             await connector.ConnectAsync();
 
-            //get corresponding user
-            string query = $"SELECT userid, primogems, mora FROM users WHERE userid = {userData.UserId}";
-            var selectCommand = new MySqlCommand(query, connector.Connection);
+            //select user from db with matching id
+            var user = QueryHandler.GetUserFromQuery(userData.UserId, connector);
 
-            var user = ReadData(selectCommand);
-
-            if (!user.IsValid()) query = $"INSERT INTO `users`(`userid`, `primogems`, `mora`) VALUES ('{userData.UserId}','{userData.Wallet.Primogems}','{userData.Wallet.Mora}')";
-            else query = $"UPDATE users SET primogems = {userData.Wallet.Primogems}, mora = {userData.Wallet.Mora} WHERE userid = {userData.UserId}";
+            string query = string.Empty;
+            if (!user.IsValid()) query = QueryHandler.GetUserInsertQuery(user);
+            else query = customQuery != string.Empty ? customQuery : QueryHandler.GetUserUpdateAll(user);
 
             var updateCommand = new MySqlCommand(query, connector.Connection);
             await updateCommand.ExecuteScalarAsync();
+
+            await updateCommand.DisposeAsync();
 
             //close connection
             await connector.CloseAndDisposeAsync();
@@ -41,36 +41,26 @@ namespace Eremite.Services
             await connector.ConnectAsync();
 
             //select user from db with matching id
-            string query = $"SELECT userid, primogems, mora FROM users WHERE userid = {userId}";
-            var command = new MySqlCommand(query, connector.Connection);
+            var user = QueryHandler.GetUserFromQuery(userId, connector);
 
-            var user = ReadData(command);
-
-            await connector.CloseAndDisposeAsync(); //close connection
 
             if (!user.IsValid())
             {
+                user = new UserData();
                 user.UserId = userId;
-                await SendData(user);
+
+                await SendDataCustomQuery(QueryHandler.GetUserInsertQuery(user), connector);
             }
+
+            await connector.CloseAndDisposeAsync(); //close connection
 
             return user;
         }
 
-        private UserData ReadData(MySqlCommand command)
+        private async Task SendDataCustomQuery(string customQuery, DbConnector connector)
         {
-            var user = new UserData();
-            var reader = command.ExecuteReader();
-            while (reader.Read())
-            {
-                user.UserId = reader.GetString("userid");
-                user.AddCurrency(reader.GetInt32("primogems"), reader.GetInt32("mora"));
-            }
-
-            reader.Close();
-            command.Dispose();
-            Console.WriteLine("ReadingData..");
-            return user;
+            var updateCommand = new MySqlCommand(customQuery, connector.Connection);
+            await updateCommand.ExecuteScalarAsync();
         }
 
         private async Task CacheConfig()
