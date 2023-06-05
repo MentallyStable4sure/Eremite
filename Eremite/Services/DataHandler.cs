@@ -22,7 +22,7 @@ namespace Eremite.Services
 
             string query = string.Empty;
             if (!user.IsValid()) query = QueryHandler.GetUserInsertQuery(user);
-            else query = customQuery != string.Empty ? customQuery : QueryHandler.GetUserUpdateAll(user);
+            else query = customQuery != string.Empty ? customQuery : QueryHandler.GetUserUpdateAll(userData);
 
             var updateCommand = new MySqlCommand(query, connector.Connection);
             await updateCommand.ExecuteScalarAsync();
