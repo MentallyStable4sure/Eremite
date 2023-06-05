@@ -17,7 +17,7 @@ namespace Eremite.Services
 
         public async Task<DiscordConfiguration> SetConfig()
         {
-            var rawConfig = await DataRoute.ReadFromConfigs(DataRoute.StartupConfig);
+            var rawConfig = await DataRouter.ReadFromConfigs(DataRouter.StartupConfig);
             botConfig = JsonConvert.DeserializeObject<Config>(rawConfig);
 
             return CreateDiscordConfig(botConfig);
@@ -49,7 +49,7 @@ namespace Eremite.Services
         private async Task<string> GetVibes()
         {
             var currentVibe = "Sand Dunes";
-            var rawVibes = await DataRoute.ReadFromConfigs(SumeruVibes);
+            var rawVibes = await DataRouter.ReadFromConfigs(SumeruVibes);
 
             var sumeruVibes = JsonConvert.DeserializeObject<List<string>>(rawVibes);
             if (sumeruVibes == null) return currentVibe;
