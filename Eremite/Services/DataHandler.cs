@@ -3,6 +3,7 @@ using Eremite.Data;
 using Newtonsoft.Json;
 using MySql.Data.MySqlClient;
 using Eremite.Data.DiscordData;
+using DSharpPlus.Entities;
 
 namespace Eremite.Services
 {
@@ -33,7 +34,7 @@ namespace Eremite.Services
             await connector.CloseAndDisposeAsync();
         }
 
-        public async Task<UserData> GetData(string userId)
+        public async Task<UserData> GetData(DiscordUser discordUser)
         {
             if (cachedConfig == null) await CacheConfig(); //read connection config
 
@@ -41,13 +42,14 @@ namespace Eremite.Services
             await connector.ConnectAsync();
 
             //select user from db with matching id
-            var user = QueryHandler.GetUserFromQuery(userId, connector);
+            var user = QueryHandler.GetUserFromQuery(discordUser.Id.ToString(), connector);
 
 
             if (!user.IsValid())
             {
                 user = new UserData();
-                user.UserId = userId;
+                user.Username = discordUser.Username;
+                user.UserId = discordUser.Id.ToString();
 
                 await SendDataCustomQuery(QueryHandler.GetUserInsertQuery(user), connector);
             }

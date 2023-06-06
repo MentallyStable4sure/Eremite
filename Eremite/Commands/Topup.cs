@@ -34,7 +34,7 @@ namespace Eremite.Commands
                 if (args.User.Id.ToString() != userClicked) return;
                 isClicked = true; //to prevent button from being spammed while request isnt completed
 
-                var remoteData = await DataHandler.GetData(userClicked);
+                var remoteData = await DataHandler.GetData(context.User);
 
                 var user = remoteData.IsValid() ? remoteData : new UserData();
                 user.UserId = userClicked;
