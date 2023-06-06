@@ -28,6 +28,7 @@ namespace Eremite.Services
             while (reader.Read())
             {
                 user.UserId = reader.GetString("userid");
+                user.Username = reader.GetString("username");
                 user.Wallet = JsonConvert.DeserializeObject<DiscordWallet>(reader.GetString("wallet"));
                 user.Characters = JsonConvert.DeserializeObject<List<Character>>(reader.GetString("characters"));
                 user.EquippedCharacter = JsonConvert.DeserializeObject<Character>(reader.GetString("equippedcharacter"));
