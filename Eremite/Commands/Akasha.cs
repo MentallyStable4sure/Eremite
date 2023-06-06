@@ -50,13 +50,16 @@ namespace Eremite.Commands
         {
             var pullGuid = Guid.NewGuid().ToString();
             var shopGuid = Guid.NewGuid().ToString();
+            var statsGuid = Guid.NewGuid().ToString();
 
             var pullButton = new DiscordButtonComponent(ButtonStyle.Success, pullGuid, "Pull");
             var shopButton = new DiscordButtonComponent(ButtonStyle.Secondary, shopGuid, "Mora Shop");
+            var statsButton = new DiscordButtonComponent(ButtonStyle.Secondary, statsGuid, "Account Stats");
 
             var buttons = new Dictionary<DiscordButtonComponent, string>();
             buttons.Add(pullButton, pullGuid);
             buttons.Add(shopButton, shopGuid);
+            buttons.Add(statsButton, shopGuid);
 
             return buttons;
         }
