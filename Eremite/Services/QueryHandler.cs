@@ -47,8 +47,8 @@ namespace Eremite.Services
         /// <returns>Query string for insertion for a completely NEW user (insert all rows)</returns>
         public static string GetUserInsertQuery(UserData user)
         {
-            string query = $"INSERT INTO `users`(`userid`, `wallet`, `characters`, `equippedcharacter`, `stats`) " +
-                $"VALUES ('{user.UserId}','{JsonConvert.SerializeObject(user.Wallet)}','{JsonConvert.SerializeObject(user.Characters)}'," +
+            string query = $"INSERT INTO `users`(`userid`, `username`, `wallet`, `characters`, `equippedcharacter`, `stats`) " +
+                $"VALUES ('{user.UserId}','{user.Username}','{JsonConvert.SerializeObject(user.Wallet)}','{JsonConvert.SerializeObject(user.Characters)}'," +
                 $"'{JsonConvert.SerializeObject(user.EquippedCharacter)}','{JsonConvert.SerializeObject(user.Stats)}')";
 
             return query;
@@ -75,7 +75,7 @@ namespace Eremite.Services
         /// <returns>Query string with all possibles user tables to update</returns>
         internal static string GetUserUpdateAll(UserData user)
         {
-            string query = $"UPDATE `users` SET `wallet`='{JsonConvert.SerializeObject(user.Wallet)}',`characters`='{JsonConvert.SerializeObject(user.Characters)}'," +
+            string query = $"UPDATE `users` SET `username`='{user.Username}', `wallet`='{JsonConvert.SerializeObject(user.Wallet)}',`characters`='{JsonConvert.SerializeObject(user.Characters)}'," +
                 $"`equippedcharacter`='{JsonConvert.SerializeObject(user.EquippedCharacter)}',`stats`='{JsonConvert.SerializeObject(user.Stats)}' WHERE userid = {user.UserId}";
 
             return query;

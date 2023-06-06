@@ -1,9 +1,9 @@
 ﻿using DSharpPlus;
+using DSharpPlus.Entities;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
-using DSharpPlus.Entities;
-using Eremite.Data.DiscordData;
 using Eremite.Services;
+using Eremite.Data.DiscordData;
 
 namespace Eremite.Commands
 {
@@ -21,7 +21,7 @@ namespace Eremite.Commands
             bool isClicked = false;
 
             var addPrimosButton = new DiscordButtonComponent(ButtonStyle.Success, addPrimos.ToString(), "Add 100 Primogems");
-            var addMoraButton = new DiscordButtonComponent(ButtonStyle.Danger, addMora.ToString(), "Add 100 Mora");
+            var addMoraButton = new DiscordButtonComponent(ButtonStyle.Secondary, addMora.ToString(), "Add 100 Mora");
 
             var messageBuilder = new DiscordMessageBuilder()
                 .WithContent($"Click to add stats to database for profile {context.User.Username} [{context.User.Id}]")
@@ -43,7 +43,7 @@ namespace Eremite.Commands
                 if(args.Id == addMora.ToString()) user.Wallet.Mora += 100;
                 Console.WriteLine($"Adding funds to {user.UserId}");
 
-                await DataHandler.SendData(user);
+                await DataHandler.SendData(user, QueryHandler.GetUserUpdateWalletQuery(user));
                 await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage,
                         new DiscordInteractionResponseBuilder().WithContent("Funds successfully added!"));
             };
