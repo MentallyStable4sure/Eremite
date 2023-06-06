@@ -13,7 +13,7 @@ namespace Eremite.Commands
         public DataHandler DataHandler { get; set; }
 
         public const string StarSign = ":star:";
-        public const string DefaultNullError = "None, use !pull to get one."
+        public const string DefaultNullError = "None, use !pull to get one.";
         public const string DefaultAkashaImageUrl = "https://github.com/MentallyStable4sure/Eremite/blob/main/Essentials/nochar.png?raw=true";
 
         [Command("akasha"), Description("Shows the current user profile with the current equipped character, mora and primos")]
