@@ -1,16 +1,17 @@
 ﻿using DSharpPlus;
+using DSharpPlus.Entities;
+using DSharpPlus.EventArgs;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
-using DSharpPlus.Entities;
-using DSharpPlus.Net;
-using Eremite.Data.DiscordData;
 using Eremite.Services;
+using Eremite.Data.DiscordData;
 
 namespace Eremite.Commands
 {
     public sealed class Akasha : BaseCommandModule
     {
         public DataHandler DataHandler { get; set; }
+        public StatsHandler StatsHandler { get; set; }
 
         public const string StarSign = ":star:";
         public const string DefaultNullError = "None, use !pull to get one.";
@@ -19,8 +20,7 @@ namespace Eremite.Commands
         [Command("akasha"), Description("Shows the current user profile with the current equipped character, mora and primos")]
         public async Task ShowProfile(CommandContext context)
         {
-            var userId = context.User.Id;
-            var buttons = CreateButtons();
+            var buttons = CreateButtons(context);
             var user = await DataHandler.GetData(context.User);
 
             var currentCharacter = user.EquippedCharacter;
@@ -46,7 +46,7 @@ namespace Eremite.Commands
             await context.RespondAsync(messageBuilder);
         }
 
-        private Dictionary<DiscordButtonComponent, string> CreateButtons()
+        private Dictionary<DiscordButtonComponent, string> CreateButtons(CommandContext context)
         {
             var pullGuid = Guid.NewGuid().ToString();
             var shopGuid = Guid.NewGuid().ToString();
@@ -56,12 +56,28 @@ namespace Eremite.Commands
             var shopButton = new DiscordButtonComponent(ButtonStyle.Secondary, shopGuid, "Mora Shop");
             var statsButton = new DiscordButtonComponent(ButtonStyle.Secondary, statsGuid, "Account Stats");
 
-            var buttons = new Dictionary<DiscordButtonComponent, string>();
-            buttons.Add(pullButton, pullGuid);
-            buttons.Add(shopButton, shopGuid);
-            buttons.Add(statsButton, shopGuid);
+            context.Client.ComponentInteractionCreated += async (client, args) =>
+            {
+                if (args.User.Id.ToString() != context.User.Id.ToString()) return;
 
-            return buttons;
+                if (args.Id == statsGuid) await ShowStats(context, args);
+            };
+
+            return new Dictionary<DiscordButtonComponent, string>()
+            {
+                { pullButton, pullGuid },
+                { shopButton, shopGuid },
+                { statsButton, statsGuid }
+            };
+        }
+
+        private async Task ShowStats(CommandContext context, ComponentInteractionCreateEventArgs args)
+        {
+            var user = await DataHandler.GetData(context.User);
+            var embed = StatsHandler.GetEmbedWithStats(context.User, user);
+
+            await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage,
+                    new DiscordInteractionResponseBuilder().AddEmbed(embed));
         }
 
         private string GetCharactersFromInventory(UserData user)
