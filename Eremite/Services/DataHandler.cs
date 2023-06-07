@@ -75,14 +75,9 @@ namespace Eremite.Services
         {
             var rawConfig = await DataGrabber.GrabFromConfigs(DbConnector.DbConfig);
 
-            if (rawConfig == null)
-            {
-                Console.WriteLine($"[ERROR] While loading {DbConnector.DbConfig}");
-                return;
-            }
+            rawConfig.LogStatus(DbConnector.DbConfig);
 
             cachedDbConfig = JsonConvert.DeserializeObject<DatabaseConfig>(rawConfig);
-            Console.WriteLine($"[SUCCESS] {DbConnector.DbConfig} loaded");
         }
 
 
@@ -90,14 +85,9 @@ namespace Eremite.Services
         {
             var rawData = await DataGrabber.GrabFromConfigs(ConfigFile);
 
-            if (rawData == null)
-            {
-                Console.WriteLine($"[ERROR] While loading {ConfigFile}");
-                return;
-            }
+            rawData.LogStatus(ConfigFile);
 
             Config = JsonConvert.DeserializeObject<Config>(rawData);
-            Console.WriteLine($"[SUCCESS] {ConfigFile} loaded");
         }
     }
 }

@@ -19,6 +19,8 @@ namespace Eremite.Services
         public async Task<DiscordConfiguration> SetConfig()
         {
             var rawConfig = await DataGrabber.GrabFromConfigs(StartupConfig);
+
+            rawConfig.LogStatus(StartupConfig);
             botStartupConfig = JsonConvert.DeserializeObject<StartupConfig>(rawConfig);
 
             return CreateDiscordConfig(botStartupConfig);
