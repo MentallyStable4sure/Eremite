@@ -14,12 +14,10 @@ namespace Eremite
         {
             var profileService = new BotProfileHandler();
             var dataHandler = new DataHandler();
-            var stats = new StatsHandler();
 
             ServiceCollection services = new ServiceCollection();
             services.AddSingleton(profileService);
             services.AddSingleton(dataHandler);
-            services.AddSingleton(stats);
 
             var discord = new DiscordClient(await profileService.SetConfig());
             DiscordActivity activity = await profileService.SetStatus();
@@ -27,7 +25,7 @@ namespace Eremite
             var commands = new CommandsNextConfiguration()
             {
                 Services = services.BuildServiceProvider(),
-                StringPrefixes = profileService.GetConfig().Prefixes
+                StringPrefixes = profileService.GetBotConfig().Prefixes
             };
 
             var commandsNext = discord.UseCommandsNext(commands);

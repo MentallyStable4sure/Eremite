@@ -1,21 +1,27 @@
 ﻿
 using Eremite.Data;
 using Newtonsoft.Json;
+using DSharpPlus.Entities;
 using MySql.Data.MySqlClient;
 using Eremite.Data.DiscordData;
-using DSharpPlus.Entities;
 
 namespace Eremite.Services
 {
     public class DataHandler
     {
-        private DbConfig cachedConfig = null;
+        private DatabaseConfig cachedDbConfig = null;
+
+        public const string ConfigFile = "config.json";
+
+        public Config Config { get; protected set; }
+
+        public DataHandler() => CacheMainConfig();
 
         public async Task SendData(UserData userData, string customQuery = "")
         {
-            if (cachedConfig == null) await CacheConfig(); //read connection config
+            if (cachedDbConfig == null) await CacheDatabaseConfig(); //read connection config
 
-            var connector = new DbConnector(cachedConfig); //open connection
+            var connector = new DbConnector(cachedDbConfig); //open connection
             await connector.ConnectAsync();
 
             //select user from db with matching id
@@ -36,9 +42,9 @@ namespace Eremite.Services
 
         public async Task<UserData> GetData(DiscordUser discordUser)
         {
-            if (cachedConfig == null) await CacheConfig(); //read connection config
+            if (cachedDbConfig == null) await CacheDatabaseConfig(); //read connection config
 
-            var connector = new DbConnector(cachedConfig); //open connection
+            var connector = new DbConnector(cachedDbConfig); //open connection
             await connector.ConnectAsync();
 
             //select user from db with matching id
@@ -65,10 +71,33 @@ namespace Eremite.Services
             await updateCommand.ExecuteScalarAsync();
         }
 
-        private async Task CacheConfig()
+        private async Task CacheDatabaseConfig()
         {
-            var rawConfig = await DataRouter.ReadFromConfigs(DbConnector.DbConfig);
-            cachedConfig = JsonConvert.DeserializeObject<DbConfig>(rawConfig);
+            var rawConfig = await DataGrabber.GrabFromConfigs(DbConnector.DbConfig);
+
+            if (rawConfig == null)
+            {
+                Console.WriteLine($"[ERROR] While loading {DbConnector.DbConfig}");
+                return;
+            }
+
+            cachedDbConfig = JsonConvert.DeserializeObject<DatabaseConfig>(rawConfig);
+            Console.WriteLine($"[SUCCESS] {DbConnector.DbConfig} loaded");
+        }
+
+
+        public async void CacheMainConfig()
+        {
+            var rawData = await DataGrabber.GrabFromConfigs(ConfigFile);
+
+            if (rawData == null)
+            {
+                Console.WriteLine($"[ERROR] While loading {ConfigFile}");
+                return;
+            }
+
+            Config = JsonConvert.DeserializeObject<Config>(rawData);
+            Console.WriteLine($"[SUCCESS] {ConfigFile} loaded");
         }
     }
 }

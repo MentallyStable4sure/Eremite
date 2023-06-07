@@ -1,17 +1,16 @@
 ﻿
 namespace Eremite.Data
 {
-    internal class DataRouter
+    internal class DataGrabber
     {
-        public const string StartupConfig = "startup.json";
         public const string ContentFolder = "content";
         public const string ConfigsFolder = "configs";
 
-        public static async Task<string> ReadFromConfigs(string configFile) => await ReadFromFile(ConfigsFolder, configFile);
+        public static async Task<string> GrabFromConfigs(string configFile) => await GrabFromFile(ConfigsFolder, configFile);
 
-        public static async Task<string> ReadFromContent(string contentFile) => await ReadFromFile(ContentFolder, contentFile);
+        public static async Task<string> GrabFromContent(string contentFile) => await GrabFromFile(ContentFolder, contentFile);
 
-        public static async Task<string> ReadFromFile(string directory, string file)
+        public static async Task<string> GrabFromFile(string directory, string file)
         {
             var current = Directory.GetCurrentDirectory();
             var fullPath = Path.Combine(current, directory);

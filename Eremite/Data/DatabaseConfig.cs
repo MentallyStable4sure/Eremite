@@ -2,7 +2,7 @@
 namespace Eremite.Data
 {
     [Serializable]
-    public class DbConfig
+    public class DatabaseConfig
     {
         public string Host = "localhost";
         public int? Port = null;

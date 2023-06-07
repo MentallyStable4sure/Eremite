@@ -7,7 +7,10 @@ using Eremite.Data.DiscordData;
 
 namespace Eremite.Commands
 {
-    public sealed class Topup : BaseCommandModule
+    /// <summary>
+    /// Will be deleted later, used just for Debug and testing purposes
+    /// </summary>
+    public sealed class TopupCommand : BaseCommandModule
     {
         public DataHandler DataHandler { get; set; }
 

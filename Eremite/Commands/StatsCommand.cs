@@ -3,13 +3,13 @@ using DSharpPlus.Entities;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using Eremite.Services;
+using Eremite.Actions;
 
 namespace Eremite.Commands
 {
-    public sealed class Stats : BaseCommandModule
+    public sealed class StatsCommand : BaseCommandModule
     {
         public DataHandler DataHandler { get; set; }
-        public StatsHandler StatsHandler { get; set; }
 
         [Command("stats"), Description("Shows the current user eremite stats such as teapot times visited, daily challenges done, characters pulled, etc.")]
         public async Task ShowStats(CommandContext context)
@@ -19,7 +19,7 @@ namespace Eremite.Commands
 
             var messageBuilder = new DiscordMessageBuilder()
                 .AddComponents(buttons.Keys)
-                .WithEmbed(StatsHandler.GetEmbedWithStats(context.User, user));
+                .WithEmbed(StatsAction.GetEmbedWithStats(context.User.AvatarUrl, user));
 
             await context.RespondAsync(messageBuilder);
         }

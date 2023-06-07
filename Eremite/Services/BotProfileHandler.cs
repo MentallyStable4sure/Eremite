@@ -8,24 +8,25 @@ namespace Eremite.Services
 {
     internal class BotProfileHandler 
     {
-        private Config? botConfig;
+        private StartupConfig? botStartupConfig;
         private DiscordActivity currentStatus;
 
+        public const string StartupConfig = "startup_config.json";
         public const string SumeruVibes = "sumeru_vibes.json";
 
-        public Config GetConfig() => botConfig;
+        public StartupConfig GetBotConfig() => botStartupConfig;
 
         public async Task<DiscordConfiguration> SetConfig()
         {
-            var rawConfig = await DataRouter.ReadFromConfigs(DataRouter.StartupConfig);
-            botConfig = JsonConvert.DeserializeObject<Config>(rawConfig);
+            var rawConfig = await DataGrabber.GrabFromConfigs(StartupConfig);
+            botStartupConfig = JsonConvert.DeserializeObject<StartupConfig>(rawConfig);
 
-            return CreateDiscordConfig(botConfig);
+            return CreateDiscordConfig(botStartupConfig);
         }
 
-        public DiscordConfiguration SetConfig(Config customConfig) => CreateDiscordConfig(customConfig);
+        public DiscordConfiguration SetConfig(StartupConfig customConfig) => CreateDiscordConfig(customConfig);
 
-        public DiscordConfiguration CreateDiscordConfig(Config config)
+        public DiscordConfiguration CreateDiscordConfig(StartupConfig config)
         {
             return new DiscordConfiguration()
             {
@@ -49,7 +50,7 @@ namespace Eremite.Services
         private async Task<string> GetVibes()
         {
             var currentVibe = "Sand Dunes";
-            var rawVibes = await DataRouter.ReadFromConfigs(SumeruVibes);
+            var rawVibes = await DataGrabber.GrabFromConfigs(SumeruVibes);
 
             var sumeruVibes = JsonConvert.DeserializeObject<List<string>>(rawVibes);
             if (sumeruVibes == null) return currentVibe;

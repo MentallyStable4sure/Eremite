@@ -5,17 +5,16 @@ using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using Eremite.Services;
 using Eremite.Data.DiscordData;
+using Eremite.Actions;
 
 namespace Eremite.Commands
 {
-    public sealed class Akasha : BaseCommandModule
+    public sealed class AkashaCommand : BaseCommandModule
     {
         public DataHandler DataHandler { get; set; }
-        public StatsHandler StatsHandler { get; set; }
 
         public const string StarSign = ":star:";
         public const string DefaultNullError = "None, use !pull to get one.";
-        public const string DefaultAkashaImageUrl = "https://github.com/MentallyStable4sure/Eremite/blob/main/Essentials/nochar.png?raw=true";
 
         [Command("akasha"), Description("Shows the current user profile with the current equipped character, mora and primos")]
         public async Task ShowProfile(CommandContext context)
@@ -27,7 +26,7 @@ namespace Eremite.Commands
 
             string currentCharacterName = currentCharacter == null ? DefaultNullError : currentCharacter.CharacterName;
             string charactersInInventory = GetCharactersFromInventory(user);
-            string profileImageUrl = user.EquippedCharacter == null ? DefaultAkashaImageUrl : user.EquippedCharacter.ImageAkashaBannerUrl;
+            string profileImageUrl = user.EquippedCharacter == null ? DataHandler.Config.DefaultAkashaImageUrl : user.EquippedCharacter.ImageAkashaBannerUrl;
 
             string characterBuffInfo = user.EquippedCharacter == null ? "None, use !setcharacter [name] or !pull to get one :)" : user.EquippedCharacter.PerkInfo;
 
@@ -74,7 +73,7 @@ namespace Eremite.Commands
         private async Task ShowStats(CommandContext context, ComponentInteractionCreateEventArgs args)
         {
             var user = await DataHandler.GetData(context.User);
-            var embed = StatsHandler.GetEmbedWithStats(context.User, user);
+            var embed = StatsAction.GetEmbedWithStats(context.User.AvatarUrl, user);
 
             await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage,
                     new DiscordInteractionResponseBuilder().AddEmbed(embed));

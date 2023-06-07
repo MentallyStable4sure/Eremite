@@ -25,7 +25,7 @@ namespace Eremite.Services
             Connection = mySqlConnection;
         }
 
-        public DbConnector(DbConfig config) : this(config.Host, config.Port, config.Database, config.Username, config.Password) { }
+        public DbConnector(DatabaseConfig config) : this(config.Host, config.Port, config.Database, config.Username, config.Password) { }
 
         public virtual async Task ConnectAsync()
         {
