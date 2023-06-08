@@ -1,10 +1,9 @@
 # C# Discord Bot with MySQL DB on DSharpPlus [.NET 8]
- 2nd version of an [old mini-games Genshin Welkin giveaway bot](https://github.com/dentalmisorder/genshin-eremite-discordbot). At least .NET 6 is suggested. Pull requests are welcomed. Join [our discord server](https://discord.gg/mentallystable4sure) to mess with the [bot](https://discord.com/api/oauth2/authorize?client_id=739487241469952000&permissions=8&scope=bot)
+ 2nd version of an [old mini-games Genshin bot](https://github.com/dentalmisorder/genshin-eremite-discordbot). .NET 5+ is suggested. Pull requests are welcomed.
 ***
 > [Documentation WIP]
 
-> [Invite Bot](https://discord.com/api/oauth2/authorize?client_id=739487241469952000&permissions=8&scope=bot)
-> or mess with the bot in [our server #bot-commands](https://discord.gg/mentallystable4sure)
+> [Invite Bot](https://discord.com/api/oauth2/authorize?client_id=739487241469952000&permissions=8&scope=bot) or mess with the bot in [our server #bot-commands](https://discord.gg/mentallystable4sure)
 ***
 
 # How to setup
@@ -13,7 +12,7 @@
   - Open startup_config.json and edit token from [your applications developer portal](https://discord.com/developers/applications)
   - Open dbconfig.json and edit with your mysql database credentials (you can use MAMP if you just want to test it locally or phpmyadmin)
 
-  > CONFIGS NOTE: If you want to test server build navigate to [releases](/releases) since build already has all the configs in json, but if u want to start it as a project (in debug mode for example), you gotta move those juice config folder files into /bin/debug(or release)/net8.0/
+  > CONFIGS NOTE: If you want to test server build navigate to [releases](https://github.com/MentallyStable4sure/Eremite/releases) since build already has all the configs in json, but if u want to start it as a project (in debug mode for example), you gotta move this juicy config folder into /bin/debug(or release)/net8.0/
 
 ### Want a custom DB?
 
