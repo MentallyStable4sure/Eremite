@@ -58,43 +58,5 @@ namespace Eremite.Services
 
             return query;
         }
-
-        /// <returns>Query string with only wallet being updated</returns>
-        public static string GetUserUpdateWalletQuery(UserData user)
-        {
-            return $"UPDATE `users` SET `wallet`='{JsonConvert.SerializeObject(user.Wallet)}' WHERE `userid`='{user.UserId}'";
-        }
-
-        /// <returns>Query string with only characters and equipped character being updated</returns>
-        public static string GetUserUpdateCharactersQuery(UserData user)
-        {
-            return $"UPDATE `users` SET `characters`='{JsonConvert.SerializeObject(user.Characters)}',`equippedcharacter`='{JsonConvert.SerializeObject(user.EquippedCharacter)}' WHERE `userid`='{user.UserId}'";
-        }
-
-        /// <returns>Query string with only characters and equipped character being updated</returns>
-        public static string GetUserUpdateCharactersAndWalletQuery(UserData user)
-        {
-            return $"UPDATE `users` SET `characters`='{JsonConvert.SerializeObject(user.Characters)}',`equippedcharacter`='{JsonConvert.SerializeObject(user.EquippedCharacter)}',`wallet`='{JsonConvert.SerializeObject(user.Wallet)}' WHERE `userid`='{user.UserId}'";
-        }
-
-        public static string GetUserUpdateCharactersWalletStatsQuery(UserData user)
-        {
-            return $"UPDATE `users` SET `characters`='{JsonConvert.SerializeObject(user.Characters)}',`equippedcharacter`='{JsonConvert.SerializeObject(user.EquippedCharacter)}',`wallet`='{JsonConvert.SerializeObject(user.Wallet)}',`stats`='{JsonConvert.SerializeObject(user.Stats)}' WHERE `userid`='{user.UserId}'";
-        }
-
-        /// <returns>Query string with only stats being updated</returns>
-        public static string GetUserUpdateStatsQuery(UserData user)
-        {
-            return $"UPDATE `users` SET `stats`='{JsonConvert.SerializeObject(user.Stats)}' WHERE userid = {user.UserId}";
-        }
-
-        /// <returns>Query string with all possibles user tables to update</returns>
-        internal static string GetUserUpdateAll(UserData user)
-        {
-            string query = $"UPDATE `users` SET `username`='{user.Username}', `wallet`='{JsonConvert.SerializeObject(user.Wallet)}',`characters`='{JsonConvert.SerializeObject(user.Characters)}'," +
-                $"`equippedcharacter`='{JsonConvert.SerializeObject(user.EquippedCharacter)}',`stats`='{JsonConvert.SerializeObject(user.Stats)}' WHERE userid = {user.UserId}";
-
-            return query;
-        }
     }
 }

@@ -4,6 +4,7 @@ using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using Eremite.Services;
 using Eremite.Data.DiscordData;
+using Eremite.Data;
 
 namespace Eremite.Commands
 {
@@ -46,7 +47,8 @@ namespace Eremite.Commands
                 if(args.Id == addMora.ToString()) user.Wallet.Mora += 100;
                 Console.WriteLine($"Adding funds to {user.UserId}");
 
-                await DataHandler.SendData(user, QueryHandler.GetUserUpdateWalletQuery(user));
+                var updateQuery = new QueryBuilder(user, QueryElement.Wallet).BuildUpdateQuery();
+                await DataHandler.SendData(user, updateQuery);
                 await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage,
                         new DiscordInteractionResponseBuilder().WithContent("Funds successfully added!"));
             };

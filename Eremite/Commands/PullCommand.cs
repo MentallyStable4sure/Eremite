@@ -2,6 +2,7 @@
 using Eremite.Services;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
+using Eremite.Data;
 
 namespace Eremite.Commands
 {
@@ -19,9 +20,10 @@ namespace Eremite.Commands
             else
             {
                 var charactersPulled = await PullAction.ForUserAsyncSave(user, number);
+                var updateQuery = new QueryBuilder(user, QueryElement.Characters, QueryElement.Wallet).BuildUpdateQuery();
 
                 await context.RespondAsync(StatsAction.GetEmbedWithCharacters(charactersPulled, user));
-                await DataHandler.SendData(user, QueryHandler.GetUserUpdateCharactersAndWalletQuery(user));
+                await DataHandler.SendData(user, updateQuery);
             };
         }
 

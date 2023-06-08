@@ -1,4 +1,5 @@
-﻿using Eremite.Data.DiscordData;
+﻿using Eremite.Data;
+using Eremite.Data.DiscordData;
 using Eremite.Services;
 
 namespace Eremite.Actions
@@ -50,7 +51,9 @@ namespace Eremite.Actions
         public async Task<List<Character>> ForUserAsyncSave(UserData user, int numberOfPulls)
         {
             var characters = ForUser(user, numberOfPulls);
-            await DataHandler.SendData(user, QueryHandler.GetUserUpdateCharactersWalletStatsQuery(user));
+            var updateQuery = new QueryBuilder(user, QueryElement.Characters, QueryElement.Wallet, QueryElement.Stats).BuildUpdateQuery();
+
+            await DataHandler.SendData(user, updateQuery);
 
             return characters;
         }
