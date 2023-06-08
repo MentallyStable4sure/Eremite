@@ -20,10 +20,8 @@ namespace Eremite.Commands
             else
             {
                 var charactersPulled = await PullAction.ForUserAsyncSave(user, number);
-                var updateQuery = new QueryBuilder(user, QueryElement.Characters, QueryElement.Wallet).BuildUpdateQuery();
 
-                await context.RespondAsync(StatsAction.GetEmbedWithCharacters(charactersPulled, user));
-                await DataHandler.SendData(user, updateQuery);
+                await context.RespondAsync(PullAction.GetEmbedWithCharacters(charactersPulled, user));
             };
         }
 

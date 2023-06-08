@@ -23,7 +23,7 @@ namespace Eremite
 
         public static string ToCharacterList(this List<Character> characters)
         {
-            if (characters.Count <= 0) return AkashaCommand.DefaultNullError;
+            if (characters == null || characters.Count <= 0) return AkashaCommand.DefaultNullError;
 
             string charactersInInventory = string.Empty;
             foreach (var character in characters)

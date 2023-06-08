@@ -5,21 +5,24 @@ using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using Eremite.Actions;
 using Eremite.Services;
+using Eremite.Data.DiscordData;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Eremite.Commands
 {
     public sealed class AkashaCommand : BaseCommandModule
     {
         public DataHandler DataHandler { get; set; }
+        public PullAction PullAction { get; set; }
 
         public const string StarSign = "✦";
         public const string DefaultNullError = "None, use !pull to get one.";
 
         [Command("akasha"), Description("Shows the current user profile with the current equipped character, mora and primos")]
-        public async Task ShowProfile(CommandContext context)
+        public async Task ShowAkasha(CommandContext context)
         {
-            var buttons = CreateButtons(context);
             var user = await DataHandler.GetData(context.User);
+            var buttons = CreateButtons(context, user);
 
             var currentCharacter = user.EquippedCharacter;
 
@@ -43,7 +46,10 @@ namespace Eremite.Commands
             await context.RespondAsync(messageBuilder);
         }
 
-        private Dictionary<DiscordButtonComponent, string> CreateButtons(CommandContext context)
+        [Command("profile"), Description("Shows the current user profile with the current equipped character, mora and primos")]
+        public async Task ShowProfile(CommandContext context) => await ShowAkasha(context);
+
+        private Dictionary<DiscordButtonComponent, string> CreateButtons(CommandContext context, UserData user)
         {
             var pullGuid = Guid.NewGuid().ToString();
             var shopGuid = Guid.NewGuid().ToString();
@@ -57,7 +63,8 @@ namespace Eremite.Commands
             {
                 if (args.User.Id.ToString() != context.User.Id.ToString()) return;
 
-                if (args.Id == statsGuid) await ShowStats(context, args);
+                if (args.Id == statsGuid) await ShowStats(context, args, user);
+                if (args.Id == pullGuid) await Pull(context, args, user);
             };
 
             return new Dictionary<DiscordButtonComponent, string>()
@@ -68,13 +75,24 @@ namespace Eremite.Commands
             };
         }
 
-        private async Task ShowStats(CommandContext context, ComponentInteractionCreateEventArgs args)
+        private async Task ShowStats(CommandContext context, ComponentInteractionCreateEventArgs args, UserData user)
         {
-            var user = await DataHandler.GetData(context.User);
             var embed = StatsAction.GetEmbedWithStats(context.User.AvatarUrl, user);
 
             await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage,
                     new DiscordInteractionResponseBuilder().AddEmbed(embed));
+        }
+
+        private async Task Pull(CommandContext context, ComponentInteractionCreateEventArgs args, UserData user)
+        {
+            if (user.Wallet.Primogems < DataHandler.Config.PullCost) await context.RespondAsync(PullAction.NotEnoughPrimosError);
+            else
+            {
+                var charactersPulled = await PullAction.ForUserAsyncSave(user, 1);
+
+                await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage,
+                    new DiscordInteractionResponseBuilder().AddEmbed(PullAction.GetEmbedWithCharacters(charactersPulled, user)));
+            };
         }
     }
 }

@@ -17,6 +17,7 @@ namespace Eremite.Data.DiscordData
         {
             Character duplicate;
 
+            if(Characters == null) Characters = new List<Character>();
             if(Characters.Count <= 0)
             {
                 Characters.Add(character);
