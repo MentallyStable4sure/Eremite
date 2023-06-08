@@ -92,7 +92,7 @@
     {
       "characterName": "Unknown God",
         "starsRarity": 10,
-        "imageAkashaBannerUrl": "https://github.com/MentallyStable4sure/Eremite/blob/main/Essentials/characters/akasha_banners/Unknown%20God.png?raw=true",
+        "imageAkashaBannerUrl": "https://github.com/MentallyStable4sure/Eremite/blob/main/Essentials/characters/pull_banners/Unknown%20God.gif?raw=true",
         "imagePullBannerUrl": "https://github.com/MentallyStable4sure/Eremite/blob/main/Essentials/characters/pull_banners/Unknown%20God.gif?raw=true",
         "perkStat": 8,
         "perkInfo": "Your journey ends here! [If selected as main character (!setcharacter Unknown God) when Welkin Moon drops (Saturday), sets your UID to VIP list, and your chances are split into those people in VIP list, usually its 1-2 people so its rather 100% or 50%. VIP Queue counts separately and does not affect usuall queue, character will be vanished after Welkin drop]",

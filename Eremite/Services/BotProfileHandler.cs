@@ -1,7 +1,7 @@
 ﻿
 using DSharpPlus;
-using Newtonsoft.Json;
 using DSharpPlus.Entities;
+using System.Text.Json;
 using Eremite.Data;
 
 namespace Eremite.Services
@@ -21,7 +21,7 @@ namespace Eremite.Services
             var rawConfig = await DataGrabber.GrabFromConfigs(StartupConfig);
 
             rawConfig.LogStatus(StartupConfig);
-            botStartupConfig = JsonConvert.DeserializeObject<StartupConfig>(rawConfig);
+            botStartupConfig = JsonSerializer.Deserialize<StartupConfig>(rawConfig);
 
             return CreateDiscordConfig(botStartupConfig);
         }
@@ -54,7 +54,7 @@ namespace Eremite.Services
             var currentVibe = "Sand Dunes";
             var rawVibes = await DataGrabber.GrabFromConfigs(SumeruVibes);
 
-            var sumeruVibes = JsonConvert.DeserializeObject<List<string>>(rawVibes);
+            var sumeruVibes = JsonSerializer.Deserialize<List<string>>(rawVibes);
             if (sumeruVibes == null) return currentVibe;
 
             currentVibe = sumeruVibes[Random.Shared.Next(sumeruVibes.Count)];

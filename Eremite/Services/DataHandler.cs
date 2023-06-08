@@ -1,6 +1,6 @@
 ﻿
 using Eremite.Data;
-using Newtonsoft.Json;
+using System.Text.Json;
 using DSharpPlus.Entities;
 using MySql.Data.MySqlClient;
 using Eremite.Data.DiscordData;
@@ -83,7 +83,7 @@ namespace Eremite.Services
 
             rawConfig.LogStatus(DbConnector.DbConfig);
 
-            cachedDbConfig = JsonConvert.DeserializeObject<DatabaseConfig>(rawConfig);
+            cachedDbConfig = JsonSerializer.Deserialize<DatabaseConfig>(rawConfig);
         }
 
 
@@ -93,7 +93,7 @@ namespace Eremite.Services
 
             rawData.LogStatus(ConfigFile);
 
-            Config = JsonConvert.DeserializeObject<Config>(rawData);
+            Config = JsonSerializer.Deserialize<Config>(rawData);
         }
 
         public async void CacheCharacterList()
@@ -102,7 +102,7 @@ namespace Eremite.Services
 
             rawData.LogStatus(CharactersDataFile);
 
-            CharactersData = JsonConvert.DeserializeObject<List<Character>>(rawData);
+            CharactersData = JsonSerializer.Deserialize<List<Character>>(rawData);
         }
     }
 }
