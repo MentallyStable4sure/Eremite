@@ -1,4 +1,5 @@
-﻿using Eremite.Data;
+﻿using DSharpPlus.Entities;
+using Eremite.Data;
 using Eremite.Data.DiscordData;
 using Eremite.Services;
 
@@ -51,11 +52,27 @@ namespace Eremite.Actions
         public async Task<List<Character>> ForUserAsyncSave(UserData user, int numberOfPulls)
         {
             var characters = ForUser(user, numberOfPulls);
+            if(characters.Count == 0) return characters;
+
             var updateQuery = new QueryBuilder(user, QueryElement.Characters, QueryElement.Wallet, QueryElement.Stats).BuildUpdateQuery();
 
             await DataHandler.SendData(user, updateQuery);
 
             return characters;
+        }
+
+        public static DiscordEmbedBuilder GetEmbedWithCharacters(List<Character> characters, UserData user)
+        {
+            var highestTier = characters.GetHighestTier();
+            var highestTierColor = highestTier.GetCorrespondingColor();
+
+            return new DiscordEmbedBuilder()
+            {
+                Color = highestTierColor,
+                Title = $"{user.Username} wished for a character...",
+                ImageUrl = highestTier.ImagePullBannerUrl,
+                Description = $"> {characters.ToCharacterList()}"
+            };
         }
     }
 }

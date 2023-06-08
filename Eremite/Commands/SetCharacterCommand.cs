@@ -38,7 +38,7 @@ namespace Eremite.Commands
             var updateQuery = new QueryBuilder(user, QueryElement.EquippedCharacter).BuildUpdateQuery();
             await DataHandler.SendData(user, updateQuery);
 
-            await context.Message.RespondAsync(SetCharacterAction.GetEmbedWithEquippedCharacter(matchingCharacter));
+            await context.Message.RespondAsync(SetCharacterAction.GetEmbedWithEquippedCharacter(user.EquippedCharacter));
         }
 
         [Command("setcharacter"), Description("Sets character as a main equipped character")]
