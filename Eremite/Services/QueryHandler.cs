@@ -4,6 +4,10 @@ using Newtonsoft.Json;
 
 namespace Eremite.Services
 {
+    // TODO: Query builder
+    //
+    // Make a Query builder with interfaces to drop, each interface will provide GetQueryInfo() method with their strings for update
+    // or do like a enums with foreach
     internal class QueryHandler
     {
         /// <summary>
@@ -71,6 +75,11 @@ namespace Eremite.Services
         public static string GetUserUpdateCharactersAndWalletQuery(UserData user)
         {
             return $"UPDATE `users` SET `characters`='{JsonConvert.SerializeObject(user.Characters)}',`equippedcharacter`='{JsonConvert.SerializeObject(user.EquippedCharacter)}',`wallet`='{JsonConvert.SerializeObject(user.Wallet)}' WHERE `userid`='{user.UserId}'";
+        }
+
+        public static string GetUserUpdateCharactersWalletStatsQuery(UserData user)
+        {
+            return $"UPDATE `users` SET `characters`='{JsonConvert.SerializeObject(user.Characters)}',`equippedcharacter`='{JsonConvert.SerializeObject(user.EquippedCharacter)}',`wallet`='{JsonConvert.SerializeObject(user.Wallet)}',`stats`='{JsonConvert.SerializeObject(user.Stats)}' WHERE `userid`='{user.UserId}'";
         }
 
         /// <returns>Query string with only stats being updated</returns>
