@@ -21,7 +21,10 @@ namespace Eremite.Services
             var rawConfig = await DataGrabber.GrabFromConfigs(StartupConfig);
 
             rawConfig.LogStatus(StartupConfig);
-            botStartupConfig = JsonSerializer.Deserialize<StartupConfig>(rawConfig);
+
+            //in order to properly deserealize list
+            var options = new JsonSerializerOptions() { IncludeFields = true };
+            botStartupConfig = JsonSerializer.Deserialize<StartupConfig>(rawConfig, options);
 
             return CreateDiscordConfig(botStartupConfig);
         }

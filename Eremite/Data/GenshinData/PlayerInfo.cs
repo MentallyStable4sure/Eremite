@@ -1,6 +1,4 @@
 ﻿
-using DiscordBot.GenshinData;
-
 namespace Eremite.Data.GenshinData
 {
     [Serializable]
