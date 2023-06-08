@@ -1,0 +1,9 @@
+{
+  "Token": "your token from discord developer portal",
+  "TokenType": 1,
+  "Prefixes":
+  [
+    "!",
+    ":"
+  ]
+}

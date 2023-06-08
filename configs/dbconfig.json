@@ -1,0 +1,7 @@
+{
+  "Host": "localhost",
+  "Port": null,
+  "Database": "your database name",
+  "Username": "your username in database",
+  "Password": "database password"
+}

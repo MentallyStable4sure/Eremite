@@ -42,12 +42,14 @@ namespace Eremite.Actions
 
         public static DiscordEmbedBuilder GetEmbedWithCharacters(List<Character> characters, UserData user)
         {
-            var highestTierColor = characters.GetHighestTier().GetCorrespondingColor();
+            var highestTier = characters.GetHighestTier();
+            var highestTierColor = highestTier.GetCorrespondingColor();
+
             return new DiscordEmbedBuilder()
             {
                 Color = highestTierColor,
                 Title = $"{user.Username} wished for a character...",
-                ImageUrl = characters[0].ImagePullBannerUrl,
+                ImageUrl = highestTier.ImagePullBannerUrl,
                 Description = $"> {characters.ToCharacterList()}"
             };
         }
