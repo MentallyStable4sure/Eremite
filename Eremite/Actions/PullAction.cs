@@ -1,5 +1,4 @@
-﻿using DSharpPlus.CommandsNext;
-using Eremite.Data.DiscordData;
+﻿using Eremite.Data.DiscordData;
 using Eremite.Services;
 
 namespace Eremite.Actions
