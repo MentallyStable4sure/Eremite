@@ -28,6 +28,7 @@ namespace Eremite.Services
             while (reader.Read())
             {
                 user.UserId = reader.GetString("userid");
+                user.Username = reader.GetString("username");
                 user.Wallet = JsonConvert.DeserializeObject<DiscordWallet>(reader.GetString("wallet"));
                 user.Characters = JsonConvert.DeserializeObject<List<Character>>(reader.GetString("characters"));
                 user.EquippedCharacter = JsonConvert.DeserializeObject<Character>(reader.GetString("equippedcharacter"));
@@ -47,8 +48,8 @@ namespace Eremite.Services
         /// <returns>Query string for insertion for a completely NEW user (insert all rows)</returns>
         public static string GetUserInsertQuery(UserData user)
         {
-            string query = $"INSERT INTO `users`(`userid`, `wallet`, `characters`, `equippedcharacter`, `stats`) " +
-                $"VALUES ('{user.UserId}','{JsonConvert.SerializeObject(user.Wallet)}','{JsonConvert.SerializeObject(user.Characters)}'," +
+            string query = $"INSERT INTO `users`(`userid`, `username`, `wallet`, `characters`, `equippedcharacter`, `stats`) " +
+                $"VALUES ('{user.UserId}','{user.Username}','{JsonConvert.SerializeObject(user.Wallet)}','{JsonConvert.SerializeObject(user.Characters)}'," +
                 $"'{JsonConvert.SerializeObject(user.EquippedCharacter)}','{JsonConvert.SerializeObject(user.Stats)}')";
 
             return query;
@@ -66,6 +67,12 @@ namespace Eremite.Services
             return $"UPDATE `users` SET `characters`='{JsonConvert.SerializeObject(user.Characters)}',`equippedcharacter`='{JsonConvert.SerializeObject(user.EquippedCharacter)}' WHERE `userid`='{user.UserId}'";
         }
 
+        /// <returns>Query string with only characters and equipped character being updated</returns>
+        public static string GetUserUpdateCharactersAndWalletQuery(UserData user)
+        {
+            return $"UPDATE `users` SET `characters`='{JsonConvert.SerializeObject(user.Characters)}',`equippedcharacter`='{JsonConvert.SerializeObject(user.EquippedCharacter)}',`wallet`='{JsonConvert.SerializeObject(user.Wallet)}' WHERE `userid`='{user.UserId}'";
+        }
+
         /// <returns>Query string with only stats being updated</returns>
         public static string GetUserUpdateStatsQuery(UserData user)
         {
@@ -75,7 +82,7 @@ namespace Eremite.Services
         /// <returns>Query string with all possibles user tables to update</returns>
         internal static string GetUserUpdateAll(UserData user)
         {
-            string query = $"UPDATE `users` SET `wallet`='{JsonConvert.SerializeObject(user.Wallet)}',`characters`='{JsonConvert.SerializeObject(user.Characters)}'," +
+            string query = $"UPDATE `users` SET `username`='{user.Username}', `wallet`='{JsonConvert.SerializeObject(user.Wallet)}',`characters`='{JsonConvert.SerializeObject(user.Characters)}'," +
                 $"`equippedcharacter`='{JsonConvert.SerializeObject(user.EquippedCharacter)}',`stats`='{JsonConvert.SerializeObject(user.Stats)}' WHERE userid = {user.UserId}";
 
             return query;

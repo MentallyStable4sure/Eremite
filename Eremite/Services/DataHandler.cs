@@ -1,6 +1,7 @@
 ﻿
 using Eremite.Data;
 using Newtonsoft.Json;
+using DSharpPlus.Entities;
 using MySql.Data.MySqlClient;
 using Eremite.Data.DiscordData;
 
@@ -8,13 +9,25 @@ namespace Eremite.Services
 {
     public class DataHandler
     {
-        private DbConfig cachedConfig = null;
+        private DatabaseConfig cachedDbConfig = null;
+
+        public const string ConfigFile = "config.json";
+        public const string CharactersDataFile = "characters.json";
+
+        public Config Config { get; protected set; }
+        public List<Character> CharactersData { get; protected set; } = new List<Character>();
+
+        public DataHandler()
+        {
+            CacheMainConfig();
+            CacheCharacterList();
+        }
 
         public async Task SendData(UserData userData, string customQuery = "")
         {
-            if (cachedConfig == null) await CacheConfig(); //read connection config
+            if (cachedDbConfig == null) await CacheDatabaseConfig(); //read connection config
 
-            var connector = new DbConnector(cachedConfig); //open connection
+            var connector = new DbConnector(cachedDbConfig); //open connection
             await connector.ConnectAsync();
 
             //select user from db with matching id
@@ -33,21 +46,22 @@ namespace Eremite.Services
             await connector.CloseAndDisposeAsync();
         }
 
-        public async Task<UserData> GetData(string userId)
+        public async Task<UserData> GetData(DiscordUser discordUser)
         {
-            if (cachedConfig == null) await CacheConfig(); //read connection config
+            if (cachedDbConfig == null) await CacheDatabaseConfig(); //read connection config
 
-            var connector = new DbConnector(cachedConfig); //open connection
+            var connector = new DbConnector(cachedDbConfig); //open connection
             await connector.ConnectAsync();
 
             //select user from db with matching id
-            var user = QueryHandler.GetUserFromQuery(userId, connector);
+            var user = QueryHandler.GetUserFromQuery(discordUser.Id.ToString(), connector);
 
 
             if (!user.IsValid())
             {
                 user = new UserData();
-                user.UserId = userId;
+                user.Username = discordUser.Username;
+                user.UserId = discordUser.Id.ToString();
 
                 await SendDataCustomQuery(QueryHandler.GetUserInsertQuery(user), connector);
             }
@@ -63,10 +77,32 @@ namespace Eremite.Services
             await updateCommand.ExecuteScalarAsync();
         }
 
-        private async Task CacheConfig()
+        private async Task CacheDatabaseConfig()
         {
-            var rawConfig = await DataRouter.ReadFromConfigs(DbConnector.DbConfig);
-            cachedConfig = JsonConvert.DeserializeObject<DbConfig>(rawConfig);
+            var rawConfig = await DataGrabber.GrabFromConfigs(DbConnector.DbConfig);
+
+            rawConfig.LogStatus(DbConnector.DbConfig);
+
+            cachedDbConfig = JsonConvert.DeserializeObject<DatabaseConfig>(rawConfig);
+        }
+
+
+        public async void CacheMainConfig()
+        {
+            var rawData = await DataGrabber.GrabFromConfigs(ConfigFile);
+
+            rawData.LogStatus(ConfigFile);
+
+            Config = JsonConvert.DeserializeObject<Config>(rawData);
+        }
+
+        public async void CacheCharacterList()
+        {
+            var rawData = await DataGrabber.GrabFromConfigs(CharactersDataFile);
+
+            rawData.LogStatus(CharactersDataFile);
+
+            CharactersData = JsonConvert.DeserializeObject<List<Character>>(rawData);
         }
     }
 }

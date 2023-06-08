@@ -6,8 +6,8 @@ namespace Eremite.Data.DiscordData
     {
         public string CharacterName = string.Empty;
         public int StarsRarity = 3;
-        public string ImageAkashaBannerPath = string.Empty;
-        public string ImagePullBannerPath = string.Empty;
+        public string ImageAkashaBannerUrl = string.Empty;
+        public string ImagePullBannerUrl = string.Empty;
         public int PerkStat;
         public string PerkInfo = string.Empty;
         public bool ShouldBeDestroyed = false;

@@ -1,13 +1,11 @@
-﻿
-using DSharpPlus;
-
-namespace Eremite.Data
+﻿namespace Eremite.Data
 {
     [Serializable]
     public class Config
     {
-        public string Token = "your token goes here";
-        public TokenType TokenType = TokenType.Bot;
-        public string[] Prefixes = new[] { "!" };
+        public int PullCost = 160;
+
+        //URLs
+        public string DefaultAkashaImageUrl = "https://github.com/MentallyStable4sure/Eremite/blob/main/Essentials/nochar.png?raw=true";
     }
 }
