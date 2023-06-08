@@ -67,6 +67,12 @@ namespace Eremite.Services
             return $"UPDATE `users` SET `characters`='{JsonConvert.SerializeObject(user.Characters)}',`equippedcharacter`='{JsonConvert.SerializeObject(user.EquippedCharacter)}' WHERE `userid`='{user.UserId}'";
         }
 
+        /// <returns>Query string with only characters and equipped character being updated</returns>
+        public static string GetUserUpdateCharactersAndWalletQuery(UserData user)
+        {
+            return $"UPDATE `users` SET `characters`='{JsonConvert.SerializeObject(user.Characters)}',`equippedcharacter`='{JsonConvert.SerializeObject(user.EquippedCharacter)}',`wallet`='{JsonConvert.SerializeObject(user.Wallet)}' WHERE `userid`='{user.UserId}'";
+        }
+
         /// <returns>Query string with only stats being updated</returns>
         public static string GetUserUpdateStatsQuery(UserData user)
         {

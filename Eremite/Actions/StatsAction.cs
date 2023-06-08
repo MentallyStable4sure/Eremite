@@ -39,5 +39,17 @@ namespace Eremite.Actions
                 Description = GetMessageAboutUser(user)
             };
         }
+
+        public static DiscordEmbedBuilder GetEmbedWithCharacters(List<Character> characters, UserData user)
+        {
+            var highestTierColor = characters.GetHighestTier().GetCorrespondingColor();
+            return new DiscordEmbedBuilder()
+            {
+                Color = highestTierColor,
+                Title = $"{user.Username} wished for a character...",
+                ImageUrl = characters[0].ImagePullBannerUrl,
+                Description = $"> {characters.ToCharacterList()}"
+            };
+        }
     }
 }

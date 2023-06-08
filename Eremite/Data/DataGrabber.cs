@@ -20,5 +20,15 @@ namespace Eremite.Data
 
             return await File.ReadAllTextAsync(fullPath);
         }
+
+        public static FileStream GrabFromContentStream(string contentFile)
+        {
+            var current = Directory.GetCurrentDirectory();
+            var fullPath = Path.Combine(current, ContentFolder);
+
+            if (!Directory.Exists(fullPath)) return (FileStream)FileStream.Null;
+
+            return File.OpenRead(fullPath);
+        }
     }
 }

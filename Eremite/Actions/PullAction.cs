@@ -1,48 +1,56 @@
 ﻿using DSharpPlus.CommandsNext;
 using Eremite.Data.DiscordData;
+using Eremite.Services;
 
 namespace Eremite.Actions
 {
-    internal class PullAction
+    public class PullAction
     {
+        public DataHandler DataHandler { get; set; }
+
         public const string NotEnoughPrimosError = "> Not enough primogems! Try any activities like teapot, travel, etc. to get primogems.";
+
+        public PullAction(DataHandler dataHandler) => DataHandler = dataHandler;
 
         /// <summary>
         /// Pulls characters for X amount of times, and adds it to a user list.
         /// </summary>
         /// <param name="user">User to add characters for</param>
-        /// <param name="number">X amount of times to pull</param>
+        /// <param name="numberOfPulls">X amount of times to pull</param>
         /// <returns>List of characters got from pull(s)</returns>
-        public static List<Character> ForUser(UserData user, int numberOfPulls, int cost = 160)
+        public List<Character> ForUser(UserData user, int numberOfPulls)
         {
             var charactersGot = new List<Character>();
+            var cost = DataHandler.Config.PullCost;
+
             if (user.Wallet.Primogems < cost * numberOfPulls) return charactersGot;
 
-            //TODO:
-            //will do the pull calculation
-            //charge user
-            //add character to a user and return a string which character user got
+            var charactersToPull = DataHandler.CharactersData;
+
+            for (int i = 0; i < numberOfPulls; i++)
+            {
+                user.Wallet.Primogems -= cost;
+                var pulledCharacter = charactersToPull[Random.Shared.Next(0, charactersToPull.Count)];
+
+                user.AddPulledCharacter(pulledCharacter);
+                charactersGot.Add(pulledCharacter);
+            }
 
             return charactersGot;
         }
 
         /// <summary>
-        /// Pulls characters for X amount of times, and adds it to a user list.
-        /// Check for user wallet and returns response when error meets
+        /// Same Pull as Pull.ForUser but async with SaveData on the server after user update
         /// </summary>
         /// <param name="user">User to add characters for</param>
-        /// <param name="number">X amount of times to pull</param>
+        /// <param name="numberOfPulls">X amount of times to pull</param>
         /// <returns>List of characters got from pull(s)</returns>
-        public static async Task<List<Character>> ForUserAsync(CommandContext context, UserData user, int numberOfPulls, int cost = 160)
+        public async Task<List<Character>> ForUserAsyncSave(UserData user, int numberOfPulls)
         {
-            var charactersGot = new List<Character>();
-            if(user.Wallet.Primogems < cost * numberOfPulls)
-            {
-                await context.RespondAsync(NotEnoughPrimosError);
-                return charactersGot;
-            }
+            var characters = ForUser(user, numberOfPulls);
+            await DataHandler.SendData(user, QueryHandler.GetUserUpdateCharactersAndWalletQuery(user));
 
-            return ForUser(user, numberOfPulls, cost);
+            return characters;
         }
     }
 }

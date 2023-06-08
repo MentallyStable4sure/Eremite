@@ -12,10 +12,16 @@ namespace Eremite.Services
         private DatabaseConfig cachedDbConfig = null;
 
         public const string ConfigFile = "config.json";
+        public const string CharactersDataFile = "characters.json";
 
         public Config Config { get; protected set; }
+        public List<Character> CharactersData { get; protected set; } = new List<Character>();
 
-        public DataHandler() => CacheMainConfig();
+        public DataHandler()
+        {
+            CacheMainConfig();
+            CacheCharacterList();
+        }
 
         public async Task SendData(UserData userData, string customQuery = "")
         {
@@ -88,6 +94,15 @@ namespace Eremite.Services
             rawData.LogStatus(ConfigFile);
 
             Config = JsonConvert.DeserializeObject<Config>(rawData);
+        }
+
+        public async void CacheCharacterList()
+        {
+            var rawData = await DataGrabber.GrabFromConfigs(CharactersDataFile);
+
+            rawData.LogStatus(CharactersDataFile);
+
+            CharactersData = JsonConvert.DeserializeObject<List<Character>>(rawData);
         }
     }
 }
