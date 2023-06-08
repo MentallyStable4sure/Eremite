@@ -1,6 +1,8 @@
 ﻿using DSharpPlus.Entities;
 using Eremite.Commands;
+using Eremite.Data;
 using Eremite.Data.DiscordData;
+using Newtonsoft.Json;
 
 namespace Eremite
 {
@@ -53,6 +55,19 @@ namespace Eremite
                 case 5: return DiscordColor.Orange;
                 case 10: return DiscordColor.Red;
                 default: return DiscordColor.White;
+            }
+        }
+
+        public static string GetCorrespondingQuery(this QueryElement element, UserData user)
+        {
+            switch (element)
+            {
+                case QueryElement.Username: return $"`username`='{user.Username}'";
+                case QueryElement.Wallet: return $"`wallet`='{JsonConvert.SerializeObject(user.Wallet)}'";
+                case QueryElement.Characters: return $"`characters`='{JsonConvert.SerializeObject(user.Characters)}'";
+                case QueryElement.EquippedCharacter: return $"`equippedcharacter`='{JsonConvert.SerializeObject(user.EquippedCharacter)}'";
+                case QueryElement.Stats: return $"`stats`='{JsonConvert.SerializeObject(user.Stats)}'";
+                default: return $"`userid`='{user.UserId}',`username`='{user.Username}',`wallet`='{JsonConvert.SerializeObject(user.Wallet)}',`characters`='{JsonConvert.SerializeObject(user.Characters)}',`equippedcharacter`='{JsonConvert.SerializeObject(user.EquippedCharacter)}',`stats`='{JsonConvert.SerializeObject(user.Stats)}'";
             }
         }
     }

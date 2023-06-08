@@ -2,6 +2,7 @@
 using Eremite.Services;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
+using Eremite.Data;
 
 namespace Eremite.Commands
 {
@@ -33,7 +34,9 @@ namespace Eremite.Commands
             }
 
             SetCharacterAction.Equip(user, matchingCharacter);
-            await DataHandler.SendData(user, QueryHandler.GetUserUpdateCharactersQuery(user));
+
+            var updateQuery = new QueryBuilder(user, QueryElement.EquippedCharacter).BuildUpdateQuery();
+            await DataHandler.SendData(user, updateQuery);
 
             await context.Message.RespondAsync(SetCharacterAction.GetEmbedWithEquippedCharacter(matchingCharacter));
         }

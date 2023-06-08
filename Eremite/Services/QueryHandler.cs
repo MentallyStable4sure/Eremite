@@ -1,9 +1,13 @@
-﻿using System.Text.Json;
-using MySql.Data.MySqlClient;
+﻿using MySql.Data.MySqlClient;
 using Eremite.Data.DiscordData;
+using Newtonsoft.Json;
 
 namespace Eremite.Services
 {
+    // TODO: Query builder
+    //
+    // Make a Query builder with interfaces to drop, each interface will provide GetQueryInfo() method with their strings for update
+    // or do like a enums with foreach
     internal class QueryHandler
     {
         /// <summary>
@@ -29,10 +33,10 @@ namespace Eremite.Services
             {
                 user.UserId = reader.GetString("userid");
                 user.Username = reader.GetString("username");
-                user.Wallet = JsonSerializer.Deserialize<DiscordWallet>(reader.GetString("wallet"));
-                user.Characters = JsonSerializer.Deserialize<List<Character>>(reader.GetString("characters"));
-                user.EquippedCharacter = JsonSerializer.Deserialize<Character>(reader.GetString("equippedcharacter"));
-                user.Stats = JsonSerializer.Deserialize<Stats>(reader.GetString("stats"));
+                user.Wallet = JsonConvert.DeserializeObject<DiscordWallet>(reader.GetString("wallet"));
+                user.Characters = JsonConvert.DeserializeObject<List<Character>>(reader.GetString("characters"));
+                user.EquippedCharacter = JsonConvert.DeserializeObject<Character>(reader.GetString("equippedcharacter"));
+                user.Stats = JsonConvert.DeserializeObject<Stats>(reader.GetString("stats"));
             }
 
             reader.Close();
@@ -49,41 +53,8 @@ namespace Eremite.Services
         public static string GetUserInsertQuery(UserData user)
         {
             string query = $"INSERT INTO `users`(`userid`, `username`, `wallet`, `characters`, `equippedcharacter`, `stats`) " +
-                $"VALUES ('{user.UserId}','{user.Username}','{JsonSerializer.Serialize(user.Wallet)}','{JsonSerializer.Serialize(user.Characters)}'," +
-                $"'{JsonSerializer.Serialize(user.EquippedCharacter)}','{JsonSerializer.Serialize(user.Stats)}')";
-
-            return query;
-        }
-
-        /// <returns>Query string with only wallet being updated</returns>
-        public static string GetUserUpdateWalletQuery(UserData user)
-        {
-            return $"UPDATE `users` SET `wallet`='{JsonSerializer.Serialize(user.Wallet)}' WHERE `userid`='{user.UserId}'";
-        }
-
-        /// <returns>Query string with only characters and equipped character being updated</returns>
-        public static string GetUserUpdateCharactersQuery(UserData user)
-        {
-            return $"UPDATE `users` SET `characters`='{JsonSerializer.Serialize(user.Characters)}',`equippedcharacter`='{JsonSerializer.Serialize(user.EquippedCharacter)}' WHERE `userid`='{user.UserId}'";
-        }
-
-        /// <returns>Query string with only characters and equipped character being updated</returns>
-        public static string GetUserUpdateCharactersAndWalletQuery(UserData user)
-        {
-            return $"UPDATE `users` SET `characters`='{JsonSerializer.Serialize(user.Characters)}',`equippedcharacter`='{JsonSerializer.Serialize(user.EquippedCharacter)}',`wallet`='{JsonSerializer.Serialize(user.Wallet)}' WHERE `userid`='{user.UserId}'";
-        }
-
-        /// <returns>Query string with only stats being updated</returns>
-        public static string GetUserUpdateStatsQuery(UserData user)
-        {
-            return $"UPDATE `users` SET `stats`='{JsonSerializer.Serialize(user.Stats)}' WHERE userid = {user.UserId}";
-        }
-
-        /// <returns>Query string with all possibles user tables to update</returns>
-        internal static string GetUserUpdateAll(UserData user)
-        {
-            string query = $"UPDATE `users` SET `username`='{user.Username}', `wallet`='{JsonSerializer.Serialize(user.Wallet)}',`characters`='{JsonSerializer.Serialize(user.Characters)}'," +
-                $"`equippedcharacter`='{JsonSerializer.Serialize(user.EquippedCharacter)}',`stats`='{JsonSerializer.Serialize(user.Stats)}' WHERE userid = {user.UserId}";
+                $"VALUES ('{user.UserId}','{user.Username}','{JsonConvert.SerializeObject(user.Wallet)}','{JsonConvert.SerializeObject(user.Characters)}'," +
+                $"'{JsonConvert.SerializeObject(user.EquippedCharacter)}','{JsonConvert.SerializeObject(user.Stats)}')";
 
             return query;
         }
