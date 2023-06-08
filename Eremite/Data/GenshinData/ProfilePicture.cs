@@ -1,5 +1,5 @@
 ﻿
-namespace DiscordBot.GenshinData
+namespace Eremite.Data.GenshinData
 {
     [Serializable]
     public class ProfilePicture
