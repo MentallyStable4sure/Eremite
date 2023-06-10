@@ -10,34 +10,8 @@ namespace Eremite.Data.DiscordData
 
         public DiscordWallet Wallet = new DiscordWallet(); //users money
         public List<Character> Characters = new List<Character>(); //users inventory
+        public List<TimeGatedEvent> Events = new List<TimeGatedEvent>(); //events user participated in with dateTimes
 
         public Stats Stats = new Stats(); //all the stats about visits/etc.
-
-        public void AddPulledCharacter(Character character)
-        {
-            Character duplicate;
-
-            if(Characters == null) Characters = new List<Character>();
-            if(Characters.Count <= 0)
-            {
-                Characters.Add(character);
-                return;
-            }
-
-            duplicate = Characters.Find(characterSaved => characterSaved.CharacterName == character.CharacterName);
-
-            if (duplicate != null && duplicate.StarsRarity >= 10) Characters.Add(duplicate);
-            if (duplicate == null) Characters.Add(character);
-        }
-
-        public void ResetWallet() => Wallet = new DiscordWallet();
-
-        public void ResetStats() => Stats = new Stats();
-
-        public void AddCurrency(int primos, int mora)
-        {
-            Wallet.Primogems += primos;
-            Wallet.Mora += mora;
-        }
     }
 }

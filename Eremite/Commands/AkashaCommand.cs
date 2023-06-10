@@ -6,7 +6,6 @@ using DSharpPlus.CommandsNext.Attributes;
 using Eremite.Actions;
 using Eremite.Services;
 using Eremite.Data.DiscordData;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Eremite.Commands
 {

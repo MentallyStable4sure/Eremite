@@ -9,8 +9,6 @@ namespace Eremite
     public static class Extensions
     {
 
-        public static bool IsValid(this UserData user) => user.UserId != null && user.UserId != string.Empty;
-
         public static void LogStatus(this string rawJson, string fileName = "")
         {
             bool isCorrupted = rawJson == null || rawJson.Length <= 0;
@@ -67,6 +65,7 @@ namespace Eremite
                 case QueryElement.Characters: return $"`characters`='{JsonConvert.SerializeObject(user.Characters)}'";
                 case QueryElement.EquippedCharacter: return $"`equippedcharacter`='{JsonConvert.SerializeObject(user.EquippedCharacter)}'";
                 case QueryElement.Stats: return $"`stats`='{JsonConvert.SerializeObject(user.Stats)}'";
+                case QueryElement.Events: return $"`events`='{JsonConvert.SerializeObject(user.Events)}";
                 default: return $"`userid`='{user.UserId}',`username`='{user.Username}',`wallet`='{JsonConvert.SerializeObject(user.Wallet)}',`characters`='{JsonConvert.SerializeObject(user.Characters)}',`equippedcharacter`='{JsonConvert.SerializeObject(user.EquippedCharacter)}',`stats`='{JsonConvert.SerializeObject(user.Stats)}'";
             }
         }
