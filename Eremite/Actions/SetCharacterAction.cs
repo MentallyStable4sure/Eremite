@@ -17,10 +17,6 @@ namespace Eremite.Actions
 
         public static DiscordEmbedBuilder GetEmbedWithEquippedCharacter(Character equippedCharacter)
         {
-            Console.Write(equippedCharacter.CharacterName);
-            Console.Write(equippedCharacter.ImageAkashaBannerUrl);
-            Console.Write(equippedCharacter.ImagePullBannerUrl);
-
             var characterRarityColor = equippedCharacter.GetCorrespondingColor();
             return new DiscordEmbedBuilder()
             {

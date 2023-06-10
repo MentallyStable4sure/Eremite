@@ -37,6 +37,7 @@ namespace Eremite.Services
                 user.Characters = JsonConvert.DeserializeObject<List<Character>>(reader.GetString("characters"));
                 user.EquippedCharacter = JsonConvert.DeserializeObject<Character>(reader.GetString("equippedcharacter"));
                 user.Stats = JsonConvert.DeserializeObject<Stats>(reader.GetString("stats"));
+                user.Events = JsonConvert.DeserializeObject<List<TimeGatedEvent>>(reader.GetString("events"));
             }
 
             reader.Close();
@@ -52,9 +53,9 @@ namespace Eremite.Services
         /// <returns>Query string for insertion for a completely NEW user (insert all rows)</returns>
         public static string GetUserInsertQuery(UserData user)
         {
-            string query = $"INSERT INTO `users`(`userid`, `username`, `wallet`, `characters`, `equippedcharacter`, `stats`) " +
+            string query = $"INSERT INTO `users`(`userid`, `username`, `wallet`, `characters`, `equippedcharacter`, `stats`, `events`) " +
                 $"VALUES ('{user.UserId}','{user.Username}','{JsonConvert.SerializeObject(user.Wallet)}','{JsonConvert.SerializeObject(user.Characters)}'," +
-                $"'{JsonConvert.SerializeObject(user.EquippedCharacter)}','{JsonConvert.SerializeObject(user.Stats)}')";
+                $"'{JsonConvert.SerializeObject(user.EquippedCharacter)}','{JsonConvert.SerializeObject(user.Stats)}','{JsonConvert.SerializeObject(user.Events)}')";
 
             return query;
         }

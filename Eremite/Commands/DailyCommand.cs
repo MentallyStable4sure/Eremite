@@ -28,21 +28,20 @@ namespace Eremite.Commands
 
             var embed = TimeGatedAction.GetEventEmbed(user, randomDaily);
 
-            var updateQuery = new QueryBuilder(user, QueryElement.Wallet, QueryElement.Events, QueryElement.Stats).BuildUpdateQuery();
+            var updateQuery = new QueryBuilder(user, QueryElement.Wallet, QueryElement.Stats, QueryElement.Events).BuildUpdateQuery();
             await DataHandler.SendData(user, updateQuery);
             await context.RespondAsync(embed);
         }
 
-        public async Task<List<TimeGatedEvent>> CacheDailies(string configFile)
+        public async Task CacheDailies(string configFile)
         {
-            if (CachedDailies != null || CachedDailies?.Count > 0) return CachedDailies;
+            if (CachedDailies != null || CachedDailies?.Count > 0) return;
 
             var rawDailies = await DataGrabber.GrabFromConfigs(configFile);
 
             rawDailies.LogStatus(DailyConfigs);
-            if (rawDailies == null) return null;
 
-            return JsonConvert.DeserializeObject<List<TimeGatedEvent>>(rawDailies);
+            CachedDailies = JsonConvert.DeserializeObject<List<TimeGatedEvent>>(rawDailies);
         }
     }
 }

@@ -65,8 +65,10 @@ namespace Eremite
                 case QueryElement.Characters: return $"`characters`='{JsonConvert.SerializeObject(user.Characters)}'";
                 case QueryElement.EquippedCharacter: return $"`equippedcharacter`='{JsonConvert.SerializeObject(user.EquippedCharacter)}'";
                 case QueryElement.Stats: return $"`stats`='{JsonConvert.SerializeObject(user.Stats)}'";
-                case QueryElement.Events: return $"`events`='{JsonConvert.SerializeObject(user.Events)}";
-                default: return $"`userid`='{user.UserId}',`username`='{user.Username}',`wallet`='{JsonConvert.SerializeObject(user.Wallet)}',`characters`='{JsonConvert.SerializeObject(user.Characters)}',`equippedcharacter`='{JsonConvert.SerializeObject(user.EquippedCharacter)}',`stats`='{JsonConvert.SerializeObject(user.Stats)}'";
+                case QueryElement.Events: return $"`events`='{JsonConvert.SerializeObject(user.Events)}'";
+                default: return $"`userid='{user.UserId}',`username`='{user.Username}',`wallet`='{JsonConvert.SerializeObject(user.Wallet)}'," +
+                        $"`characters`='{JsonConvert.SerializeObject(user.Characters)}',`equippedcharacter`='{JsonConvert.SerializeObject(user.EquippedCharacter)}'," +
+                        $"`stats`='{JsonConvert.SerializeObject(user.Stats)}',`events`='{JsonConvert.SerializeObject(user.Events)}'";
             }
         }
     }
