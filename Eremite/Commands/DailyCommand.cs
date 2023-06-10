@@ -28,7 +28,7 @@ namespace Eremite.Commands
 
             var embed = TimeGatedAction.GetEventEmbed(user, randomDaily);
 
-            var updateQuery = new QueryBuilder(user, QueryElement.Wallet, QueryElement.Events, QueryElement.Stats).BuildUpdateQuery();
+            var updateQuery = new QueryBuilder(user, QueryElement.Wallet, QueryElement.Stats, QueryElement.Events).BuildUpdateQuery();
             await DataHandler.SendData(user, updateQuery);
             await context.RespondAsync(embed);
         }
