@@ -2,7 +2,6 @@
 using Eremite.Services;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
-using Eremite.Data;
 
 namespace Eremite.Commands
 {

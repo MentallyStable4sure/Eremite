@@ -3,13 +3,15 @@ namespace Eremite.Data.DiscordData
 {
     public class Award
     {
-        public int mora = 0;
-        public int primogems = 0;
+        public DiscordWallet CurrenciesToAdd = new DiscordWallet();
 
-        public Award(int mora, int primogems)
+        public List<Character> CharactersToAdd = new List<Character>();
+
+        public Award(DiscordWallet Currencies, List<Character> characters = null)
         {
-            this.mora = mora;
-            this.primogems = primogems;
+            CurrenciesToAdd = Currencies;
+
+            CharactersToAdd ??= characters;
         }
     }
 }

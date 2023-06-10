@@ -1,7 +1,7 @@
 ﻿using DSharpPlus.Entities;
 using Eremite.Data;
-using Eremite.Data.DiscordData;
 using Eremite.Services;
+using Eremite.Data.DiscordData;
 
 namespace Eremite.Actions
 {

@@ -10,6 +10,7 @@ namespace Eremite.Data
         Characters,
         EquippedCharacter,
         Stats,
+        Events,
         Username
     }
 }

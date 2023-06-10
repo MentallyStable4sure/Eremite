@@ -1,0 +1,30 @@
+[
+  {
+    "EventType": 1,
+    "LastTimeTriggered": "2023-05-10T11:45:30.2000957Z",
+    "TimeBetweenTriggers": "1.00:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/pull_banners/daily.webp",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 200,
+        "Primogems": 200
+      },
+      "CharactersToAdd": []
+    }
+  },
+  {
+    "EventType": 1,
+    "LastTimeTriggered": "2023-05-10T11:45:30.2001193Z",
+    "TimeBetweenTriggers": "1.00:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/pull_banners/daily.webp",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 200,
+        "Primogems": 200
+      },
+      "CharactersToAdd": []
+    }
+  }
+]

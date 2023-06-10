@@ -24,7 +24,7 @@ namespace Eremite.Actions
         }
 
         /// <summary>
-        /// 
+        /// Creates an Embed with user stats
         /// </summary>
         /// <param name="avatarUrl">user's avatar</param>
         /// <param name="user">user whos stats to check</param>
