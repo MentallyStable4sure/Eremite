@@ -33,16 +33,15 @@ namespace Eremite.Commands
             await context.RespondAsync(embed);
         }
 
-        public async Task<List<TimeGatedEvent>> CacheDailies(string configFile)
+        public async Task CacheDailies(string configFile)
         {
-            if (CachedDailies != null || CachedDailies?.Count > 0) return CachedDailies;
+            if (CachedDailies != null || CachedDailies?.Count > 0) return;
 
             var rawDailies = await DataGrabber.GrabFromConfigs(configFile);
 
             rawDailies.LogStatus(DailyConfigs);
-            if (rawDailies == null) return null;
 
-            return JsonConvert.DeserializeObject<List<TimeGatedEvent>>(rawDailies);
+            CachedDailies = JsonConvert.DeserializeObject<List<TimeGatedEvent>>(rawDailies);
         }
     }
 }
