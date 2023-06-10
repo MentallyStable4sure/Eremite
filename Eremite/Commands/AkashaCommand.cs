@@ -88,9 +88,23 @@ namespace Eremite.Commands
             else
             {
                 var charactersPulled = await PullAction.ForUserAsyncSave(user, 1);
+                var highestTear = charactersPulled.GetHighestTier();
+                var setCharacterGuid = Guid.NewGuid().ToString();
 
                 await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage,
-                    new DiscordInteractionResponseBuilder().AddEmbed(PullAction.GetEmbedWithCharacters(charactersPulled, user)));
+                    new DiscordInteractionResponseBuilder().AddEmbed(PullAction.GetEmbedWithCharacters(charactersPulled, user))
+                    .AddComponents(new DiscordButtonComponent(ButtonStyle.Primary, setCharacterGuid, $"Set {highestTear.CharacterName} as Main")));
+
+                context.Client.ComponentInteractionCreated += async (client, args) =>
+                {
+                    if (args.User.Id.ToString() != context.User.Id.ToString()) return;
+
+                    if (args.Id != setCharacterGuid) return;
+                    SetCharacterAction.Equip(user, highestTear);
+                    await DataHandler.SendData(user, new QueryBuilder(user, Data.QueryElement.EquippedCharacter).BuildUpdateQuery());
+                    await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage,
+                        new DiscordInteractionResponseBuilder().AddEmbed(SetCharacterAction.GetEmbedWithEquippedCharacter(highestTear)));
+                };
             };
         }
     }
