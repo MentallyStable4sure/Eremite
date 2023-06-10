@@ -62,7 +62,7 @@ namespace Eremite.Commands
             {
                 if (args.User.Id.ToString() != context.User.Id.ToString()) return;
 
-                if (args.Id == statsGuid) await ShowStats(context, args, user);
+                if (args.Id == statsGuid) await ShowAccountStats(context, args, user);
                 if (args.Id == pullGuid) await Pull(context, args, user);
             };
 
@@ -74,7 +74,7 @@ namespace Eremite.Commands
             };
         }
 
-        private async Task ShowStats(CommandContext context, ComponentInteractionCreateEventArgs args, UserData user)
+        private async Task ShowAccountStats(CommandContext context, ComponentInteractionCreateEventArgs args, UserData user)
         {
             var embed = StatsAction.GetEmbedWithStats(context.User.AvatarUrl, user);
 
@@ -103,13 +103,13 @@ namespace Eremite.Commands
                 {
                     if (args.User.Id.ToString() != context.User.Id.ToString()) return;
 
-                    if (args.Id == setCharacterGuid) await EquipCharacter(context, args, user, highestTier);
-                    if (args.Id == infoAboutCharacterGuid) await ShowCharacterStats(context, args, highestTier);
+                    if (args.Id == setCharacterGuid) await EquipCharacter(args, user, highestTier);
+                    if (args.Id == infoAboutCharacterGuid) await ShowCharacterStats(args, highestTier);
                 };
             };
         }
 
-        private async Task EquipCharacter(CommandContext context, ComponentInteractionCreateEventArgs args, UserData user, Character highestTier)
+        private async Task EquipCharacter(ComponentInteractionCreateEventArgs args, UserData user, Character highestTier)
         {
             SetCharacterAction.Equip(user, highestTier);
             await DataHandler.SendData(user, new QueryBuilder(user, Data.QueryElement.EquippedCharacter).BuildUpdateQuery());
@@ -117,7 +117,7 @@ namespace Eremite.Commands
                 new DiscordInteractionResponseBuilder().AddEmbed(SetCharacterAction.GetEmbedWithCharacterInfo(highestTier)));
         }
 
-        private async Task ShowCharacterStats(CommandContext context, ComponentInteractionCreateEventArgs args, Character character)
+        private async Task ShowCharacterStats(ComponentInteractionCreateEventArgs args, Character character)
         {
             await args.Interaction.CreateResponseAsync(
                     InteractionResponseType.UpdateMessage,
