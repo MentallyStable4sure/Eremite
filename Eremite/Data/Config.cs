@@ -6,6 +6,6 @@
         public int PullCost = 160;
 
         //URLs
-        public string DefaultAkashaImageUrl = "https://github.com/MentallyStable4sure/Eremite/blob/main/Essentials/nochar.png?raw=true";
+        public string DefaultAkashaImageUrl = "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/characters/nochar.png";
     }
 }

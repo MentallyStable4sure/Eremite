@@ -5,7 +5,7 @@ namespace Eremite.Data.DiscordData
     {
         None = 0,
         Daily,
-        Travel,
+        Adventure,
         Teapot,
         Monthly,
         Permanent
