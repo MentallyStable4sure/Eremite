@@ -8,7 +8,7 @@ namespace Eremite
 {
     public static class Extensions
     {
-        public static string GetNormalTime(this TimeSpan time) => time.ToString(@"dd\.hh\:mm");
+        public static string GetNormalTime(this TimeSpan time) => time.ToString(@"dd\.hh\:mm\:ss");
 
         public static void LogStatus(this string rawJson, string fileName = "")
         {

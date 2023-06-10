@@ -1,6 +1,5 @@
 ﻿using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
-using DSharpPlus.Entities;
 using Eremite.Actions;
 using Eremite.Data;
 using Eremite.Data.DiscordData;
@@ -23,7 +22,7 @@ namespace Eremite.Commands
         {
             var user = await DataHandler.GetData(context.User);
 
-            if (CachedDailies == null) await CacheDailies(DailyConfigs);
+            if (CachedDailies == null) await CacheDailies();
             if (CachedDailies == null || CachedDailies.Count <= 0) return;
 
             var randomDaily = CachedDailies[Random.Shared.Next(0, CachedDailies.Count)];
@@ -42,11 +41,11 @@ namespace Eremite.Commands
             await context.RespondAsync(TimeGatedAction.GetEventEmbed(user, randomDaily));
         }
 
-        public async Task CacheDailies(string configFile)
+        public async Task CacheDailies()
         {
             if (CachedDailies != null || CachedDailies?.Count > 0) return;
 
-            var rawDailies = await DataGrabber.GrabFromConfigs(configFile);
+            var rawDailies = await DataGrabber.GrabFromConfigs(DailyConfigs);
 
             rawDailies.LogStatus(DailyConfigs);
 

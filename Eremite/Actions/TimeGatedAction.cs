@@ -14,8 +14,8 @@ namespace Eremite.Actions
         /// <returns>returns the possibility of Ticking the event (eg. needed time passed or not)</returns>
         public static bool CheckTimeGatedEvent(TimeGatedEvent timeGatedEvent)
         {
-            var dayTickAllowed = timeGatedEvent.LastTimeTriggered.Add(timeGatedEvent.TimeBetweenTriggers);
-            return DateTime.Compare(timeGatedEvent.LastTimeTriggered, dayTickAllowed) == 1;
+            var dayTickAllowed = timeGatedEvent.LastTimeTriggered.Add(timeGatedEvent.TimeBetweenTriggers); //start date + time needed
+            return DateTime.Compare(DateTime.UtcNow, dayTickAllowed) >= 0; //is current time passed this start date + time needed point or not
         }
 
         public static TimeGatedEvent GetPreviousEventByType(this UserData user, TimeGatedEventType type)
@@ -24,24 +24,30 @@ namespace Eremite.Actions
         }
 
         /// <summary>
-        /// Ticks the event (u prob want to use <see cref="CheckTimeGatedEvent(TimeGatedEvent)"/> to see if enough time passed or not)
-        /// Use it if you want custom login such as checkers n stuff, otherwise easier and safer would be <see cref="HandleEventTick(UserData, TimeGatedEvent)"/>
+        /// Ticks the event (u prob want to use <see cref="CheckTimeGatedEvent(TimeGatedEvent)"/> to see if enough time passed or not) <br />
+        /// Use it if you want custom login such as checkers n stuff, otherwise easier and safer would be <see cref="HandleEvent(UserData, TimeGatedEvent)"/>
         /// </summary>
         /// <param name="user">User to add award to</param>
-        /// <param name="timeGatedEvent">Even to get award from and reset timer</param>
+        /// <param name="newEvent">Event to get award from and reset timer</param>
+        /// <param name="oldEvent">Event to delete (which was used to compare, if it needs to be unique one in the list)</param>
         /// <param name="customAward">If you want to use custom award instead of event one</param>
-        public static void TickEvent(this UserData user, TimeGatedEvent timeGatedEvent, Award customAward = null)
+        public static void TickEvent(this UserData user, TimeGatedEvent newEvent, TimeGatedEvent oldEvent = null, Award customAward = null)
         {
-            timeGatedEvent.TimesTicked++;
-            timeGatedEvent.LastTimeTriggered = DateTime.UtcNow;
+            var ticks = oldEvent == null ? newEvent.TimesTicked + 1 : oldEvent.TimesTicked + 1;
+            newEvent.TimesTicked = ticks;
+            newEvent.LastTimeTriggered = DateTime.UtcNow;
 
-            timeGatedEvent.Award ??= customAward;
+            if(customAward != null) newEvent.Award = customAward;
 
-            user.AddAward(timeGatedEvent.Award);
+            if(oldEvent != null) user.Events.Remove(oldEvent); //remove previous event
+            user.Events.Add(newEvent); //add the just-ticked event with updated time
+
+            Console.WriteLine($"[EVENT] {newEvent.EventType.ToString()} was triggered by the player {user.Username} | {user.UserId}");
+            user.AddAward(newEvent.Award);
         }
 
         /// <summary>
-        /// Handles checks for event to be ticked and ticks the event if time needed already passed for you
+        /// Handles checks for event to be ticked and ticks the event if time needed already passed for you <br />
         /// If you want to tick the event no matter the time (manually), use <see cref="TickEvent(UserData, TimeGatedEvent, Award)"/>
         /// </summary>
         /// <param name="user">User who participating in event</param>
@@ -50,17 +56,17 @@ namespace Eremite.Actions
         public static bool HandleEvent(this UserData user, TimeGatedEvent participatedEvent)
         {
             bool isPossible = true;
-
             var previousEvent = user.GetPreviousEventByType(participatedEvent.EventType);
-            if (previousEvent == null) return isPossible; //havent triggered any events like this, so user is free to do so
+            if (previousEvent == null)
+            {
+                user.TickEvent(participatedEvent);
+                return isPossible; //havent triggered any events like this, so user is free to do so
+            }
 
             isPossible = CheckTimeGatedEvent(previousEvent);
             if (!isPossible) return isPossible;
 
-            user.Events.Remove(previousEvent); //remove previous event
-            TickEvent(user, participatedEvent); //tick the current event
-            user.Events.Add(participatedEvent); //add the just-ticked event with updated time
-
+            TickEvent(user, participatedEvent, previousEvent); //tick the current event
             return isPossible;
         }
 
