@@ -62,7 +62,7 @@ namespace Eremite.Commands
             {
                 if (args.User.Id.ToString() != context.User.Id.ToString()) return;
 
-                if (args.Id == statsGuid) await ShowStats(context, args, user);
+                if (args.Id == statsGuid) await ShowAccountStats(context, args, user);
                 if (args.Id == pullGuid) await Pull(context, args, user);
             };
 
@@ -74,7 +74,7 @@ namespace Eremite.Commands
             };
         }
 
-        private async Task ShowStats(CommandContext context, ComponentInteractionCreateEventArgs args, UserData user)
+        private async Task ShowAccountStats(CommandContext context, ComponentInteractionCreateEventArgs args, UserData user)
         {
             var embed = StatsAction.GetEmbedWithStats(context.User.AvatarUrl, user);
 
@@ -88,10 +88,40 @@ namespace Eremite.Commands
             else
             {
                 var charactersPulled = await PullAction.ForUserAsyncSave(user, 1);
+                var highestTier = charactersPulled.GetHighestTier();
+
+                var setCharacterGuid = Guid.NewGuid().ToString();
+                var infoAboutCharacterGuid = Guid.NewGuid().ToString();
 
                 await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage,
-                    new DiscordInteractionResponseBuilder().AddEmbed(PullAction.GetEmbedWithCharacters(charactersPulled, user)));
+                    new DiscordInteractionResponseBuilder().AddEmbed(PullAction.GetEmbedWithCharacters(charactersPulled, user))
+                    .AddComponents(
+                        new DiscordButtonComponent(ButtonStyle.Primary, setCharacterGuid, $"Set {highestTier.CharacterName} as Main"),
+                        new DiscordButtonComponent(ButtonStyle.Secondary, infoAboutCharacterGuid, $"Overview {highestTier.CharacterName} info")));
+
+                context.Client.ComponentInteractionCreated += async (client, args) =>
+                {
+                    if (args.User.Id.ToString() != context.User.Id.ToString()) return;
+
+                    if (args.Id == setCharacterGuid) await EquipCharacter(args, user, highestTier);
+                    if (args.Id == infoAboutCharacterGuid) await ShowCharacterStats(args, highestTier);
+                };
             };
+        }
+
+        private async Task EquipCharacter(ComponentInteractionCreateEventArgs args, UserData user, Character highestTier)
+        {
+            SetCharacterAction.Equip(user, highestTier);
+            await DataHandler.SendData(user, new QueryBuilder(user, Data.QueryElement.EquippedCharacter).BuildUpdateQuery());
+            await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage,
+                new DiscordInteractionResponseBuilder().AddEmbed(SetCharacterAction.GetEmbedWithCharacterInfo(highestTier)));
+        }
+
+        private async Task ShowCharacterStats(ComponentInteractionCreateEventArgs args, Character character)
+        {
+            await args.Interaction.CreateResponseAsync(
+                    InteractionResponseType.UpdateMessage,
+                    new DiscordInteractionResponseBuilder().AddEmbed(SetCharacterAction.GetEmbedWithCharacterInfo(character)));
         }
     }
 }

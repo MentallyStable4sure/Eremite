@@ -15,15 +15,15 @@ namespace Eremite.Actions
 
         public static void Dequip(UserData user) => user.EquippedCharacter = null;
 
-        public static DiscordEmbedBuilder GetEmbedWithEquippedCharacter(Character equippedCharacter)
+        public static DiscordEmbedBuilder GetEmbedWithCharacterInfo(Character character)
         {
-            var characterRarityColor = equippedCharacter.GetCorrespondingColor();
+            var characterRarityColor = character.GetCorrespondingColor();
             return new DiscordEmbedBuilder()
             {
                 Color = characterRarityColor,
-                Title = equippedCharacter.CharacterName,
-                ImageUrl = equippedCharacter.ImageAkashaBannerUrl,
-                Description = $" {equippedCharacter.PerkInfo}"
+                Title = character.CharacterName,
+                ImageUrl = character.ImageAkashaBannerUrl,
+                Description = $" {character.PerkInfo}"
             };
         }
     }
