@@ -36,7 +36,7 @@ namespace Eremite.Commands
                 return;
             }
 
-            var updateQuery = new QueryBuilder(user, QueryElement.Wallet, QueryElement.Stats, QueryElement.Events).BuildUpdateQuery();
+            var updateQuery = new QueryBuilder(user, QueryElement.Wallet, QueryElement.Stats, QueryElement.Events, QueryElement.Characters).BuildUpdateQuery();
             await DataHandler.SendData(user, updateQuery);
             await context.RespondAsync(TimeGatedAction.GetEventEmbed(user, randomDaily));
         }
