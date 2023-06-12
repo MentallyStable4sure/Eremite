@@ -54,7 +54,6 @@ namespace Eremite.Commands
             context.Client.ComponentInteractionCreated += async (client, args) =>
             {
                 if (args.User.Id.ToString() != context.User.Id.ToString()) return;
-                Console.WriteLine("xd0");
                 await GoOnAdventure(args, user, buttons.Keys.FirstOrDefault(adventure => adventure.ButtonGuid == args.Id));
             };
 
