@@ -1,0 +1,34 @@
+[
+  {
+    "Region": 1,
+    "ButtonText": "Monstadt",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5236997Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://webstatic.hoyoverse.com/upload/uploadstatic/contentweb/20191028/2019102811550559648.jpg",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 200,
+        "Primogems": 200
+      },
+      "CharactersToAdd": []
+    }
+  },
+  {
+    "Region": 2,
+    "ButtonText": "Inazuma",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5237175Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://assetsio.reedpopcdn.com/genshin-impact-inazuma-sakura.jpg",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 200,
+        "Primogems": 200
+      },
+      "CharactersToAdd": []
+    }
+  }
+]
