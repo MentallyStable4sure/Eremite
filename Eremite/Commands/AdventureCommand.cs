@@ -54,7 +54,11 @@ namespace Eremite.Commands
             context.Client.ComponentInteractionCreated += async (client, args) =>
             {
                 if (args.User.Id.ToString() != context.User.Id.ToString()) return;
-                await GoOnAdventure(args, user, buttons.Keys.FirstOrDefault(adventure => adventure.ButtonGuid == args.Id));
+
+                var adventure = buttons.Keys.FirstOrDefault(adventure => adventure.ButtonGuid == args.Id);
+                if (adventure == null) return;
+
+                await GoOnAdventure(args, user, adventure);
             };
 
             await context.RespondAsync(new DiscordMessageBuilder().WithEmbed(new DiscordEmbedBuilder
