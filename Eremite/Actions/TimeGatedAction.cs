@@ -42,7 +42,10 @@ namespace Eremite.Actions
             if(oldEvent != null) user.Events.Remove(oldEvent); //remove previous event
             user.Events.Add(newEvent); //add the just-ticked event with updated time
 
-            Console.WriteLine($"[EVENT] {newEvent.EventType.ToString()} was triggered by the player {user.Username} | {user.UserId}");
+
+            Console.WriteLine($"[EVENT] {newEvent.EventType} was triggered by the player {user.Username} | {user.UserId}");
+            PerkAction.ApplyPerk(user, newEvent.EventType, newEvent.Award);
+
             user.AddAward(newEvent.Award);
         }
 

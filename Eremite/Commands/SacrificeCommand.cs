@@ -40,7 +40,10 @@ namespace Eremite.Commands
             user.Stats.TotalCharactersSacrificed += 1;
             user.Stats.TotalPillsEarned += matchingCharacter.SellPrice;
 
-            user.AddCurrency(new DiscordWallet(0, 0, matchingCharacter.SellPrice));
+            var award = new Award(new DiscordWallet(0, 0, matchingCharacter.SellPrice));
+            PerkAction.ApplyPerk(user, TimeGatedEventType.None, award);
+
+            user.AddAward(award);
 
             var updateQuery = new QueryBuilder(user, QueryElement.EquippedCharacter, QueryElement.Characters, QueryElement.Wallet, QueryElement.Stats).BuildUpdateQuery();
             await DataHandler.SendData(user, updateQuery);

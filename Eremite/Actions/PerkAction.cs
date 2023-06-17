@@ -14,8 +14,9 @@ namespace Eremite.Actions
         public const int HoursCooldownAdventurePermanent = 1;
         public const int HoursCooldownDailyPermanent = 12;
 
-        public static void ApplyPerk(UserData user, TimeGatedEventType eventType, Perk perk, Award award)
+        public static void ApplyPerk(UserData user, TimeGatedEventType eventType, Award award)
         {
+            var perk = (Perk)user.EquippedCharacter.PerkStat;
 
             switch (perk)
             {
