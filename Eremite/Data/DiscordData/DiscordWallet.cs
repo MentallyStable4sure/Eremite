@@ -6,6 +6,7 @@ namespace Eremite.Data.DiscordData
     {
         public int Mora = 0;
         public int Primogems = 0;
+        public int Pills = 0;
 
 
         public DiscordWallet() { }
@@ -16,6 +17,6 @@ namespace Eremite.Data.DiscordData
             Mora = mora;
         }
 
-        public override string ToString() => $"[{Primogems}] Primogems, [{Mora}] Mora";
+        public override string ToString() => $"[{Primogems}] Primogems, [{Mora}] Mora, [{Pills}] 💊";
     }
 }
