@@ -16,6 +16,7 @@ namespace Eremite.Actions
 
         public static void ApplyPerk(UserData user, TimeGatedEventType eventType, Award award)
         {
+            if (user.EquippedCharacter == null) return;
             var perk = (Perk)user.EquippedCharacter.PerkStat;
 
             switch (perk)
