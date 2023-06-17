@@ -34,7 +34,6 @@ namespace Eremite.Actions
             for (int i = 0; i < numberOfPulls; i++)
             {
                 var star = GetStarByChance(chances);
-                Console.WriteLine(star);
                 var charactersPool = GetCharactersPoolByStar(allCharacter, star);
 
                 user.Wallet.Primogems -= cost;
