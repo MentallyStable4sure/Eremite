@@ -11,6 +11,6 @@ namespace Eremite.Data.DiscordData
         public int PerkStat;
         public string PerkInfo = string.Empty;
         public bool ShouldBeDestroyed = false;
-        public bool ShouldBeDestroyedOnEnroll = false;
+        public int SellPrice = 0;
     }
 }

@@ -23,7 +23,7 @@ namespace Eremite.Actions
                 Color = characterRarityColor,
                 Title = character.CharacterName,
                 ImageUrl = character.ImageAkashaBannerUrl,
-                Description = $" {character.PerkInfo}"
+                Description = $" {character.PerkInfo} | Can be sold sacrificed (!sacrifice) for {character.SellPrice} 💊"
             };
         }
     }

@@ -24,9 +24,10 @@ namespace Eremite.Commands
             var buttons = CreateButtons(context, user);
 
             var currentCharacter = user.EquippedCharacter;
+            var sacrificePrice = currentCharacter == null ? 0 : currentCharacter.SellPrice;
 
             string currentCharacterName = currentCharacter == null ? DefaultNullError : currentCharacter.CharacterName;
-            string profileImageUrl = user.EquippedCharacter == null ? DataHandler.Config.DefaultAkashaImageUrl : user.EquippedCharacter.ImageAkashaBannerUrl;
+            string profileImageUrl = currentCharacter == null ? DataHandler.Config.DefaultAkashaImageUrl : user.EquippedCharacter.ImageAkashaBannerUrl;
 
             string characterBuffInfo = user.EquippedCharacter == null ? "None, use !setcharacter [name] or !pull to get one :)" : user.EquippedCharacter.PerkInfo;
 
@@ -37,7 +38,7 @@ namespace Eremite.Commands
                     Color = DiscordColor.Orange,
                     Title = $"{user.Username}'s profile",
                     ImageUrl = profileImageUrl,
-                    Description = $"[ID:{user.UserId}]\n\n> **Main Character: {currentCharacterName}**" +
+                    Description = $"[ID:{user.UserId}]\n\n> **Main Character: {currentCharacterName} | {sacrificePrice}💊**" +
                     $"\n> Character Buff: {characterBuffInfo}\n\nCharacters Obtained: {user.Characters.ToCharacterList()}" +
                     $"\n\n`Primogems: {user.Wallet.Primogems} | Mora: {user.Wallet.Mora}`"
                 });

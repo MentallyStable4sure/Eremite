@@ -17,6 +17,8 @@ namespace Eremite.Commands
         public DataHandler DataHandler { get; set; }
 
         private List<AdventureEvent> CachedAdventures { get; set; }
+        private UserData userWhoUsedCommand = null;
+        private Dictionary<AdventureEvent, DiscordButtonComponent> buttons = null;
 
         public const string AdventuresConfig = "adventures.json";
         public const TimeGatedEventType AdventuresType = TimeGatedEventType.Adventure;
@@ -28,15 +30,14 @@ namespace Eremite.Commands
         [Command("adventure"), Description("Travel to regions or to a desert with eremites and find mora or akasha knowledge in return")]
         public async Task ShowAdventures(CommandContext context)
         {
-            var user = await DataHandler.GetData(context.User);
-            var previousEvent = TimeGatedAction.GetPreviousEventByType(user, AdventuresType);
+            userWhoUsedCommand = await DataHandler.GetData(context.User);
+            var previousEvent = TimeGatedAction.GetPreviousEventByType(userWhoUsedCommand, AdventuresType);
 
             bool isPossible = true;
 
             if (previousEvent != null) isPossible = TimeGatedAction.CheckTimeGatedEvent(previousEvent);
             if (!isPossible)
             {
-
                 string countdown = previousEvent.LastTimeTriggered.Add(previousEvent.TimeBetweenTriggers).Subtract(DateTime.UtcNow).GetNormalTime();
                 await context.RespondAsync($"> {TimeGatedAction.ErrorByTime}. You can trigger event in {countdown}");
                 return;
@@ -49,24 +50,31 @@ namespace Eremite.Commands
                 return;
             }
             var randomAdventures = FillRandomAdventures(ChoicesPerAdventure);
-            var buttons = CreateButtons(randomAdventures);
-
-            context.Client.ComponentInteractionCreated += async (client, args) =>
-            {
-                if (args.User.Id.ToString() != context.User.Id.ToString()) return;
-                Console.WriteLine("xd0");
-                await GoOnAdventure(args, user, buttons.Keys.FirstOrDefault(adventure => adventure.ButtonGuid == args.Id));
-            };
+            buttons = CreateButtons(randomAdventures);
 
             await context.RespondAsync(new DiscordMessageBuilder().WithEmbed(new DiscordEmbedBuilder
             {
-                Title = $"{user.Username} starts new adventure..",
-                Description = $"{user.Username}'s granpa always said: 'every journey has its final day, dont rush', so {user.Username} thinking about where to go next..",
+                Title = $"{userWhoUsedCommand.Username} starts new adventure..",
+                Description = $"{userWhoUsedCommand.Username}'s granpa always said: 'every journey has its final day, dont rush', so {userWhoUsedCommand.Username} thinking about where to go next..",
                 ImageUrl = AdventuresImage,
                 Color = DiscordColor.Orange
             }).AddComponents(buttons.Values));
+
+            context.Client.ComponentInteractionCreated += InteractionClicked;
         }
-        
+
+        private async Task InteractionClicked(DiscordClient sender, ComponentInteractionCreateEventArgs args)
+        {
+            if (args.User.Id.ToString() != userWhoUsedCommand.UserId.ToString()) return;
+            sender.ComponentInteractionCreated -= InteractionClicked;
+
+            var adventure = buttons.Keys.FirstOrDefault(adventure => adventure.ButtonGuid == args.Id);
+            if (adventure == null) return;
+
+            var previousEvent = TimeGatedAction.GetPreviousEventByType(userWhoUsedCommand, AdventuresType);
+            await GoOnAdventure(args, userWhoUsedCommand, adventure, previousEvent);
+        }
+
         private async Task Save(UserData user)
         {
             var updateQuery = new QueryBuilder(user, QueryElement.Wallet, QueryElement.Stats, QueryElement.Events, QueryElement.Characters).BuildUpdateQuery();
@@ -87,11 +95,12 @@ namespace Eremite.Commands
             return buttons;
         }
 
-        private async Task GoOnAdventure(ComponentInteractionCreateEventArgs args, UserData user, AdventureEvent timeGatedEvent)
+        private async Task GoOnAdventure(ComponentInteractionCreateEventArgs args, UserData user, TimeGatedEvent timeGatedEvent, TimeGatedEvent previousEvent)
         {
             if (timeGatedEvent == null) return;
 
-            TimeGatedAction.TickEvent(user, timeGatedEvent);
+            user.Stats.TimesTraveled++;
+            TimeGatedAction.TickEvent(user, timeGatedEvent, previousEvent);
             await Save(user);
 
             await args.Interaction.CreateResponseAsync(
