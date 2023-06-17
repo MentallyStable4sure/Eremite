@@ -2,6 +2,7 @@
 using Eremite.Data;
 using Eremite.Services;
 using Eremite.Data.DiscordData;
+using System.Threading.Channels;
 
 namespace Eremite.Actions
 {
@@ -26,12 +27,18 @@ namespace Eremite.Actions
 
             if (user.Wallet.Primogems < cost * numberOfPulls) return charactersGot;
 
-            var charactersToPull = DataHandler.CharactersData;
+            var chances = DataHandler.Config.Chances;
+
+            var allCharacter = DataHandler.CharactersData;
 
             for (int i = 0; i < numberOfPulls; i++)
             {
+                var star = GetStarByChance(chances);
+                Console.WriteLine(star);
+                var charactersPool = GetCharactersPoolByStar(allCharacter, star);
+
                 user.Wallet.Primogems -= cost;
-                var pulledCharacter = charactersToPull[Random.Shared.Next(0, charactersToPull.Count)];
+                var pulledCharacter = charactersPool[Random.Shared.Next(0, charactersPool.Count)];
 
                 user.AddPulledCharacter(pulledCharacter);
                 charactersGot.Add(pulledCharacter);
@@ -41,6 +48,28 @@ namespace Eremite.Actions
             user.Stats.TotalPrimogemsSpent += numberOfPulls * cost;
 
             return charactersGot;
+        }
+
+        private List<Character> GetCharactersPoolByStar(List<Character> allCharacters, int star)
+        {
+            return allCharacters.FindAll(character => character.StarsRarity == star);
+        }
+
+        //pseudo random on probability
+        private int GetStarByChance(Dictionary<int, int> chances)
+        {
+            var randomPercent = Random.Shared.Next(0, 101);
+            int starRarity = 3;
+
+            foreach (var percentage in chances)
+            {
+                if (randomPercent > percentage.Value) continue;
+                if (starRarity > percentage.Key) continue;
+
+                starRarity = percentage.Key;
+            }
+            
+            return starRarity;
         }
 
         /// <summary>

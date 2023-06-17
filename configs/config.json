@@ -1,5 +1,13 @@
 {
   "PullCost": 160,
   
+  "Chances":
+  {
+    "4":30,
+    "5":14,
+    "7":6,
+    "10":3
+  },
+
   "DefaultAkashaImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/characters/nochar.png"
 }
