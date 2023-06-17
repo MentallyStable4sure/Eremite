@@ -34,12 +34,15 @@ namespace Eremite.Commands
                 return;
             }
 
-            if (matchingCharacter == user.EquippedCharacter) SetCharacterAction.Dequip(user);
+            if (matchingCharacter.CharacterName == user.EquippedCharacter.CharacterName) SetCharacterAction.Dequip(user);
             user.Characters.Remove(matchingCharacter);
+
+            user.Stats.TotalCharactersSacrificed += 1;
+            user.Stats.TotalPillsEarned += matchingCharacter.SellPrice;
 
             user.AddCurrency(new DiscordWallet(0, 0, matchingCharacter.SellPrice));
 
-            var updateQuery = new QueryBuilder(user, QueryElement.EquippedCharacter, QueryElement.Characters, QueryElement.Wallet).BuildUpdateQuery();
+            var updateQuery = new QueryBuilder(user, QueryElement.EquippedCharacter, QueryElement.Characters, QueryElement.Wallet, QueryElement.Stats).BuildUpdateQuery();
             await DataHandler.SendData(user, updateQuery);
 
             await context.RespondAsync($"{user.Username} sacrificed {matchingCharacter.CharacterName} for {matchingCharacter.SellPrice} 💊");

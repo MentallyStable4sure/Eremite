@@ -43,5 +43,8 @@ namespace Eremite.Commands
 
         [Command("setcharacter"), Description("Sets character as a main equipped character")]
         public async Task SetCharacter(CommandContext context, string name) => await SetCharacter(context, name, string.Empty);
+
+        [Command("set"), Description("Sets character as a main equipped character")]
+        public async Task Set(CommandContext context, string name) => await SetCharacter(context, name, string.Empty);
     }
 }

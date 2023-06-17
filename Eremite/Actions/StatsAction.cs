@@ -17,10 +17,10 @@ namespace Eremite.Actions
 
             return $"[ID:{user.UserId}]\n\n> **Main Character: {equippedCharacter}**" +
                     $"\n> Characters pulled: {user.Characters.Count} | Pulled: {user.Stats.TimesPulled} times" +
-                    $"\n\nTraveled: {user.Stats.TimesTraveled} times | Teapot visited: {user.Stats.TimesTeapotVisited} times" +
+                    $"\n\nTraveled: {user.Stats.TimesTraveled} times | Dailies completed: {user.Stats.TimesDailiesCompleted} times" +
                     $"\nTotal primogems earned/spent: [{user.Stats.TotalPrimogemsEarned}|{user.Stats.TotalPrimogemsSpent}]" +
                     $"\nLargest cashback: {user.Stats.LargestCashback} | Total cashback: {user.Stats.TotalCashback}" +
-                    $"\nEnrolled in ERS: {user.Stats.TimesEremitesRecruitSystemEnrolled} times | Welkin Won: {user.Stats.TimesWelkinWon} times";
+                    $"\nTotal pills earned/spent: [{user.Stats.TotalPillsEarned}|{user.Stats.TotalPillsSpent}] | Welkin Won: {user.Stats.TimesWelkinWon} times";
         }
 
         /// <summary>

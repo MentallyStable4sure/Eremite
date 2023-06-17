@@ -18,12 +18,13 @@ namespace Eremite.Actions
         public static DiscordEmbedBuilder GetEmbedWithCharacterInfo(Character character)
         {
             var characterRarityColor = character.GetCorrespondingColor();
+            string sacrificePrice = character.SellPrice > 0 ? $"\n\n> Can be sacrificed (!sacrifice) for {character.SellPrice} 💊" : string.Empty;
             return new DiscordEmbedBuilder()
             {
                 Color = characterRarityColor,
                 Title = character.CharacterName,
                 ImageUrl = character.ImageAkashaBannerUrl,
-                Description = $" {character.PerkInfo} | Can be sold sacrificed (!sacrifice) for {character.SellPrice} 💊"
+                Description = $" {character.PerkInfo}{sacrificePrice}"
             };
         }
     }
