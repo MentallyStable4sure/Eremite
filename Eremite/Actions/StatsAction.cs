@@ -20,7 +20,7 @@ namespace Eremite.Actions
                     $"\n\nTraveled: {user.Stats.TimesTraveled} times | Dailies completed: {user.Stats.TimesDailiesCompleted} times" +
                     $"\nTotal primogems earned/spent: [{user.Stats.TotalPrimogemsEarned}|{user.Stats.TotalPrimogemsSpent}]" +
                     $"\nLargest cashback: {user.Stats.LargestCashback} | Total cashback: {user.Stats.TotalCashback}" +
-                    $"\nTotal pills earned/spent: [{user.Stats.TotalPillsEarned}|{user.Stats.TotalPillsSpent}] | Welkin Won: {user.Stats.TimesWelkinWon} times";
+                    $"\nTotal pills earned/spent: [{user.Stats.TotalPillsEarned}|{user.Stats.TotalPillsSpent}]";
         }
 
         /// <summary>
