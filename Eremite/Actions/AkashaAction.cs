@@ -39,7 +39,7 @@ namespace Eremite.Actions
                     new DiscordInteractionResponseBuilder().AddEmbed(SetCharacterAction.GetEmbedWithCharacterInfo(character)));
         }
 
-        private async Task SaveDataFromShop(DataHandler dataHandler, UserData user)
+        private static async Task SaveDataFromShop(DataHandler dataHandler, UserData user)
         {
             var query = new QueryBuilder(user, QueryElement.Wallet, QueryElement.Stats, QueryElement.Characters);
             await dataHandler.SendData(user, query.BuildUpdateQuery());
