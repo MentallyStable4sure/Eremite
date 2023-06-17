@@ -34,8 +34,10 @@ namespace Eremite
         {
             user.Wallet.Primogems += wallet.Primogems;
             user.Wallet.Mora += wallet.Mora;
+            user.Wallet.Pills += wallet.Pills;
 
             user.Stats.TotalPrimogemsEarned += wallet.Primogems;
+            user.Stats.TotalPillsEarned += wallet.Pills;
         }
 
         public static void AddAward(this UserData user, Award award)

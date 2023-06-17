@@ -38,9 +38,9 @@ namespace Eremite.Commands
                     Color = DiscordColor.Orange,
                     Title = $"{user.Username}'s profile",
                     ImageUrl = profileImageUrl,
-                    Description = $"[ID:{user.UserId}]\n\n> **Main Character: {currentCharacterName} | {sacrificePrice}💊**" +
+                    Description = $"[ID:{user.UserId}]\n\n> **Main Character: {currentCharacterName}**" +
                     $"\n> Character Buff: {characterBuffInfo}\n\nCharacters Obtained: {user.Characters.ToCharacterList()}" +
-                    $"\n\n`Primogems: {user.Wallet.Primogems} | Mora: {user.Wallet.Mora}`"
+                    $"\n\n`Primogems: {user.Wallet.Primogems} | Mora: {user.Wallet.Mora} | {user.Wallet.Pills} 💊`"
                 });
 
             await context.RespondAsync(messageBuilder);

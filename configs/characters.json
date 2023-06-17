@@ -90,6 +90,16 @@
         "SellPrice": 0
     },
     {
+      "characterName": "Itto",
+        "starsRarity": 7,
+        "imageAkashaBannerUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/characters/akasha_banners/Itto.jpg",
+        "imagePullBannerUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/characters/pull_banners/Itto.gif",
+        "perkStat": 3,
+        "perkInfo": "[The show begins!] Doubles (x2) the primogems but half a mora you receive goes to Kuki Shinobu in order to keep the clan alive",
+        "shouldBeDestroyed": false,
+        "SellPrice": 0
+    },
+    {
       "characterName": "Unknown God",
         "starsRarity": 10,
         "imageAkashaBannerUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/characters/pull_banners/Unknown%20God.gif",
