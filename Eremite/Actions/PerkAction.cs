@@ -5,7 +5,8 @@ namespace Eremite.Actions
 {
     public class PerkAction
     {
-        public const int MinutesCooldownPerCharacter = 10;
+        public const int MinutesCooldownPerCharacterAdventure = 10;
+        public const int MinutesCooldownPerCharacterDaily = 30;
         public const int ChancesPerCharacterResetCDAdventure = 5;
 
         public const float PercentageMaxReset = 0.75f; //75%
@@ -46,12 +47,12 @@ namespace Eremite.Actions
 
                 case Perk.LOWER_ADVENTURE_COOLDOWN_TEAM_DEPENDENT:
                     if (eventType != TimeGatedEventType.Adventure) break;
-                    LowerCooldownTeamDependent(user, eventType);
+                    LowerCooldownTeamDependent(user, eventType, MinutesCooldownPerCharacterAdventure);
                     break;
 
                 case Perk.LOWER_DAILY_COOLDOWN_TEAM_DEPENDENT:
                     if (eventType != TimeGatedEventType.Daily) break;
-                    LowerCooldownTeamDependent(user, eventType);
+                    LowerCooldownTeamDependent(user, eventType, MinutesCooldownPerCharacterDaily);
                     break;
 
                 case Perk.LOWER_ADVENTURE_COOLDOWN_PERMANENT:
@@ -103,9 +104,9 @@ namespace Eremite.Actions
             award.CurrenciesToAdd.Pills *= 2;
         }
 
-        public static void LowerCooldownTeamDependent(UserData user, TimeGatedEventType eventType)
+        public static void LowerCooldownTeamDependent(UserData user, TimeGatedEventType eventType, int minutesPerCharacter)
         {
-            int minutesCooldownDecrease = -1 * (MinutesCooldownPerCharacter * user.Characters.Count);
+            int minutesCooldownDecrease = -1 * (minutesPerCharacter * user.Characters.Count);
             var timeGatedEvent = TimeGatedAction.GetPreviousEventByType(user, eventType);
             var percentageMax = (int)(timeGatedEvent.TimeBetweenTriggers.TotalMinutes * PercentageMaxReset);
             minutesCooldownDecrease = minutesCooldownDecrease > percentageMax ? percentageMax : minutesCooldownDecrease;
