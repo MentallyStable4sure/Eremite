@@ -55,32 +55,21 @@ namespace Eremite.Commands
             var shopGuid = Guid.NewGuid().ToString();
             var statsGuid = Guid.NewGuid().ToString();
 
-            var pullButton = new DiscordButtonComponent(ButtonStyle.Success, pullGuid, "Pull");
-            var shopButton = new DiscordButtonComponent(ButtonStyle.Secondary, shopGuid, "Mora Shop");
-            var statsButton = new DiscordButtonComponent(ButtonStyle.Secondary, statsGuid, "Account Stats");
-
             context.Client.ComponentInteractionCreated += async (client, args) =>
             {
                 if (args.User.Id.ToString() != context.User.Id.ToString()) return;
 
-                if (args.Id == statsGuid) await ShowAccountStats(context, args, user);
+                if (args.Id == statsGuid) await AkashaAction.ShowAccountStats(context, args, user);
                 if (args.Id == pullGuid) await Pull(context, args, user);
+                if (args.Id == shopGuid) await AkashaAction.ShowShop(context, args, user, DataHandler);
             };
 
             return new Dictionary<DiscordButtonComponent, string>()
             {
-                { pullButton, pullGuid },
-                { shopButton, shopGuid },
-                { statsButton, statsGuid }
+                { new DiscordButtonComponent(ButtonStyle.Success, pullGuid, "Pull"), pullGuid },
+                { new DiscordButtonComponent(ButtonStyle.Secondary, shopGuid, "Mora Shop"), shopGuid },
+                { new DiscordButtonComponent(ButtonStyle.Secondary, statsGuid, "Account Stats"), statsGuid }
             };
-        }
-
-        private async Task ShowAccountStats(CommandContext context, ComponentInteractionCreateEventArgs args, UserData user)
-        {
-            var embed = StatsAction.GetEmbedWithStats(context.User.AvatarUrl, user);
-
-            await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage,
-                    new DiscordInteractionResponseBuilder().AddEmbed(embed));
         }
 
         private async Task Pull(CommandContext context, ComponentInteractionCreateEventArgs args, UserData user)
@@ -105,7 +94,7 @@ namespace Eremite.Commands
                     if (args.User.Id.ToString() != context.User.Id.ToString()) return;
 
                     if (args.Id == setCharacterGuid) await EquipCharacter(args, user, highestTier);
-                    if (args.Id == infoAboutCharacterGuid) await ShowCharacterStats(args, highestTier);
+                    if (args.Id == infoAboutCharacterGuid) await AkashaAction.ShowCharacterStats(args, highestTier);
                 };
             };
         }
@@ -116,13 +105,6 @@ namespace Eremite.Commands
             await DataHandler.SendData(user, new QueryBuilder(user, Data.QueryElement.EquippedCharacter).BuildUpdateQuery());
             await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage,
                 new DiscordInteractionResponseBuilder().AddEmbed(SetCharacterAction.GetEmbedWithCharacterInfo(highestTier)));
-        }
-
-        private async Task ShowCharacterStats(ComponentInteractionCreateEventArgs args, Character character)
-        {
-            await args.Interaction.CreateResponseAsync(
-                    InteractionResponseType.UpdateMessage,
-                    new DiscordInteractionResponseBuilder().AddEmbed(SetCharacterAction.GetEmbedWithCharacterInfo(character)));
         }
     }
 }

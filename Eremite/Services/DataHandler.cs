@@ -15,7 +15,7 @@ namespace Eremite.Services
         public const string CharactersDataFile = "characters.json";
 
         public Config Config { get; protected set; }
-        public List<Character> CharactersData { get; protected set; } = new List<Character>();
+        public static List<Character> CharactersData { get; protected set; } = new List<Character>();
 
         public DataHandler()
         {
