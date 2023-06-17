@@ -11,10 +11,11 @@ namespace Eremite.Data.DiscordData
 
         public DiscordWallet() { }
 
-        public DiscordWallet(int primogems, int mora)
+        public DiscordWallet(int primogems, int mora, int pills = 0)
         {
             Primogems = primogems;
             Mora = mora;
+            Pills = pills;
         }
 
         public override string ToString() => $"[{Primogems}] Primogems, [{Mora}] Mora, [{Pills}] 💊";
