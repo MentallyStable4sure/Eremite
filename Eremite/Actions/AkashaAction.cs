@@ -13,25 +13,9 @@ namespace Eremite.Actions
     {
         private UserData _user;
 
-        public AkashaAction(UserData user) => _user = user;
-
-        public async Task ShowShop(CommandContext context, ComponentInteractionCreateEventArgs messageArgs, DataHandler dataHandler)
+        public AkashaAction(UserData user)
         {
-            var dropdown = ShopAction.CreateShopDropdown();
-            var messageBuilder = new DiscordMessageBuilder()
-                .AddComponents(dropdown)
-                .WithEmbed(ShopAction.GetEmbedWithShopInfo());
-
-            context.Client.ComponentInteractionCreated += async (sender, args) =>
-            {
-                if (args.Id != dropdown.CustomId) return;
-                Console.WriteLine(dropdown.CustomId);
-                if (_user.UserId != args.User.Id.ToString()) return;
-                await ShopAction.ShopInteracted(_user, args, async () => await SaveDataFromShop(dataHandler));
-            };
-
-            await messageArgs.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage,
-                new DiscordInteractionResponseBuilder(messageBuilder));
+            _user = user;
         }
 
         public async Task ShowAccountStats(CommandContext context, ComponentInteractionCreateEventArgs args)
@@ -47,12 +31,6 @@ namespace Eremite.Actions
             await args.Interaction.CreateResponseAsync(
                     InteractionResponseType.UpdateMessage,
                     new DiscordInteractionResponseBuilder().AddEmbed(SetCharacterAction.GetEmbedWithCharacterInfo(character)));
-        }
-
-        private async Task SaveDataFromShop(DataHandler dataHandler)
-        {
-            var query = new UserUpdateQueryBuilder(_user, QueryElement.Wallet, QueryElement.Stats, QueryElement.Characters);
-            await dataHandler.SendData(_user, query.Build());
         }
 
         public async Task EquipCharacter(ComponentInteractionCreateEventArgs args, Character highestTier, DataHandler dataHandler)

@@ -1,21 +1,27 @@
 ﻿using DSharpPlus;
+using DSharpPlus.CommandsNext;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
+using Eremite.Base;
 using Eremite.Data.DiscordData;
 using Eremite.Services;
+using System.Collections;
+using System.Linq;
 
 namespace Eremite.Actions
 {
     public class ShopAction
     {
-        public const string DoriShopBannerUrl = "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/Shop.jpg";
-
-        public const string OneHundredPrimosSlotId = "3000mora_to_100primos";
-        public const string SignoraSlotId = "400pills_into_signora";
-        public const string WelkinMoonSlotId = "2000pills_into_welkinmoon";
-        public const string OneHundredPillsSlotId = "10000morainto100pills";
+        public const string DoriShopBannerUrl = "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/shop.jpg";
 
         public const string NotEnoughMaterialsError = "> Not enough materials to buy this item. Try using !adventure, !pull, !daily, etc.";
+
+        private UserData _user;
+
+        public Action<UserData, DoriLot> OnUserBought;
+        public Action<ComponentInteractionCreateEventArgs> OnShopInteracted;
+
+        public ShopAction(UserData user) => _user = user;
 
         public static DiscordEmbedBuilder GetEmbedWithShopInfo()
         {
@@ -28,39 +34,57 @@ namespace Eremite.Actions
             };
         }
 
-        public static DiscordSelectComponent CreateShopDropdown()
+        public Dictionary<Identifier, DiscordSelectComponentOption> CreateShopDropdown(CommandContext context)
         {
-            var options = new List<DiscordSelectComponentOption>()
+            var oneHundredPrimosGuid = Guid.NewGuid().ToString();
+            var crimsonWitchHatGuid = Guid.NewGuid().ToString();
+            var welkinMoonGuid = Guid.NewGuid().ToString();
+            var oneHundredPillsGuid = Guid.NewGuid().ToString();
+
+            var dropdrownOptions = new Dictionary<Identifier, DiscordSelectComponentOption>()
             {
-                new DiscordSelectComponentOption(
+                { new Identifier(oneHundredPrimosGuid, (int)DoriLot.ONE_HUNDRED_PRIMOS), new DiscordSelectComponentOption(
                     "3000 Mora --> 100 Primogems",
-                    OneHundredPrimosSlotId,
+                    oneHundredPrimosGuid,
                     "Thats a great deal, trust Dori!",
-                    emoji: new DiscordComponentEmoji(1113103136991756328)),
-
-                new DiscordSelectComponentOption(
+                    emoji: new DiscordComponentEmoji(1113103136991756328)) },
+                { new Identifier(crimsonWitchHatGuid, (int)DoriLot.CRIMSON_WITCH_HAT), new DiscordSelectComponentOption(
                     "400 Pills --> Crimson Witch Hat",
-                    SignoraSlotId,
+                    crimsonWitchHatGuid,
                     "Will make anyone a pyro witch!",
-                    emoji: new DiscordComponentEmoji(1119701575313653924)),
-
-                new DiscordSelectComponentOption(
+                    emoji: new DiscordComponentEmoji(1119701575313653924)) },
+                { new Identifier(welkinMoonGuid, (int)DoriLot.WELKIN_MOON), new DiscordSelectComponentOption(
                     "2000 Pills --> Welkin Moon",
-                    WelkinMoonSlotId,
+                    welkinMoonGuid,
                     "It will cost u only 1000 if u trade it in our launcher",
-                    emoji: new DiscordComponentEmoji(765128125301915658)),
-
-                new DiscordSelectComponentOption(
+                    emoji: new DiscordComponentEmoji(765128125301915658)) },
+                { new Identifier(oneHundredPillsGuid, (int)DoriLot.ONE_HUNDRED_PILLS), new DiscordSelectComponentOption(
                     "10000 Mora --> 100 Pills",
-                    OneHundredPillsSlotId,
+                    oneHundredPillsGuid,
                     "I love mora! And Mora loves me! Hehe~",
-                    emoji : new DiscordComponentEmoji(1119700330259693629))
+                    emoji : new DiscordComponentEmoji(1119700330259693629)) },
             };
 
-            return new DiscordSelectComponent("dropdown", "Dori will get your item from market", options, false, 1, 4);
+            context.Client.ComponentInteractionCreated += async (client, args) =>
+            {
+                if (args.User.Id.ToString() != _user.UserId) return;
+
+                foreach (var option in dropdrownOptions)
+                {
+                    if (!args.Values.Contains(option.Key.identifier)) continue;
+                    string response = Buy(_user, (DoriLot)option.Key.content);
+
+                    await ShowFeedbackFromShop(response, args);
+                }
+
+                OnShopInteracted?.Invoke(args);
+            };
+
+
+            return dropdrownOptions;
         }
 
-        internal static string Buy(UserData user, DoriLot lot, Action onSuccess = null)
+        internal string Buy(UserData user, DoriLot lot)
         {
             var allCharacters = CharactersHandler.CharactersData;
             switch (lot)
@@ -69,7 +93,7 @@ namespace Eremite.Actions
                     if (user.Wallet.Mora < 3000) return NotEnoughMaterialsError;
                     user.Wallet.Mora -= 3000;
                     user.Wallet.Primogems += 100;
-                    return string.Empty;
+                    break;
                 case DoriLot.CRIMSON_WITCH_HAT:
                     if (user.Wallet.Pills < 400) return NotEnoughMaterialsError;
                     user.Wallet.Pills -= 400;
@@ -88,7 +112,7 @@ namespace Eremite.Actions
                     break;
             }
 
-            onSuccess?.Invoke();
+            OnUserBought?.Invoke(user, lot);
             return string.Empty;
         }
 
@@ -100,33 +124,6 @@ namespace Eremite.Actions
             else message = response;
 
             await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage, new DiscordInteractionResponseBuilder().WithContent(message));
-        }
-
-        public static async Task ShopInteracted(UserData user, ComponentInteractionCreateEventArgs args, Action OnSuccess = null)
-        {
-            if (args.Values.Contains(OneHundredPillsSlotId))
-            {
-                string response = Buy(user, DoriLot.ONE_HUNDRED_PILLS, OnSuccess);
-                await ShowFeedbackFromShop(response, args);
-            }
-
-            if (args.Values.Contains(OneHundredPrimosSlotId))
-            {
-                string response = Buy(user, DoriLot.ONE_HUNDRED_PRIMOS, OnSuccess);
-                await ShowFeedbackFromShop(response, args);
-            }
-
-            if (args.Values.Contains(SignoraSlotId))
-            {
-                string response = Buy(user, DoriLot.CRIMSON_WITCH_HAT, OnSuccess);
-                await ShowFeedbackFromShop(response, args);
-            }
-
-            if (args.Values.Contains(WelkinMoonSlotId))
-            {
-                string response = Buy(user, DoriLot.WELKIN_MOON, OnSuccess);
-                await ShowFeedbackFromShop(response, args);
-            }
         }
     }
 }
