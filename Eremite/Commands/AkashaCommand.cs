@@ -28,14 +28,14 @@ namespace Eremite.Commands
             _action = new AkashaAction(user);
             _layout = new AkashaLayout(user, DataHandler.Config.DefaultAkashaImageUrl);
 
-            var buttons = CreateButtons(context);
+            var buttons = CreateButtons(user, context);
 
             var currentCharacter = CharactersHandler.ConvertId(user.EquippedCharacter);
             var characterIdsConverted = CharactersHandler.ConvertIds(user.Characters);
 
             var messageBuilder = new DiscordMessageBuilder()
                 .AddComponents(buttons.Keys)
-                .WithEmbed(_layout.GetMainAkashaEmbed(characterIdsConverted, currentCharacter);
+                .WithEmbed(_layout.GetMainAkashaEmbed(characterIdsConverted, currentCharacter));
 
             await context.RespondAsync(messageBuilder);
         }
@@ -54,8 +54,8 @@ namespace Eremite.Commands
                 if (args.User.Id.ToString() != user.UserId) return;
 
                 if (args.Id == pullGuid) await Pull(context, args, user);
-                if (args.Id == shopGuid) await _action.ShowShop(context, args, user, DataHandler);
-                if (args.Id == statsGuid) await _action.ShowAccountStats(context, args, user);
+                if (args.Id == shopGuid) await _action.ShowShop(context, args, DataHandler);
+                if (args.Id == statsGuid) await _action.ShowAccountStats(context, args);
             };
 
             return new Dictionary<DiscordButtonComponent, string>()
@@ -87,7 +87,7 @@ namespace Eremite.Commands
                 {
                     if (args.User.Id.ToString() != context.User.Id.ToString()) return;
 
-                    if (args.Id == setCharacterGuid) await _action.EquipCharacter(args, user, highestTier, DataHandler);
+                    if (args.Id == setCharacterGuid) await _action.EquipCharacter(args, highestTier, DataHandler);
                     if (args.Id == infoAboutCharacterGuid) await _action.ShowCharacterStats(args, highestTier);
                 };
             };

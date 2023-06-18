@@ -15,7 +15,7 @@ namespace Eremite.Actions
 
         public AkashaAction(UserData user) => _user = user;
 
-        public async Task ShowShop(CommandContext context, ComponentInteractionCreateEventArgs messageArgs, UserData user, DataHandler dataHandler)
+        public async Task ShowShop(CommandContext context, ComponentInteractionCreateEventArgs messageArgs, DataHandler dataHandler)
         {
             var dropdown = ShopAction.CreateShopDropdown();
             var messageBuilder = new DiscordMessageBuilder()
@@ -26,17 +26,17 @@ namespace Eremite.Actions
             {
                 if (args.Id != dropdown.CustomId) return;
                 Console.WriteLine(dropdown.CustomId);
-                if (user.UserId != args.User.Id.ToString()) return;
-                await ShopAction.ShopInteracted(user, args, async () => await SaveDataFromShop(dataHandler, user));
+                if (_user.UserId != args.User.Id.ToString()) return;
+                await ShopAction.ShopInteracted(_user, args, async () => await SaveDataFromShop(dataHandler));
             };
 
             await messageArgs.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage,
                 new DiscordInteractionResponseBuilder(messageBuilder));
         }
 
-        public async Task ShowAccountStats(CommandContext context, ComponentInteractionCreateEventArgs args, UserData user)
+        public async Task ShowAccountStats(CommandContext context, ComponentInteractionCreateEventArgs args)
         {
-            var embed = StatsAction.GetEmbedWithStats(context.User.AvatarUrl, user);
+            var embed = StatsAction.GetEmbedWithStats(context.User.AvatarUrl, _user);
 
             await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage,
                     new DiscordInteractionResponseBuilder().AddEmbed(embed));
@@ -49,16 +49,16 @@ namespace Eremite.Actions
                     new DiscordInteractionResponseBuilder().AddEmbed(SetCharacterAction.GetEmbedWithCharacterInfo(character)));
         }
 
-        private async Task SaveDataFromShop(DataHandler dataHandler, UserData user)
+        private async Task SaveDataFromShop(DataHandler dataHandler)
         {
-            var query = new UserUpdateQueryBuilder(user, QueryElement.Wallet, QueryElement.Stats, QueryElement.Characters);
-            await dataHandler.SendData(user, query.Build());
+            var query = new UserUpdateQueryBuilder(_user, QueryElement.Wallet, QueryElement.Stats, QueryElement.Characters);
+            await dataHandler.SendData(_user, query.Build());
         }
 
-        public async Task EquipCharacter(ComponentInteractionCreateEventArgs args, UserData user, Character highestTier, DataHandler dataHandler)
+        public async Task EquipCharacter(ComponentInteractionCreateEventArgs args, Character highestTier, DataHandler dataHandler)
         {
-            SetCharacterAction.Equip(user, highestTier);
-            await dataHandler.SendData(user, new UserUpdateQueryBuilder(user, Data.QueryElement.EquippedCharacter).Build());
+            SetCharacterAction.Equip(_user, highestTier);
+            await dataHandler.SendData(_user, new UserUpdateQueryBuilder(_user, QueryElement.EquippedCharacter).Build());
             await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage,
                 new DiscordInteractionResponseBuilder().AddEmbed(SetCharacterAction.GetEmbedWithCharacterInfo(highestTier)));
         }
