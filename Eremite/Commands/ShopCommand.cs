@@ -13,30 +13,24 @@ namespace Eremite.Commands
     {
         public DataHandler DataHandler { get; set; }
 
-        private UserData userWhoUsedShop;
-
         [Command("shop"), Description("Shows the current shop lots and prices from Dori herself.")]
         public async Task ShowShop(CommandContext context)
         {
-            var dropdown = ShopAction.CreateShopDropdown();
+            var user = await DataHandler.GetData(context.User);
+            var shopAction = new ShopAction(user);
 
-            userWhoUsedShop = await DataHandler.GetData(context.User);
+            var options = shopAction.CreateShopDropdown(context);
+            var dropdown = new DiscordSelectComponent("shopdropdown", "Dori will pick your lot from market", options.Values, false, 1, 1);
 
             var messageBuilder = new DiscordMessageBuilder()
                 .AddComponents(dropdown)
                 .WithEmbed(ShopAction.GetEmbedWithShopInfo());
 
-            context.Client.ComponentInteractionCreated += async (sender, args) =>
-            {
-                if (userWhoUsedShop.UserId != args.User.Id.ToString()) return;
-
-                await ShopAction.ShopInteracted(userWhoUsedShop, args, async () => await SaveData(userWhoUsedShop));
-            };
-
+            shopAction.OnUserBought += SaveData;
             await context.RespondAsync(messageBuilder);
         }
 
-        private async Task SaveData(UserData user)
+        private async void SaveData(UserData user, DoriLot lot)
         {
             var query = new UserUpdateQueryBuilder(user, QueryElement.Wallet, QueryElement.Stats, QueryElement.Characters);
             await DataHandler.SendData(user, query.Build());

@@ -46,7 +46,6 @@ namespace Eremite.Commands
         public Dictionary<DiscordButtonComponent, string> CreateButtons(UserData user, CommandContext context)
         {
             var pullGuid = Guid.NewGuid().ToString();
-            var shopGuid = Guid.NewGuid().ToString();
             var statsGuid = Guid.NewGuid().ToString();
 
             context.Client.ComponentInteractionCreated += async (sender, args) =>
@@ -54,14 +53,12 @@ namespace Eremite.Commands
                 if (args.User.Id.ToString() != user.UserId) return;
 
                 if (args.Id == pullGuid) await Pull(context, args, user);
-                if (args.Id == shopGuid) await _action.ShowShop(context, args, DataHandler);
                 if (args.Id == statsGuid) await _action.ShowAccountStats(context, args);
             };
 
             return new Dictionary<DiscordButtonComponent, string>()
             {
                 { new DiscordButtonComponent(ButtonStyle.Success, pullGuid, "Pull"), pullGuid },
-                { new DiscordButtonComponent(ButtonStyle.Secondary, shopGuid, "Mora Shop"), shopGuid },
                 { new DiscordButtonComponent(ButtonStyle.Secondary, statsGuid, "Account Stats"), statsGuid }
             };
         }
