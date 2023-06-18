@@ -12,7 +12,7 @@ namespace Eremite.Actions
 {
     public class ShopAction
     {
-        public const string DoriShopBannerUrl = "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/shop.jpg";
+        public const string DoriShopBannerUrl = "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/dori.jpg";
 
         public const string NotEnoughMaterialsError = "> Not enough materials to buy this item. Try using !adventure, !pull, !daily, etc.";
 
