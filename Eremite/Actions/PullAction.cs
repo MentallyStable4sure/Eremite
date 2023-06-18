@@ -3,6 +3,7 @@ using Eremite.Data;
 using Eremite.Services;
 using Eremite.Data.DiscordData;
 using System.Threading.Channels;
+using Eremite.Builders;
 
 namespace Eremite.Actions
 {
@@ -82,7 +83,7 @@ namespace Eremite.Actions
             var characters = ForUser(user, numberOfPulls);
             if(characters.Count == 0) return characters;
 
-            var updateQuery = new QueryBuilder(user, QueryElement.Characters, QueryElement.Wallet, QueryElement.Stats).BuildUpdateQuery();
+            var updateQuery = new UserUpdateQueryBuilder(user, QueryElement.Characters, QueryElement.Wallet, QueryElement.Stats).Build();
 
             await DataHandler.SendData(user, updateQuery);
 

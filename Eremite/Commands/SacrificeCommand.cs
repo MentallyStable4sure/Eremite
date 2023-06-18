@@ -4,6 +4,7 @@ using Eremite.Actions;
 using Eremite.Services;
 using Eremite.Data;
 using Eremite.Data.DiscordData;
+using Eremite.Builders;
 
 namespace Eremite.Commands
 {
@@ -45,7 +46,7 @@ namespace Eremite.Commands
 
             user.AddAward(award);
 
-            var updateQuery = new QueryBuilder(user, QueryElement.EquippedCharacter, QueryElement.Characters, QueryElement.Wallet, QueryElement.Stats).BuildUpdateQuery();
+            var updateQuery = new UserUpdateQueryBuilder(user, QueryElement.EquippedCharacter, QueryElement.Characters, QueryElement.Wallet, QueryElement.Stats).Build();
             await DataHandler.SendData(user, updateQuery);
 
             await context.RespondAsync($"{user.Username} sacrificed {matchingCharacter.CharacterName} for {matchingCharacter.SellPrice} 💊");

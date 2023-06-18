@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using DSharpPlus.Entities;
 using MySql.Data.MySqlClient;
 using Eremite.Data.DiscordData;
+using Eremite.Builders;
 
 namespace Eremite.Services
 {
@@ -35,7 +36,7 @@ namespace Eremite.Services
 
             string query = string.Empty;
             if (!user.IsValid()) query = QueryHandler.GetUserInsertQuery(user);
-            else query = customQuery != string.Empty ? customQuery : new QueryBuilder(user, QueryElement.All).BuildUpdateQuery();
+            else query = customQuery != string.Empty ? customQuery : new UserUpdateQueryBuilder(user, QueryElement.All).Build();
 
             var updateCommand = new MySqlCommand(query, connector.Connection);
             await updateCommand.ExecuteScalarAsync();
@@ -98,11 +99,17 @@ namespace Eremite.Services
 
         public async void CacheCharacterList()
         {
-            var rawData = await DataGrabber.GrabFromConfigs(CharactersDataFile);
+            if (cachedDbConfig == null) await CacheDatabaseConfig(); //read connection config
 
-            rawData.LogStatus(CharactersDataFile);
+            var connector = new DbConnector(cachedDbConfig); //open connection
+            await connector.ConnectAsync();
 
-            CharactersData = JsonConvert.DeserializeObject<List<Character>>(rawData);
+            //select user from db with matching id
+            var characters = QueryHandler.GetCharacterFromQuery(connector, 0);
+
+            await connector.CloseAndDisposeAsync(); //close connection
+            
+            CharactersData = characters;
         }
     }
 }

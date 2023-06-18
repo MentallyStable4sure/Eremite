@@ -47,7 +47,7 @@
         "perkStat": 0,
         "perkInfo": "[Fate and Balance]",
         "shouldBeDestroyed": false,
-        "SellPrice": 10
+        "SellPrice": 20
     },
     {
         "characterName": "Indarias",
@@ -117,7 +117,7 @@
         "perkStat": 21,
         "perkInfo": "[Sacrifice with Kindness] - your Mora will be converted with 1/1 ratio into primogems from ALL resources (!adventure, !daily, !pull, etc.). But this will not delay poor yakshas fate..",
         "shouldBeDestroyed": true,
-        "SellPrice": 60
+        "SellPrice": 70
     },
     {
         "characterName": "Signora",

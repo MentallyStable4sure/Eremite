@@ -5,6 +5,7 @@ using Eremite.Data.DiscordData;
 using DSharpPlus.EventArgs;
 using Eremite.Services;
 using Eremite.Data;
+using Eremite.Builders;
 
 namespace Eremite.Actions
 {
@@ -18,7 +19,7 @@ namespace Eremite.Actions
                 .AddComponents(dropdown)
                 .WithEmbed(ShopAction.GetEmbedWithShopInfo());
 
-            context.Client.ComponentInteractionCreated += async (sender, args) => await ShopAction.ShopInteracted(user, args, () => SaveDataFromShop(dataHandler, user));
+            context.Client.ComponentInteractionCreated += async (sender, args) => await ShopAction.ShopInteracted(user, args, async () => await SaveDataFromShop(dataHandler, user));
 
             await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage,
                 new DiscordInteractionResponseBuilder(messageBuilder));
@@ -41,8 +42,8 @@ namespace Eremite.Actions
 
         private static async Task SaveDataFromShop(DataHandler dataHandler, UserData user)
         {
-            var query = new QueryBuilder(user, QueryElement.Wallet, QueryElement.Stats, QueryElement.Characters);
-            await dataHandler.SendData(user, query.BuildUpdateQuery());
+            var query = new UserUpdateQueryBuilder(user, QueryElement.Wallet, QueryElement.Stats, QueryElement.Characters);
+            await dataHandler.SendData(user, query.Build());
         }
     }
 }

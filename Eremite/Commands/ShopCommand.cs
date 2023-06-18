@@ -5,6 +5,7 @@ using Eremite.Actions;
 using Eremite.Services;
 using Eremite.Data.DiscordData;
 using Eremite.Data;
+using Eremite.Builders;
 
 namespace Eremite.Commands
 {
@@ -29,7 +30,7 @@ namespace Eremite.Commands
             {
                 if (userWhoUsedShop.UserId != args.User.Id.ToString()) return;
 
-                await ShopAction.ShopInteracted(userWhoUsedShop, args, () => SaveData(userWhoUsedShop));
+                await ShopAction.ShopInteracted(userWhoUsedShop, args, async () => await SaveData(userWhoUsedShop));
             };
 
             await context.RespondAsync(messageBuilder);
@@ -37,8 +38,8 @@ namespace Eremite.Commands
 
         private async Task SaveData(UserData user)
         {
-            var query = new QueryBuilder(user, QueryElement.Wallet, QueryElement.Stats, QueryElement.Characters);
-            await DataHandler.SendData(user, query.BuildUpdateQuery());
+            var query = new UserUpdateQueryBuilder(user, QueryElement.Wallet, QueryElement.Stats, QueryElement.Characters);
+            await DataHandler.SendData(user, query.Build());
         }
     }
 }
