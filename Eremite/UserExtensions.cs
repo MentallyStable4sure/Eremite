@@ -4,26 +4,30 @@ namespace Eremite
 {
     public static class UserExtensions
     {
+        public const int UnsetId = 0;
+
         public static bool IsValid(this UserData user) => user.UserId != null && user.UserId != string.Empty;
 
-        public static void AddPulledCharacter(this UserData user, Character character)
-        {
-            var characters = user.Characters;
-            Character duplicate;
+        public static void AddPulledCharacter(this UserData user, Character character) => AddPulledCharacter(user, character.CharacterId);
 
-            if (characters == null) characters = new List<Character>();
-            if (characters.Count <= 0)
+        public static void AddPulledCharacter(this UserData user, int characterId)
+        {
+            if(user.Characters == null || user.Characters.Count <= 0)
             {
-                characters.Add(character);
+                user.Characters = new List<int>() { characterId };
                 return;
             }
 
-            duplicate = characters.Find(characterSaved => characterSaved.CharacterName == character.CharacterName);
+            if(user.Characters.Contains(characterId)) return;
+            user.Characters.Add(characterId);
+        }
 
-            if (duplicate != null && duplicate.StarsRarity >= 10) user.Characters.Add(duplicate);
-            if (duplicate != null) return;
+        public static void RemovePulledCharacter(this UserData user, Character character) => RemovePulledCharacter(user, character.CharacterId);
 
-            user.Characters.Add(character);
+        public static void RemovePulledCharacter(this UserData user, int characterId)
+        {
+            if (user.EquippedCharacter == characterId) user.EquippedCharacter = 0;
+            user.Characters.Remove(characterId);
         }
 
         public static void ResetWallet(this UserData user) => user.Wallet = new DiscordWallet();
@@ -49,5 +53,9 @@ namespace Eremite
 
             user.AddCurrency(award.CurrenciesToAdd);
         }
+
+        public static bool IsAnyCharacterEquipped(this UserData user) => IsCharacterValid(user.EquippedCharacter);
+
+        public static bool IsCharacterValid(this int id) => id != UnsetId;
     }
 }

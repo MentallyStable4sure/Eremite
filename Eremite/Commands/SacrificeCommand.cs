@@ -16,10 +16,10 @@ namespace Eremite.Commands
         public async Task Sacrifice(CommandContext context, string name, string lastname)
         {
             var user = await DataHandler.GetData(context.User);
+            var characters = CharactersHandler.ConvertIds(user.Characters);
+            var currentCharacter = CharactersHandler.ConvertId(user.EquippedCharacter);
 
-            var matchingCharacter = user
-                .Characters
-            .FirstOrDefault(character =>
+            var matchingCharacter = characters.FirstOrDefault(character =>
                 character.CharacterName.ToLower() == $"{name.ToLower()} {lastname.ToLower()}"
                 || character.CharacterName.ToLower().Contains(name.ToLower()));
 
@@ -35,8 +35,8 @@ namespace Eremite.Commands
                 return;
             }
 
-            if (matchingCharacter.CharacterName == user.EquippedCharacter.CharacterName) SetCharacterAction.Dequip(user);
-            user.Characters.Remove(matchingCharacter);
+            if (matchingCharacter.CharacterName == currentCharacter.CharacterName) SetCharacterAction.Dequip(user);
+            user.RemovePulledCharacter(matchingCharacter);
 
             user.Stats.TotalCharactersSacrificed += 1;
             user.Stats.TotalPillsEarned += matchingCharacter.SellPrice;

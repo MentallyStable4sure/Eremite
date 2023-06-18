@@ -7,13 +7,13 @@ namespace Eremite.Actions
     {
         public static void Equip(UserData user, Character characterToEquip)
         {
-            var ownedCharacter = user.Characters.Find(character => character.CharacterName.ToLower() == characterToEquip.CharacterName.ToLower());
-            if (ownedCharacter == null) return;
+            var ownedCharacter = user.Characters.Find(character => character == characterToEquip.CharacterId);
+            if (!ownedCharacter.IsCharacterValid()) return;
 
             user.EquippedCharacter = ownedCharacter;
         }
 
-        public static void Dequip(UserData user) => user.EquippedCharacter = null;
+        public static void Dequip(UserData user) => user.EquippedCharacter = UserExtensions.UnsetId;
 
         public static DiscordEmbedBuilder GetEmbedWithCharacterInfo(Character character)
         {

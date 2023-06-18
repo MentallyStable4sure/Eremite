@@ -24,13 +24,13 @@ namespace Eremite.Commands
             var user = await DataHandler.GetData(context.User);
             var buttons = CreateButtons(context, user);
 
-            var currentCharacter = user.EquippedCharacter;
-            var sacrificePrice = currentCharacter == null ? 0 : currentCharacter.SellPrice;
+            var currentCharacter = CharactersHandler.ConvertId(user.EquippedCharacter);
+            var characterIdsConverted = CharactersHandler.ConvertIds(user.Characters);
 
             string currentCharacterName = currentCharacter == null ? DefaultNullError : currentCharacter.CharacterName;
-            string profileImageUrl = currentCharacter == null ? DataHandler.Config.DefaultAkashaImageUrl : user.EquippedCharacter.ImageAkashaBannerUrl;
+            string profileImageUrl = currentCharacter == null ? DataHandler.Config.DefaultAkashaImageUrl : currentCharacter.ImageAkashaBannerUrl;
 
-            string characterBuffInfo = user.EquippedCharacter == null ? "None, use !setcharacter [name] or !pull to get one :)" : user.EquippedCharacter.PerkInfo;
+            string characterBuffInfo = currentCharacter == null ? "None, use !setcharacter [name] or !pull to get one :)" : currentCharacter.PerkInfo;
 
             var messageBuilder = new DiscordMessageBuilder()
                 .AddComponents(buttons.Keys)
@@ -40,7 +40,7 @@ namespace Eremite.Commands
                     Title = $"{user.Username}'s profile",
                     ImageUrl = profileImageUrl,
                     Description = $"[ID:{user.UserId}]\n\n> **Main Character: {currentCharacterName}**" +
-                    $"\n> Character Buff: {characterBuffInfo}\n\nCharacters Obtained: {user.Characters.ToCharacterList()}" +
+                    $"\n> Character Buff: {characterBuffInfo}\n\nCharacters Obtained: {characterIdsConverted.ToCharacterList()}" +
                     $"\n\n`Primogems: {user.Wallet.Primogems} | Mora: {user.Wallet.Mora} | {user.Wallet.Pills} 💊`"
                 });
 

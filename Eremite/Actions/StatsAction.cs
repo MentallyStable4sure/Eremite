@@ -1,4 +1,5 @@
 ﻿using DSharpPlus.Entities;
+using Eremite.Services;
 using Eremite.Commands;
 using Eremite.Data.DiscordData;
 
@@ -13,9 +14,9 @@ namespace Eremite.Actions
         /// <returns>already formatted string</returns>
         public static string GetMessageAboutUser(UserData user)
         {
-            var equippedCharacter = user.EquippedCharacter == null ? AkashaCommand.DefaultNullError : user.EquippedCharacter.CharacterName;
+            var currentCharacter = user.IsAnyCharacterEquipped() ? CharactersHandler.ConvertId(user.EquippedCharacter).CharacterName : AkashaCommand.DefaultNullError;
 
-            return $"[ID:{user.UserId}]\n\n> **Main Character: {equippedCharacter}**" +
+            return $"[ID:{user.UserId}]\n\n> **Main Character: {currentCharacter}**" +
                     $"\n> Characters pulled: {user.Characters.Count} | Pulled: {user.Stats.TimesPulled} times" +
                     $"\n\nTraveled: {user.Stats.TimesTraveled} times | Dailies completed: {user.Stats.TimesDailiesCompleted} times" +
                     $"\nTotal primogems earned/spent: [{user.Stats.TotalPrimogemsEarned}|{user.Stats.TotalPrimogemsSpent}]" +

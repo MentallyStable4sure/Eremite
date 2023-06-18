@@ -36,8 +36,8 @@ namespace Eremite.Services
                 user.UserId = reader.GetString("userid");
                 user.Username = reader.GetString("username");
                 user.Wallet = JsonConvert.DeserializeObject<DiscordWallet>(reader.GetString("wallet"));
-                user.Characters = JsonConvert.DeserializeObject<List<Character>>(reader.GetString("characters"));
-                user.EquippedCharacter = JsonConvert.DeserializeObject<Character>(reader.GetString("equippedcharacter"));
+                user.Characters = JsonConvert.DeserializeObject<List<int>>(reader.GetString("characters"));
+                user.EquippedCharacter = reader.GetInt32("equippedcharacter");
                 user.Stats = JsonConvert.DeserializeObject<Stats>(reader.GetString("stats"));
                 user.Events = JsonConvert.DeserializeObject<List<TimeGatedEvent>>(reader.GetString("events"));
             }
@@ -84,7 +84,7 @@ namespace Eremite.Services
         {
             string query = $"INSERT INTO `users`(`userid`, `username`, `wallet`, `characters`, `equippedcharacter`, `stats`, `events`) " +
                 $"VALUES ('{user.UserId}','{user.Username}','{JsonConvert.SerializeObject(user.Wallet)}','{JsonConvert.SerializeObject(user.Characters)}'," +
-                $"'{JsonConvert.SerializeObject(user.EquippedCharacter)}','{JsonConvert.SerializeObject(user.Stats)}','{JsonConvert.SerializeObject(user.Events)}')";
+                $"'{user.EquippedCharacter}','{JsonConvert.SerializeObject(user.Stats)}','{JsonConvert.SerializeObject(user.Events)}')";
 
             return query;
         }

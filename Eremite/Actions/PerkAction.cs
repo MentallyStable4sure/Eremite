@@ -1,4 +1,5 @@
 ﻿
+using Eremite.Services;
 using Eremite.Data.DiscordData;
 
 namespace Eremite.Actions
@@ -16,8 +17,8 @@ namespace Eremite.Actions
 
         public static void ApplyPerk(UserData user, TimeGatedEventType eventType, Award award)
         {
-            if (user.EquippedCharacter == null) return;
-            var perk = (Perk)user.EquippedCharacter.PerkStat;
+            if (!user.IsAnyCharacterEquipped()) return;
+            var perk = (Perk)(CharactersHandler.ConvertId(user.EquippedCharacter).PerkStat);
 
             switch (perk)
             {

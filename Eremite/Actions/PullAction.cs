@@ -2,7 +2,6 @@
 using Eremite.Data;
 using Eremite.Services;
 using Eremite.Data.DiscordData;
-using System.Threading.Channels;
 using Eremite.Builders;
 
 namespace Eremite.Actions
@@ -30,12 +29,10 @@ namespace Eremite.Actions
 
             var chances = DataHandler.Config.Chances;
 
-            var allCharacter = DataHandler.CharactersData;
-
             for (int i = 0; i < numberOfPulls; i++)
             {
                 var star = GetStarByChance(chances);
-                var charactersPool = GetCharactersPoolByStar(allCharacter, star);
+                var charactersPool = GetCharactersPoolByStar(CharactersHandler.CharactersData, star);
 
                 user.Wallet.Primogems -= cost;
                 var pulledCharacter = charactersPool[Random.Shared.Next(0, charactersPool.Count)];

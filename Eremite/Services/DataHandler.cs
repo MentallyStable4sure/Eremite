@@ -16,18 +16,15 @@ namespace Eremite.Services
         public const string CharactersDataFile = "characters.json";
 
         public Config Config { get; protected set; }
-        public static List<Character> CharactersData { get; protected set; } = new List<Character>();
 
-        public DataHandler()
+        public DataHandler(DatabaseConfig cachedDbConfig)
         {
-            CacheMainConfig();
-            CacheCharacterList();
+            this.cachedDbConfig = cachedDbConfig;
+            CacheMainConfig().ConfigureAwait(false);
         }
 
         public async Task SendData(UserData userData, string customQuery = "")
         {
-            if (cachedDbConfig == null) await CacheDatabaseConfig(); //read connection config
-
             var connector = new DbConnector(cachedDbConfig); //open connection
             await connector.ConnectAsync();
 
@@ -49,8 +46,6 @@ namespace Eremite.Services
 
         public async Task<UserData> GetData(DiscordUser discordUser)
         {
-            if (cachedDbConfig == null) await CacheDatabaseConfig(); //read connection config
-
             var connector = new DbConnector(cachedDbConfig); //open connection
             await connector.ConnectAsync();
 
@@ -78,38 +73,14 @@ namespace Eremite.Services
             await updateCommand.ExecuteScalarAsync();
         }
 
-        private async Task CacheDatabaseConfig()
-        {
-            var rawConfig = await DataGrabber.GrabFromConfigs(DbConnector.DbConfig);
 
-            rawConfig.LogStatus(DbConnector.DbConfig);
-
-            cachedDbConfig = JsonConvert.DeserializeObject<DatabaseConfig>(rawConfig);
-        }
-
-
-        public async void CacheMainConfig()
+        public async Task CacheMainConfig()
         {
             var rawData = await DataGrabber.GrabFromConfigs(ConfigFile);
 
             rawData.LogStatus(ConfigFile);
 
             Config = JsonConvert.DeserializeObject<Config>(rawData);
-        }
-
-        public async void CacheCharacterList()
-        {
-            if (cachedDbConfig == null) await CacheDatabaseConfig(); //read connection config
-
-            var connector = new DbConnector(cachedDbConfig); //open connection
-            await connector.ConnectAsync();
-
-            //select user from db with matching id
-            var characters = QueryHandler.GetCharacterFromQuery(connector, 0);
-
-            await connector.CloseAndDisposeAsync(); //close connection
-            
-            CharactersData = characters;
         }
     }
 }
