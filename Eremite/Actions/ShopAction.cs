@@ -62,7 +62,7 @@ namespace Eremite.Actions
 
         internal static string Buy(UserData user, DoriLot lot, Action onSuccess = null)
         {
-            var allCharacters = DataHandler.CharactersData;
+            var allCharacters = CharactersHandler.CharactersData;
             switch (lot)
             {
                 case DoriLot.ONE_HUNDRED_PRIMOS:
@@ -73,7 +73,7 @@ namespace Eremite.Actions
                 case DoriLot.CRIMSON_WITCH_HAT:
                     if (user.Wallet.Pills < 400) return NotEnoughMaterialsError;
                     user.Wallet.Pills -= 400;
-                    user.AddPulledCharacter(allCharacters.Find(character => character.CharacterName.ToLower().Contains("signora")));
+                    user.AddPulledCharacter(allCharacters.Find(character => character.CharacterName.ToLower().Contains("signora")).CharacterId);
                     break;
                 case DoriLot.WELKIN_MOON:
                     if (user.Wallet.Pills < 2000) return NotEnoughMaterialsError;

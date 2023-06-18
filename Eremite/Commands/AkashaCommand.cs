@@ -6,6 +6,7 @@ using DSharpPlus.CommandsNext.Attributes;
 using Eremite.Actions;
 using Eremite.Services;
 using Eremite.Data.DiscordData;
+using Eremite.Layouts;
 
 namespace Eremite.Commands
 {
@@ -17,31 +18,24 @@ namespace Eremite.Commands
         public const string StarSign = "✦";
         public const string DefaultNullError = "None, use !pull to get one.";
 
+        private AkashaAction _action;
+        private AkashaLayout _layout;
+
         [Command("akasha"), Description("Shows the current user profile with the current equipped character, mora and primos")]
         public async Task ShowAkasha(CommandContext context)
         {
             var user = await DataHandler.GetData(context.User);
-            var buttons = CreateButtons(context, user);
+            _action = new AkashaAction(user);
+            _layout = new AkashaLayout(user, DataHandler.Config.DefaultAkashaImageUrl);
 
-            var currentCharacter = user.EquippedCharacter;
-            var sacrificePrice = currentCharacter == null ? 0 : currentCharacter.SellPrice;
+            var buttons = CreateButtons(user, context);
 
-            string currentCharacterName = currentCharacter == null ? DefaultNullError : currentCharacter.CharacterName;
-            string profileImageUrl = currentCharacter == null ? DataHandler.Config.DefaultAkashaImageUrl : user.EquippedCharacter.ImageAkashaBannerUrl;
-
-            string characterBuffInfo = user.EquippedCharacter == null ? "None, use !setcharacter [name] or !pull to get one :)" : user.EquippedCharacter.PerkInfo;
+            var currentCharacter = CharactersHandler.ConvertId(user.EquippedCharacter);
+            var characterIdsConverted = CharactersHandler.ConvertIds(user.Characters);
 
             var messageBuilder = new DiscordMessageBuilder()
                 .AddComponents(buttons.Keys)
-                .WithEmbed(new DiscordEmbedBuilder()
-                {
-                    Color = DiscordColor.Orange,
-                    Title = $"{user.Username}'s profile",
-                    ImageUrl = profileImageUrl,
-                    Description = $"[ID:{user.UserId}]\n\n> **Main Character: {currentCharacterName}**" +
-                    $"\n> Character Buff: {characterBuffInfo}\n\nCharacters Obtained: {user.Characters.ToCharacterList()}" +
-                    $"\n\n`Primogems: {user.Wallet.Primogems} | Mora: {user.Wallet.Mora} | {user.Wallet.Pills} 💊`"
-                });
+                .WithEmbed(_layout.GetMainAkashaEmbed(characterIdsConverted, currentCharacter));
 
             await context.RespondAsync(messageBuilder);
         }
@@ -49,19 +43,19 @@ namespace Eremite.Commands
         [Command("profile"), Description("Shows the current user profile with the current equipped character, mora and primos")]
         public async Task ShowProfile(CommandContext context) => await ShowAkasha(context);
 
-        private Dictionary<DiscordButtonComponent, string> CreateButtons(CommandContext context, UserData user)
+        public Dictionary<DiscordButtonComponent, string> CreateButtons(UserData user, CommandContext context)
         {
             var pullGuid = Guid.NewGuid().ToString();
             var shopGuid = Guid.NewGuid().ToString();
             var statsGuid = Guid.NewGuid().ToString();
 
-            context.Client.ComponentInteractionCreated += async (client, args) =>
+            context.Client.ComponentInteractionCreated += async (sender, args) =>
             {
-                if (args.User.Id.ToString() != context.User.Id.ToString()) return;
+                if (args.User.Id.ToString() != user.UserId) return;
 
-                if (args.Id == statsGuid) await AkashaAction.ShowAccountStats(context, args, user);
                 if (args.Id == pullGuid) await Pull(context, args, user);
-                if (args.Id == shopGuid) await AkashaAction.ShowShop(context, args, user, DataHandler);
+                if (args.Id == shopGuid) await _action.ShowShop(context, args, DataHandler);
+                if (args.Id == statsGuid) await _action.ShowAccountStats(context, args);
             };
 
             return new Dictionary<DiscordButtonComponent, string>()
@@ -93,18 +87,10 @@ namespace Eremite.Commands
                 {
                     if (args.User.Id.ToString() != context.User.Id.ToString()) return;
 
-                    if (args.Id == setCharacterGuid) await EquipCharacter(args, user, highestTier);
-                    if (args.Id == infoAboutCharacterGuid) await AkashaAction.ShowCharacterStats(args, highestTier);
+                    if (args.Id == setCharacterGuid) await _action.EquipCharacter(args, highestTier, DataHandler);
+                    if (args.Id == infoAboutCharacterGuid) await _action.ShowCharacterStats(args, highestTier);
                 };
             };
-        }
-
-        private async Task EquipCharacter(ComponentInteractionCreateEventArgs args, UserData user, Character highestTier)
-        {
-            SetCharacterAction.Equip(user, highestTier);
-            await DataHandler.SendData(user, new QueryBuilder(user, Data.QueryElement.EquippedCharacter).BuildUpdateQuery());
-            await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage,
-                new DiscordInteractionResponseBuilder().AddEmbed(SetCharacterAction.GetEmbedWithCharacterInfo(highestTier)));
         }
     }
 }

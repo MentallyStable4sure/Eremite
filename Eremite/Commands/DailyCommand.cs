@@ -1,6 +1,7 @@
 ﻿using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using Eremite.Actions;
+using Eremite.Builders;
 using Eremite.Data;
 using Eremite.Data.DiscordData;
 using Eremite.Services;
@@ -37,7 +38,7 @@ namespace Eremite.Commands
             }
 
             user.Stats.TimesDailiesCompleted++;
-            var updateQuery = new QueryBuilder(user, QueryElement.Wallet, QueryElement.Stats, QueryElement.Events, QueryElement.Characters).BuildUpdateQuery();
+            var updateQuery = new UserUpdateQueryBuilder(user, QueryElement.Wallet, QueryElement.Stats, QueryElement.Events, QueryElement.Characters).Build();
             await DataHandler.SendData(user, updateQuery);
             await context.RespondAsync(TimeGatedAction.GetEventEmbed(user, randomDaily));
         }

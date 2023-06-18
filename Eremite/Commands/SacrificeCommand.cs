@@ -4,6 +4,7 @@ using Eremite.Actions;
 using Eremite.Services;
 using Eremite.Data;
 using Eremite.Data.DiscordData;
+using Eremite.Builders;
 
 namespace Eremite.Commands
 {
@@ -15,10 +16,10 @@ namespace Eremite.Commands
         public async Task Sacrifice(CommandContext context, string name, string lastname)
         {
             var user = await DataHandler.GetData(context.User);
+            var characters = CharactersHandler.ConvertIds(user.Characters);
+            var currentCharacter = CharactersHandler.ConvertId(user.EquippedCharacter);
 
-            var matchingCharacter = user
-                .Characters
-            .FirstOrDefault(character =>
+            var matchingCharacter = characters.FirstOrDefault(character =>
                 character.CharacterName.ToLower() == $"{name.ToLower()} {lastname.ToLower()}"
                 || character.CharacterName.ToLower().Contains(name.ToLower()));
 
@@ -34,8 +35,8 @@ namespace Eremite.Commands
                 return;
             }
 
-            if (matchingCharacter.CharacterName == user.EquippedCharacter.CharacterName) SetCharacterAction.Dequip(user);
-            user.Characters.Remove(matchingCharacter);
+            if (matchingCharacter.CharacterName == currentCharacter.CharacterName) SetCharacterAction.Dequip(user);
+            user.RemovePulledCharacter(matchingCharacter);
 
             user.Stats.TotalCharactersSacrificed += 1;
             user.Stats.TotalPillsEarned += matchingCharacter.SellPrice;
@@ -45,7 +46,7 @@ namespace Eremite.Commands
 
             user.AddAward(award);
 
-            var updateQuery = new QueryBuilder(user, QueryElement.EquippedCharacter, QueryElement.Characters, QueryElement.Wallet, QueryElement.Stats).BuildUpdateQuery();
+            var updateQuery = new UserUpdateQueryBuilder(user, QueryElement.EquippedCharacter, QueryElement.Characters, QueryElement.Wallet, QueryElement.Stats).Build();
             await DataHandler.SendData(user, updateQuery);
 
             await context.RespondAsync($"{user.Username} sacrificed {matchingCharacter.CharacterName} for {matchingCharacter.SellPrice} 💊");

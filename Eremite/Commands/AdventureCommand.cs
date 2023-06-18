@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using DSharpPlus.Entities;
 using DSharpPlus;
 using DSharpPlus.EventArgs;
+using Eremite.Builders;
 
 namespace Eremite.Commands
 {
@@ -77,7 +78,7 @@ namespace Eremite.Commands
 
         private async Task Save(UserData user)
         {
-            var updateQuery = new QueryBuilder(user, QueryElement.Wallet, QueryElement.Stats, QueryElement.Events, QueryElement.Characters).BuildUpdateQuery();
+            var updateQuery = new UserUpdateQueryBuilder(user, QueryElement.Wallet, QueryElement.Stats, QueryElement.Events, QueryElement.Characters).Build();
             await DataHandler.SendData(user, updateQuery);
         }
 

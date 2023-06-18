@@ -3,6 +3,7 @@ using Eremite.Services;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using Eremite.Data;
+using Eremite.Builders;
 
 namespace Eremite.Commands
 {
@@ -14,10 +15,9 @@ namespace Eremite.Commands
         public async Task SetCharacter(CommandContext context, string name, string lastname)
         {
             var user = await DataHandler.GetData(context.User);
+            var characters = CharactersHandler.ConvertIds(user.Characters);
 
-            var matchingCharacter = user
-                .Characters
-                .FirstOrDefault(character => 
+            var matchingCharacter = characters.FirstOrDefault(character => 
                 character.CharacterName.ToLower() == $"{name.ToLower()} {lastname.ToLower()}" 
                 || character.CharacterName.ToLower().Contains(name.ToLower()));
 
@@ -27,7 +27,7 @@ namespace Eremite.Commands
                 return;
             }
 
-            if(matchingCharacter == user.EquippedCharacter)
+            if(matchingCharacter.CharacterId == user.EquippedCharacter)
             {
                 await context.RespondAsync($"> You already equipped this character, try !akasha to see more info");
                 return;
@@ -35,10 +35,10 @@ namespace Eremite.Commands
 
             SetCharacterAction.Equip(user, matchingCharacter);
 
-            var updateQuery = new QueryBuilder(user, QueryElement.EquippedCharacter).BuildUpdateQuery();
+            var updateQuery = new UserUpdateQueryBuilder(user, QueryElement.EquippedCharacter).Build();
             await DataHandler.SendData(user, updateQuery);
 
-            await context.Message.RespondAsync(SetCharacterAction.GetEmbedWithCharacterInfo(user.EquippedCharacter));
+            await context.Message.RespondAsync(SetCharacterAction.GetEmbedWithCharacterInfo(matchingCharacter));
         }
 
         [Command("setcharacter"), Description("Sets character as a main equipped character")]

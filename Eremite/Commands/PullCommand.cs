@@ -6,6 +6,7 @@ using DSharpPlus.Entities;
 using DSharpPlus;
 using Eremite.Data.DiscordData;
 using DSharpPlus.EventArgs;
+using Eremite.Builders;
 
 namespace Eremite.Commands
 {
@@ -63,7 +64,7 @@ namespace Eremite.Commands
         private async Task SetMainCharacter(ComponentInteractionCreateEventArgs args, UserData user, Character highestTier)
         {
             SetCharacterAction.Equip(user, highestTier);
-            await DataHandler.SendData(user, new QueryBuilder(user, Data.QueryElement.EquippedCharacter).BuildUpdateQuery());
+            await DataHandler.SendData(user, new UserUpdateQueryBuilder(user, Data.QueryElement.EquippedCharacter).Build());
             await args.Interaction.CreateResponseAsync(
                     InteractionResponseType.UpdateMessage,
                     new DiscordInteractionResponseBuilder()
