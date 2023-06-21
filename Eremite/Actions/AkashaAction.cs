@@ -11,32 +11,25 @@ namespace Eremite.Actions
 {
     public class AkashaAction
     {
-        private UserData _user;
-
-        public AkashaAction(UserData user)
+        public static async Task ShowAccountStats(CommandContext context, ComponentInteractionCreateEventArgs args, UserData user)
         {
-            _user = user;
-        }
-
-        public async Task ShowAccountStats(CommandContext context, ComponentInteractionCreateEventArgs args)
-        {
-            var embed = StatsAction.GetEmbedWithStats(context.User.AvatarUrl, _user);
+            var embed = StatsAction.GetEmbedWithStats(context.User.AvatarUrl, user);
 
             await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage,
                     new DiscordInteractionResponseBuilder().AddEmbed(embed));
         }
 
-        public async Task ShowCharacterStats(ComponentInteractionCreateEventArgs args, Character character)
+        public static async Task ShowCharacterStats(ComponentInteractionCreateEventArgs args, Character character)
         {
             await args.Interaction.CreateResponseAsync(
                     InteractionResponseType.UpdateMessage,
                     new DiscordInteractionResponseBuilder().AddEmbed(SetCharacterAction.GetEmbedWithCharacterInfo(character)));
         }
 
-        public async Task EquipCharacter(ComponentInteractionCreateEventArgs args, Character highestTier, DataHandler dataHandler)
+        public static async Task EquipCharacter(ComponentInteractionCreateEventArgs args, Character highestTier, DataHandler dataHandler, UserData user)
         {
-            SetCharacterAction.Equip(_user, highestTier);
-            await dataHandler.SendData(_user, new UserUpdateQueryBuilder(_user, QueryElement.EquippedCharacter).Build());
+            SetCharacterAction.Equip(user, highestTier);
+            await dataHandler.SendData(user, new UserUpdateQueryBuilder(user, QueryElement.EquippedCharacter).Build());
             await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage,
                 new DiscordInteractionResponseBuilder().AddEmbed(SetCharacterAction.GetEmbedWithCharacterInfo(highestTier)));
         }

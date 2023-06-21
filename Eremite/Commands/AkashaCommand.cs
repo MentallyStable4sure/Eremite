@@ -18,14 +18,12 @@ namespace Eremite.Commands
         public const string StarSign = "✦";
         public const string DefaultNullError = "None, use !pull to get one.";
 
-        private AkashaAction _action;
         private AkashaLayout _layout;
 
         [Command("akasha"), Description("Shows the current user profile with the current equipped character, mora and primos")]
         public async Task ShowAkasha(CommandContext context)
         {
             var user = await DataHandler.GetData(context.User);
-            _action = new AkashaAction(user);
             _layout = new AkashaLayout(user, DataHandler.Config.DefaultAkashaImageUrl);
 
             var buttons = CreateButtons(user, context);
@@ -53,7 +51,7 @@ namespace Eremite.Commands
                 if (args.User.Id.ToString() != user.UserId) return;
 
                 if (args.Id == pullGuid) await Pull(context, args, user);
-                if (args.Id == statsGuid) await _action.ShowAccountStats(context, args);
+                if (args.Id == statsGuid) await AkashaAction.ShowAccountStats(context, args, user);
             };
 
             return new Dictionary<DiscordButtonComponent, string>()
@@ -84,8 +82,8 @@ namespace Eremite.Commands
                 {
                     if (args.User.Id.ToString() != context.User.Id.ToString()) return;
 
-                    if (args.Id == setCharacterGuid) await _action.EquipCharacter(args, highestTier, DataHandler);
-                    if (args.Id == infoAboutCharacterGuid) await _action.ShowCharacterStats(args, highestTier);
+                    if (args.Id == setCharacterGuid) await AkashaAction.EquipCharacter(args, highestTier, DataHandler, user);
+                    if (args.Id == infoAboutCharacterGuid) await AkashaAction.ShowCharacterStats(args, highestTier);
                 };
             };
         }
