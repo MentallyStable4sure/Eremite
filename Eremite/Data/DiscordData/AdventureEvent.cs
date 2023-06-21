@@ -1,7 +1,7 @@
 ﻿
 namespace Eremite.Data.DiscordData
 {
-    internal class AdventureEvent : TimeGatedEvent
+    public class AdventureEvent : TimeGatedEvent
     {
         public Region Region;
         public string ButtonText;
