@@ -5,8 +5,6 @@ using DSharpPlus.EventArgs;
 using Eremite.Base;
 using Eremite.Data.DiscordData;
 using Eremite.Services;
-using System.Collections;
-using System.Linq;
 
 namespace Eremite.Actions
 {
