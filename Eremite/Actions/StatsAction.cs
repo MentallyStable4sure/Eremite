@@ -9,7 +9,7 @@ namespace Eremite.Actions
     internal class StatsAction
     {
         public const int BestCounter = 5;
-        public const string TopImage = "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/top.png";
+        public const string TopImage = "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/topusers.png";
 
         public const string PrimogemsEmoji = "<:imf2pbtw:1113103136991756328>";
         public const string PillsEmoji = "<:pillwhite:1119700330259693629>";
