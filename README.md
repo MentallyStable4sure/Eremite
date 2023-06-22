@@ -16,7 +16,7 @@
 
 ### Want a custom DB?
 
- > CUSTOM DB NOTE: If you want to use something other beside MySQL (MSSQL/PostgreSQL/REST/etc.) feel free to modify [DbConnector.cs](Eremite/Services/DbConnector.cs) and [DatabaseConfig.cs](Eremite/Data/DatabaseConfig.cs) since those are the connector and the db credentials model
+ > CUSTOM DB NOTE: If you want to use something other beside MySQL (MSSQL/PostgreSQL/REST/etc.) feel free to modify [DbConnector.cs](Eremite/Services/DbConnector.cs), [QueryHandler.cs](Eremite/Services/QueryHandler.cs) and [DatabaseConfig.cs](Eremite/Data/DatabaseConfig.cs) since those are the connector and the db credentials model
 
   <img src=https://github.com/MentallyStable4sure/Eremite/blob/main/content/img_profile.png width='450'></img>
 
