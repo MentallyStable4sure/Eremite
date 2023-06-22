@@ -67,6 +67,17 @@ namespace Eremite.Services
             return user;
         }
 
+        public async Task<List<UserData>> GetAllUsers()
+        {
+            var connector = new DbConnector(cachedDbConfig); //open connection
+            await connector.ConnectAsync();
+
+            var users = QueryHandler.GetSelectAllUsersQuery(connector);
+
+            await connector.CloseAndDisposeAsync(); //close connection
+            return users;
+        }
+
         private async Task SendDataCustomQuery(string customQuery, DbConnector connector)
         {
             var updateCommand = new MySqlCommand(customQuery, connector.Connection);

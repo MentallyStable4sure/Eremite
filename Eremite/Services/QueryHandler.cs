@@ -46,6 +46,31 @@ namespace Eremite.Services
             return user;
         }
 
+        public static List<UserData> ReadUsersFromQuery(MySqlCommand command)
+        {
+            var users = new List<UserData>();
+
+            var reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                var user = new UserData();
+
+                user.UserId = reader.GetString("userid");
+                user.Username = reader.GetString("username");
+                user.Wallet = JsonConvert.DeserializeObject<DiscordWallet>(reader.GetString("wallet"));
+                user.Characters = JsonConvert.DeserializeObject<List<int>>(reader.GetString("characters"));
+                user.EquippedCharacter = reader.GetInt32("equippedcharacter");
+                user.Stats = JsonConvert.DeserializeObject<Stats>(reader.GetString("stats"));
+                user.Events = JsonConvert.DeserializeObject<List<TimeGatedEvent>>(reader.GetString("events"));
+
+                users.Add(user);
+            }
+
+            reader.Close();
+            return users;
+        }
+
         public static List<Character> ReadCharactersFromQuery(MySqlCommand command)
         {
             var characters = new List<Character>();
@@ -73,11 +98,11 @@ namespace Eremite.Services
             return characters;
         }
 
-        /// <returns>Query string with full user selection (select all rows)</returns>
-        public static string GetSelectUserQuery(string userId)
-        {
-            return $"SELECT * FROM users WHERE userid = {userId}";
-        }
+        /// <returns>Query string with full user selection (select all rows) of a single user</returns>
+        public static string GetSelectUserQuery(string userId) => $"SELECT * FROM users WHERE userid = {userId}";
+
+        /// <returns>Query string with full user selection (select all rows) of all users</returns>
+        public static string GetSelectAllUsersQuery() => "SELECT * FROM users";
 
         /// <returns>Query string for insertion for a completely NEW user (insert all rows)</returns>
         public static string GetUserInsertQuery(UserData user)
@@ -114,6 +139,17 @@ namespace Eremite.Services
             var characters = ReadCharactersFromQuery(selectCommand);
             selectCommand.Dispose();
             return characters;
+        }
+
+        public static List<UserData> GetSelectAllUsersQuery(DbConnector connector)
+        {
+            var users = new List<UserData>();
+            string query = GetSelectAllUsersQuery();
+            var selectCommand = new MySqlCommand(query, connector.Connection);
+
+            users = ReadUsersFromQuery(selectCommand);
+            selectCommand.Dispose();
+            return users;
         }
     }
 }
