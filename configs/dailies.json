@@ -8,7 +8,8 @@
     "Award": {
       "CurrenciesToAdd": {
         "Mora": 160,
-        "Primogems": 460
+        "Primogems": 460,
+        "Pills": 7
       },
       "CharactersToAdd": []
     }
@@ -22,7 +23,38 @@
     "Award": {
       "CurrenciesToAdd": {
         "Mora": 200,
-        "Primogems": 220
+        "Primogems": 220,
+        "Pills": 5
+      },
+      "CharactersToAdd": []
+    }
+  },
+  {
+    "EventType": 1,
+    "LastTimeTriggered": "2022-05-10T11:45:30.2000957Z",
+    "TimeBetweenTriggers": "1.00:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/daily.png",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 360,
+        "Primogems": 260,
+        "Pills": 10
+      },
+      "CharactersToAdd": []
+    }
+  },
+  {
+    "EventType": 1,
+    "LastTimeTriggered": "2022-05-10T11:45:30.2000957Z",
+    "TimeBetweenTriggers": "0.00:30:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/raredaily.png",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 69,
+        "Primogems": 69,
+        "Pills": 69
       },
       "CharactersToAdd": []
     }
