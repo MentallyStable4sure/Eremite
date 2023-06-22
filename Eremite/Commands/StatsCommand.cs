@@ -4,6 +4,7 @@ using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
 using Eremite.Services;
 using Eremite.Actions;
+using Eremite.Data.DiscordData;
 
 namespace Eremite.Commands
 {
@@ -14,8 +15,8 @@ namespace Eremite.Commands
         [Command("stats"), Description("Shows the current user eremite stats such as teapot times visited, daily challenges done, characters pulled, etc.")]
         public async Task ShowStats(CommandContext context)
         {
-            var buttons = CreateButtons(context);
             var user = await DataHandler.GetData(context.User);
+            var buttons = await CreateButtons(user, context);
 
             var messageBuilder = new DiscordMessageBuilder()
                 .AddComponents(buttons.Keys)
@@ -24,20 +25,30 @@ namespace Eremite.Commands
             await context.RespondAsync(messageBuilder);
         }
 
-        private Dictionary<DiscordButtonComponent, string> CreateButtons(CommandContext context)
+        private async Task<Dictionary<DiscordButtonComponent, string>> CreateButtons(UserData user, CommandContext context)
         {
             var topPulls = Guid.NewGuid().ToString();
             var topPrimos = Guid.NewGuid().ToString();
-            var topMora = Guid.NewGuid().ToString();
+            var topPills = Guid.NewGuid().ToString();
 
-            var topPullsButton = new DiscordButtonComponent(ButtonStyle.Success, topPulls, "TOP by Gacha");
+            var topPullsButton = new DiscordButtonComponent(ButtonStyle.Success, topPulls, "TOP by Pulls");
             var topPrimosButton = new DiscordButtonComponent(ButtonStyle.Secondary, topPrimos, "TOP by Primos");
-            var topMoraButton = new DiscordButtonComponent(ButtonStyle.Secondary, topMora, "TOP by Mora");
+            var topPillsButton = new DiscordButtonComponent(ButtonStyle.Secondary, topPills, "TOP by Pills");
+
+
+            context.Client.ComponentInteractionCreated += async (sender, args) =>
+            {
+                if (args.User.Id.ToString() != user.UserId) return;
+
+                if (args.Id == topPulls) await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage, StatsAction.SortUsersInBuilder(await StatsAction.GetTopUsers(DataHandler, SortMethod.Pulls)));
+                if (args.Id == topPrimos) await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage, StatsAction.SortUsersInBuilder(await StatsAction.GetTopUsers(DataHandler, SortMethod.Primogems)));
+                if (args.Id == topPills) await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage, StatsAction.SortUsersInBuilder(await StatsAction.GetTopUsers(DataHandler, SortMethod.Pills)));
+            };
 
             var buttons = new Dictionary<DiscordButtonComponent, string>();
             buttons.Add(topPullsButton, topPulls);
             buttons.Add(topPrimosButton, topPrimos);
-            buttons.Add(topMoraButton, topMora);
+            buttons.Add(topPillsButton, topPills);
 
             return buttons;
         }
