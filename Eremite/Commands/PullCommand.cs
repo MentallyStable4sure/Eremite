@@ -15,8 +15,6 @@ namespace Eremite.Commands
         public DataHandler DataHandler { get; set; }
         public PullAction PullAction { get; set; }
 
-        private List<Character> charactersPulled = new List<Character>();
-
         [Command("pull"), Description("Pull for a character X times")]
         public async Task PullCharacter(CommandContext context, int number)
         {
@@ -25,8 +23,8 @@ namespace Eremite.Commands
             if (user.Wallet.Primogems < DataHandler.Config.PullCost * number) await context.RespondAsync(PullAction.NotEnoughPrimosError);
             else
             {
-                charactersPulled = await PullAction.ForUserAsyncSave(user, number);
-                var buttons = CreateButtons(context, user);
+                var charactersPulled = await PullAction.ForUserAsyncSave(user, number);
+                var buttons = CreateButtons(context, user, charactersPulled.GetHighestTier());
 
                 await context.RespondAsync(new DiscordMessageBuilder()
                     .WithEmbed(PullAction.GetEmbedWithCharacters(charactersPulled, user))
@@ -37,21 +35,20 @@ namespace Eremite.Commands
         [Command("pull"), Description("Pull for a character onces")]
         public async Task PullCharacter(CommandContext context) => await PullCharacter(context, 1);
 
-        private Dictionary<DiscordButtonComponent, string> CreateButtons(CommandContext context, UserData user)
+        private Dictionary<DiscordButtonComponent, string> CreateButtons(CommandContext context, UserData user, Character highestTier)
         {
             var setMainGuid = Guid.NewGuid().ToString();
             var statsGuid = Guid.NewGuid().ToString();
-            var highestTier = charactersPulled.GetHighestTier();
 
             var setMainButton = new DiscordButtonComponent(ButtonStyle.Primary, setMainGuid, $"Set {highestTier.CharacterName} as Main");
             var statsButton = new DiscordButtonComponent(ButtonStyle.Secondary, statsGuid, $"Overview {highestTier.CharacterName} info");
 
             context.Client.ComponentInteractionCreated += async (client, args) =>
             {
-                if (args.User.Id.ToString() != context.User.Id.ToString()) return;
+                if (args.User.Id.ToString() != user.UserId) return;
 
                 if (args.Id == setMainGuid) await SetMainCharacter(args, user, highestTier);
-                if (args.Id == statsGuid) await ShowCharacterStats(args);
+                if (args.Id == statsGuid) await ShowCharacterStats(args, highestTier);
             };
 
             return new Dictionary<DiscordButtonComponent, string>()
@@ -68,15 +65,15 @@ namespace Eremite.Commands
             await args.Interaction.CreateResponseAsync(
                     InteractionResponseType.UpdateMessage,
                     new DiscordInteractionResponseBuilder()
-                    .AddEmbed(SetCharacterAction.GetEmbedWithCharacterInfo(charactersPulled.GetHighestTier())));
+                    .AddEmbed(SetCharacterAction.GetEmbedWithCharacterInfo(highestTier)));
         }
 
-        private async Task ShowCharacterStats(ComponentInteractionCreateEventArgs args)
+        private async Task ShowCharacterStats(ComponentInteractionCreateEventArgs args, Character highestTier)
         {
             await args.Interaction.CreateResponseAsync(
                     InteractionResponseType.UpdateMessage,
                     new DiscordInteractionResponseBuilder()
-                    .AddEmbed(SetCharacterAction.GetEmbedWithCharacterInfo(charactersPulled.GetHighestTier())));
+                    .AddEmbed(SetCharacterAction.GetEmbedWithCharacterInfo(highestTier)));
         }
     }
 }

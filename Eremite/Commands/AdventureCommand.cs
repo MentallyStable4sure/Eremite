@@ -9,30 +9,24 @@ using Newtonsoft.Json;
 using DSharpPlus.Entities;
 using DSharpPlus;
 using DSharpPlus.EventArgs;
-using Eremite.Builders;
+using Eremite.Base;
 
 namespace Eremite.Commands
 {
     public sealed class AdventureCommand : BaseCommandModule
     {
         public DataHandler DataHandler { get; set; }
-
-        private List<AdventureEvent> CachedAdventures { get; set; }
-        private UserData userWhoUsedCommand = null;
-        private Dictionary<AdventureEvent, DiscordButtonComponent> buttons = null;
+        public List<AdventureEvent> CachedAdventures { get; private set; } = null;
 
         public const string AdventuresConfig = "adventures.json";
-        public const TimeGatedEventType AdventuresType = TimeGatedEventType.Adventure;
         public const string AdventuresImage = "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventure.png";
-        public const int ChoicesPerAdventure = 2;
-
-        private AdventureEvent GetRandomAdventure() => CachedAdventures[Random.Shared.Next(0, CachedAdventures.Count)];
 
         [Command("adventure"), Description("Travel to regions or to a desert with eremites and find mora or akasha knowledge in return")]
         public async Task ShowAdventures(CommandContext context)
         {
-            userWhoUsedCommand = await DataHandler.GetData(context.User);
-            var previousEvent = TimeGatedAction.GetPreviousEventByType(userWhoUsedCommand, AdventuresType);
+            var user = await DataHandler.GetData(context.User);
+
+            var previousEvent = TimeGatedAction.GetPreviousEventByType(user, AdventureAction.AdventuresType);
 
             bool isPossible = true;
 
@@ -50,79 +44,45 @@ namespace Eremite.Commands
                 await context.RespondAsync("We dont have places to travel, configure places in adventures.json");
                 return;
             }
-            var randomAdventures = FillRandomAdventures(ChoicesPerAdventure);
-            buttons = CreateButtons(randomAdventures);
+            var randomAdventures = AdventureAction.FillRandomAdventures(CachedAdventures);
+            var buttons = CreateButtons(randomAdventures);
 
             await context.RespondAsync(new DiscordMessageBuilder().WithEmbed(new DiscordEmbedBuilder
             {
-                Title = $"{userWhoUsedCommand.Username} starts new adventure..",
-                Description = $"{userWhoUsedCommand.Username}'s granpa always said: 'every journey has its final day, dont rush', so {userWhoUsedCommand.Username} thinking about where to go next..",
+                Title = $"{user.Username} starts new adventure..",
+                Description = $"{user.Username}'s granpa always said: 'every journey has its final day, dont rush', so {user.Username} thinking about where to go next..",
                 ImageUrl = AdventuresImage,
                 Color = DiscordColor.Orange
             }).AddComponents(buttons.Values));
 
-            context.Client.ComponentInteractionCreated += InteractionClicked;
+            context.Client.ComponentInteractionCreated += async (sender, args) => await InteractionClicked(user, buttons, args);
         }
 
-        private async Task InteractionClicked(DiscordClient sender, ComponentInteractionCreateEventArgs args)
+        private async Task InteractionClicked(UserData user, Dictionary<BaseIdentifier, DiscordButtonComponent> buttons, ComponentInteractionCreateEventArgs args)
         {
-            if (args.User.Id.ToString() != userWhoUsedCommand.UserId.ToString()) return;
-            sender.ComponentInteractionCreated -= InteractionClicked;
+            if (args.User.Id.ToString() != user.UserId) return;
 
-            var adventure = buttons.Keys.FirstOrDefault(adventure => adventure.ButtonGuid == args.Id);
+            var adventure = buttons.Keys.FirstOrDefault(adventure => adventure.identifier == args.Id).content as AdventureEvent;
             if (adventure == null) return;
 
-            var previousEvent = TimeGatedAction.GetPreviousEventByType(userWhoUsedCommand, AdventuresType);
-            await GoOnAdventure(args, userWhoUsedCommand, adventure, previousEvent);
+            var previousEvent = TimeGatedAction.GetPreviousEventByType(user, AdventureAction.AdventuresType);
+            await AdventureAction.GoOnAdventure(DataHandler, args, user, adventure, previousEvent);
         }
 
-        private async Task Save(UserData user)
+        private Dictionary<BaseIdentifier, DiscordButtonComponent> CreateButtons(List<AdventureEvent> adventures)
         {
-            var updateQuery = new UserUpdateQueryBuilder(user, QueryElement.Wallet, QueryElement.Stats, QueryElement.Events, QueryElement.Characters).Build();
-            await DataHandler.SendData(user, updateQuery);
-        }
-
-        private Dictionary<AdventureEvent, DiscordButtonComponent> CreateButtons(List<AdventureEvent> adventures)
-        {
-            var buttons = new Dictionary<AdventureEvent, DiscordButtonComponent>();
+            var buttons = new Dictionary<BaseIdentifier, DiscordButtonComponent>();
 
             foreach (var adventure in adventures)
             {
-                adventure.ButtonGuid = Guid.NewGuid().ToString();
+                var guid = Guid.NewGuid().ToString();
+                var identifier = new BaseIdentifier(guid, adventure);
+                adventure.ButtonGuid = guid.ToString();
                 var button = new DiscordButtonComponent(ButtonStyle.Secondary, adventure.ButtonGuid, adventure.ButtonText);
-                buttons.Add(adventure, button);
+                buttons.Add(identifier, button);
             }
 
             return buttons;
-        }
-
-        private async Task GoOnAdventure(ComponentInteractionCreateEventArgs args, UserData user, TimeGatedEvent timeGatedEvent, TimeGatedEvent previousEvent)
-        {
-            if (timeGatedEvent == null) return;
-
-            user.Stats.TimesTraveled++;
-            TimeGatedAction.TickEvent(user, timeGatedEvent, previousEvent);
-            await Save(user);
-
-            await args.Interaction.CreateResponseAsync(
-                InteractionResponseType.UpdateMessage,
-                new DiscordInteractionResponseBuilder().AddEmbed(TimeGatedAction.GetEventEmbed(user, timeGatedEvent)));
-        }
-
-        private List<AdventureEvent> FillRandomAdventures(int amount)
-        {
-            var randomAdventures = new List<AdventureEvent>();
-            while (randomAdventures.Count < amount)
-            {
-                var randomAdventure = GetRandomAdventure();
-                while (randomAdventures.Find(adventure => adventure.Region == randomAdventure.Region) != null)
-                {
-                    randomAdventure = GetRandomAdventure();
-                }
-
-                randomAdventures.Add(randomAdventure);
-            }
-            return randomAdventures;
         }
 
         private async Task CacheAdventures()

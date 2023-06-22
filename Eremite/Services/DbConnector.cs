@@ -19,7 +19,7 @@ namespace Eremite.Services
 
         public DbConnector(string host, int? port, string database, string username, string password)
         {
-            string connection = $"Server={host};Database={database};port={port};User Id={username};password={password}";
+            string connection = $"Server={host};Port={port};Database={database};Uid={username};Pwd={password}";
 
             var mySqlConnection = new MySqlConnection(connection);
             Connection = mySqlConnection;
