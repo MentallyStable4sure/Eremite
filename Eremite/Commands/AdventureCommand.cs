@@ -62,9 +62,10 @@ namespace Eremite.Commands
         {
             if (args.User.Id.ToString() != user.UserId) return;
 
-            var adventure = buttons.Keys.FirstOrDefault(adventure => adventure.identifier == args.Id).content as AdventureEvent;
+            if (buttons == null || buttons.Keys == null) return;
+            var adventure = buttons.Keys.FirstOrDefault(adventure => adventure.identifier == args.Id)?.content as AdventureEvent;
             if (adventure == null) return;
-
+            
             var previousEvent = TimeGatedAction.GetPreviousEventByType(user, AdventureAction.AdventuresType);
             await AdventureAction.GoOnAdventure(DataHandler, args, user, adventure, previousEvent);
         }
