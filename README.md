@@ -1,5 +1,5 @@
 # C# Discord Bot with MySQL DB on DSharpPlus [.NET 7]
- 2nd version of an [old mini-games Genshin bot](https://github.com/dentalmisorder/genshin-eremite-discordbot). .NET 5+ is suggested. Pull requests are welcomed.
+ 2nd version of an [old mini-games Genshin bot](https://github.com/dentalmisorder/genshin-eremite-discordbot). .NET 7+ is required. Pull requests are welcomed.
 ***
 > [Documentation WIP]
 
