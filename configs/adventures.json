@@ -5,12 +5,79 @@
     "EventType": 2,
     "LastTimeTriggered": "2023-05-11T17:14:46.5236997Z",
     "TimeBetweenTriggers": "03:00:00",
-    "ImageUrl": "https://webstatic.hoyoverse.com/upload/uploadstatic/contentweb/20191028/2019102811550559648.jpg",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/monstadt.png",
     "TimesTicked": 0,
     "Award": {
       "CurrenciesToAdd": {
-        "Mora": 200,
-        "Primogems": 200
+        "Mora": 69,
+        "Primogems": 160,
+        "Pills": 69
+      },
+      "CharactersToAdd": []
+    }
+  },
+  {
+    "Region": 1,
+    "ButtonText": "Monstadt",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5236997Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/monstadt2.png",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 600,
+        "Primogems": 244
+      },
+      "CharactersToAdd": []
+    }
+  },
+  {
+    "Region": 1,
+    "ButtonText": "Monstadt",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5236997Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/monstadt3.png",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 123,
+        "Primogems": 221,
+        "Pills": 14
+      },
+      "CharactersToAdd": []
+    }
+  },
+  {
+    "Region": 1,
+    "ButtonText": "Monstadt",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5236997Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/monstadt4.png",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 473,
+        "Primogems": 243
+      },
+      "CharactersToAdd": []
+    }
+  },
+  {
+    "Region": 1,
+    "ButtonText": "Monstadt",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5236997Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/monstadt5.png",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 250,
+        "Primogems": 180,
+        "Pills": 5
       },
       "CharactersToAdd": []
     }
@@ -21,12 +88,385 @@
     "EventType": 2,
     "LastTimeTriggered": "2023-05-11T17:14:46.5237175Z",
     "TimeBetweenTriggers": "03:00:00",
-    "ImageUrl": "https://assetsio.reedpopcdn.com/genshin-impact-inazuma-sakura.jpg",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/inazuma.gif",
     "TimesTicked": 0,
     "Award": {
       "CurrenciesToAdd": {
-        "Mora": 200,
-        "Primogems": 200
+        "Mora": 660,
+        "Primogems": 160,
+        "Pills": 3
+      },
+      "CharactersToAdd": []
+    }
+  },
+  {
+    "Region": 2,
+    "ButtonText": "Inazuma",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5237175Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/inazuma2.gif",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 160,
+        "Primogems": 360,
+        "Pills": 24
+      },
+      "CharactersToAdd": []
+    }
+  },
+  {
+    "Region": 2,
+    "ButtonText": "Inazuma",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5237175Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/inazuma2.gif",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 0,
+        "Primogems": 161,
+        "Pills": 70
+      },
+      "CharactersToAdd": []
+    }
+  },
+  {
+    "Region": 2,
+    "ButtonText": "Inazuma",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5237175Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/inazuma3.gif",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 1337,
+        "Primogems": 69
+      },
+      "CharactersToAdd": []
+    }
+  },
+  {
+    "Region": 2,
+    "ButtonText": "Inazuma",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5237175Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/inazuma4.gif",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 890,
+        "Primogems": 320,
+        "Pills": 9
+      },
+      "CharactersToAdd": []
+    }
+  },
+  {
+    "Region": 2,
+    "ButtonText": "Inazuma",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5237175Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/inazuma5.gif",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 444,
+        "Primogems": 444,
+        "Pills": 44
+      },
+      "CharactersToAdd": []
+    }
+  },
+  {
+    "Region": 12,
+    "ButtonText": "Watatsumi",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5237175Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/watatsumi.gif",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 738,
+        "Primogems": 784,
+        "Pills": 1
+      },
+      "CharactersToAdd": []
+    }
+  },
+  {
+    "Region": 12,
+    "ButtonText": "Watatsumi",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5237175Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/watatsumi2.gif",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 567,
+        "Primogems": 384,
+        "Pills": 78
+      },
+      "CharactersToAdd": []
+    }
+  },
+  {
+    "Region": 12,
+    "ButtonText": "Watatsumi",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5237175Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/watatsumi3.gif",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 1430,
+        "Primogems": 120,
+        "Pills": 46
+      },
+      "CharactersToAdd": []
+    }
+  },
+  {
+    "Region": 3,
+    "ButtonText": "Liyue",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5237175Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/liyue.gif",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 864,
+        "Primogems": 210,
+        "Pills": 22
+      },
+      "CharactersToAdd": []
+    }
+  },
+  {
+    "Region": 3,
+    "ButtonText": "Liyue",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5237175Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/liyue2.gif",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 1630,
+        "Primogems": 43,
+        "Pills": 42
+      },
+      "CharactersToAdd": []
+    }
+  },
+  {
+    "Region": 3,
+    "ButtonText": "Liyue",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5237175Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/liyue3.gif",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 239,
+        "Primogems": 543,
+        "Pills": 36
+      },
+      "CharactersToAdd": []
+    }
+  },
+  {
+    "Region": 3,
+    "ButtonText": "Liyue",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5237175Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/liyue4.gif",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 10,
+        "Primogems": 610,
+        "Pills": 36
+      },
+      "CharactersToAdd": []
+    }
+  },
+  {
+    "Region": 3,
+    "ButtonText": "Liyue",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5237175Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/liyue5.gif",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 523,
+        "Primogems": 0,
+        "Pills": 99
+      },
+      "CharactersToAdd": []
+    }
+  },
+  {
+    "Region": 5,
+    "ButtonText": "Sumeru",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5237175Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/sumeru.gif",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 832,
+        "Primogems": 63,
+        "Pills": 70
+      },
+      "CharactersToAdd": []
+    }
+  },
+  {
+    "Region": 5,
+    "ButtonText": "Sumeru",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5237175Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/sumeru2.gif",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 1480,
+        "Primogems": 120,
+        "Pills": 1
+      },
+      "CharactersToAdd": []
+    }
+  },
+  {
+    "Region": 5,
+    "ButtonText": "Sumeru",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5237175Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/sumeru3.gif",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 240,
+        "Primogems": 411,
+        "Pills": 18
+      },
+      "CharactersToAdd": []
+    }
+  },
+  {
+    "Region": 5,
+    "ButtonText": "Sumeru",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5237175Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/sumeru4.gif",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 0,
+        "Primogems": 765,
+        "Pills": 22
+      },
+      "CharactersToAdd": []
+    }
+  },
+  {
+    "Region": 5,
+    "ButtonText": "Sumeru",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5237175Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/sumeru5.gif",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 670,
+        "Primogems": 460,
+        "Pills": 5
+      },
+      "CharactersToAdd": []
+    }
+  },
+  {
+    "Region": 10,
+    "ButtonText": "Dragonspine",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5237175Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/dragonspine.gif",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 12,
+        "Primogems": 460,
+        "Pills": 44
+      },
+      "CharactersToAdd": []
+    }
+  },
+  {
+    "Region": 10,
+    "ButtonText": "Dragonspine",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5237175Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/dragonspine2.gif",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 640,
+        "Primogems": 175,
+        "Pills": 24
+      },
+      "CharactersToAdd": []
+    }
+  },
+  {
+    "Region": 10,
+    "ButtonText": "Dragonspine",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5237175Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/dragonspine3.gif",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 1253,
+        "Primogems": 174
+      },
+      "CharactersToAdd": []
+    }
+  },
+  {
+    "Region": 10,
+    "ButtonText": "Dragonspine",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5237175Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/dragonspine4.gif",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 12,
+        "Primogems": 436,
+        "Pills": 66
       },
       "CharactersToAdd": []
     }
