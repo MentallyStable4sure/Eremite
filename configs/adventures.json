@@ -403,5 +403,72 @@
       },
       "CharactersToAdd": []
     }
+  },
+  {
+    "Region": 10,
+    "ButtonText": "Dragonspine",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5237175Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/dragonspine.gif",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 12,
+        "Primogems": 460,
+        "Pills": 44
+      },
+      "CharactersToAdd": []
+    }
+  },
+  {
+    "Region": 10,
+    "ButtonText": "Dragonspine",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5237175Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/dragonspine2.gif",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 640,
+        "Primogems": 175,
+        "Pills": 24
+      },
+      "CharactersToAdd": []
+    }
+  },
+  {
+    "Region": 10,
+    "ButtonText": "Dragonspine",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5237175Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/dragonspine3.gif",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 1253,
+        "Primogems": 174
+      },
+      "CharactersToAdd": []
+    }
+  },
+  {
+    "Region": 10,
+    "ButtonText": "Dragonspine",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5237175Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/dragonspine4.gif",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 12,
+        "Primogems": 436,
+        "Pills": 66
+      },
+      "CharactersToAdd": []
+    }
   }
 ]
