@@ -10,7 +10,7 @@ namespace Eremite.Actions
     {
         public DataHandler DataHandler { get; set; }
 
-        public const string NotEnoughPrimosError = "> Not enough primogems! Try any activities like teapot, travel, etc. to get primogems.";
+        public const string NotEnoughPrimosError = "> Not enough primogems! Try any activities like **!adventure**, **!daily**, etc. to get primogems. (**!help** to see all commands)";
 
         public PullAction(DataHandler dataHandler) => DataHandler = dataHandler;
 
