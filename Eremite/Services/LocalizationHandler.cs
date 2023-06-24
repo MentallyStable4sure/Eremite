@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace Eremite.Services
 {
-    internal class LocalizationHandler
+    public class LocalizationHandler
     {
         private const string LocalizationPacketName = "local.json";
 

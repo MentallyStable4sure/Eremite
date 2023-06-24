@@ -10,6 +10,7 @@ namespace Eremite.Commands
     public sealed class SetCharacterCommand : BaseCommandModule
     {
         public DataHandler DataHandler { get; set; }
+        public LocalizationHandler LocalizationHandler { get; set; }
 
         [Command("setcharacter"), Description("Sets character as a main equipped character")]
         public async Task SetCharacter(CommandContext context, string name, string lastname)

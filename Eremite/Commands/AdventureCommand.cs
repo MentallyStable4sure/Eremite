@@ -16,6 +16,7 @@ namespace Eremite.Commands
     public sealed class AdventureCommand : BaseCommandModule
     {
         public DataHandler DataHandler { get; set; }
+        public LocalizationHandler LocalizationHandler { get; set; }
         public List<AdventureEvent> CachedAdventures { get; private set; } = null;
 
         public const string AdventuresConfig = "adventures.json";

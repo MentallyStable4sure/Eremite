@@ -13,6 +13,7 @@ namespace Eremite.Commands
     public sealed class PullCommand : BaseCommandModule
     {
         public DataHandler DataHandler { get; set; }
+        public LocalizationHandler LocalizationHandler { get; set; }
         public PullAction PullAction { get; set; }
 
         [Command("pull"), Description("Pull for a character X times")]

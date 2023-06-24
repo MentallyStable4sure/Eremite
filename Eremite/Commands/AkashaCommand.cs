@@ -13,6 +13,7 @@ namespace Eremite.Commands
     public sealed class AkashaCommand : BaseCommandModule
     {
         public DataHandler DataHandler { get; set; }
+        public LocalizationHandler LocalizationHandler { get; set; }
         public PullAction PullAction { get; set; }
 
         public const string StarSign = "✦";

@@ -12,6 +12,7 @@ namespace Eremite.Commands
     public sealed class DailyCommand : BaseCommandModule
     {
         public DataHandler DataHandler { get; set; }
+        public LocalizationHandler LocalizationHandler { get; set; }
 
         public List<TimeGatedEvent> CachedDailies { get; protected set; } = null;
 

@@ -11,6 +11,7 @@ namespace Eremite.Commands
     public sealed class SacrificeCommand : BaseCommandModule
     {
         public DataHandler DataHandler { get; set; }
+        public LocalizationHandler LocalizationHandler { get; set; }
 
         [Command("sacrifice"), Description("Sacrifice character for some pills")]
         public async Task Sacrifice(CommandContext context, string name, string lastname)
