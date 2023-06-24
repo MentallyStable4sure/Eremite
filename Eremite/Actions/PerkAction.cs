@@ -102,9 +102,9 @@ namespace Eremite.Actions
 
         public static void DoubleAward(Award award)
         {
-            award.CurrenciesToAdd.Mora *= 2;
-            award.CurrenciesToAdd.Primogems *= 2;
-            award.CurrenciesToAdd.Pills *= 2;
+            DoubleMora(award);
+            DoublePrimos(award);
+            DoublePills(award);
         }
 
         public static void LowerCooldownTeamDependent(UserData user, TimeGatedEventType eventType, int minutesPerCharacter)

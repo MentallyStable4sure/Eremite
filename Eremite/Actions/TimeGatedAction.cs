@@ -31,13 +31,11 @@ namespace Eremite.Actions
         /// <param name="newEvent">Event to get award from and reset timer</param>
         /// <param name="oldEvent">Event to delete (which was used to compare, if it needs to be unique one in the list)</param>
         /// <param name="customAward">If you want to use custom award instead of event one</param>
-        public static void TickEvent(this UserData user, TimeGatedEvent newEvent, TimeGatedEvent oldEvent = null, Award customAward = null)
+        public static void TickEvent(this UserData user, TimeGatedEvent newEvent, TimeGatedEvent oldEvent = null)
         {
             var ticks = oldEvent == null ? newEvent.TimesTicked + 1 : oldEvent.TimesTicked + 1;
             newEvent.TimesTicked = ticks;
             newEvent.LastTimeTriggered = DateTime.UtcNow;
-
-            if(customAward != null) newEvent.Award = customAward;
 
             if(oldEvent != null) user.Events.Remove(oldEvent); //remove previous event
             user.Events.Add(newEvent); //add the just-ticked event with updated time

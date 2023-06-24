@@ -17,7 +17,7 @@ namespace Eremite.Data.DiscordData
         {
             EventType = type;
             TimeBetweenTriggers = timeBetweenTriggers;
-            Award ??= customAward;
+            if (customAward != null) Award = customAward;
 
             LastTimeTriggered = DateTime.UtcNow.AddMonths(-1);
         }

@@ -61,12 +61,17 @@ namespace Eremite.Commands
         private async Task InteractionClicked(UserData user, Dictionary<BaseIdentifier, DiscordButtonComponent> buttons, ComponentInteractionCreateEventArgs args)
         {
             if (args.User.Id.ToString() != user.UserId) return;
-
             if (buttons == null || buttons.Keys == null) return;
+
+            bool isPossible = true;
+
             var adventure = buttons.Keys.FirstOrDefault(adventure => adventure.identifier == args.Id)?.content as AdventureEvent;
             if (adventure == null) return;
             
             var previousEvent = TimeGatedAction.GetPreviousEventByType(user, AdventureAction.AdventuresType);
+            if (previousEvent != null) isPossible = TimeGatedAction.CheckTimeGatedEvent(previousEvent);
+            if (!isPossible) return;
+
             await AdventureAction.GoOnAdventure(DataHandler, args, user, adventure, previousEvent);
         }
 
