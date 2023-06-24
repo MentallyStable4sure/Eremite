@@ -37,7 +37,7 @@ namespace Eremite.Services
         }
 
         //Generate JSON (USE TO CREATE A FIRST-TIME DUMMY)
-        private void GenerateJson()
+        internal void GenerateDummyJson()
         {
             localizationPacket.Add(Language.English, "dummy_key", "Wrong login or password, try again or you might wanna register?");
             localizationPacket.Add(Language.French, "dummy_key", "dummy text about this key");
@@ -46,7 +46,7 @@ namespace Eremite.Services
             localizationPacket.Add(Language.Ukrainian, "dummy_key2", "dummy text about this key");
 
             var rawJson = JsonConvert.SerializeObject(localizationPacket, Formatting.Indented);
-            File.WriteAllText(Directory.GetCurrentDirectory(), rawJson);
+            File.WriteAllText(Path.Combine(Directory.GetCurrentDirectory(), LocalizationPacketName), rawJson);
         }
     }
 }

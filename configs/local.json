@@ -1,0 +1,28 @@
+{
+  "english": [
+    {
+      "key": "dummy_key",
+      "text": "Wrong login or password, try again or you might wanna register?"
+    }
+  ],
+  "french": [
+    {
+      "key": "dummy_key",
+      "text": "dummy text about this key"
+    },
+    {
+      "key": "dummy_key2",
+      "text": "dummy text about this key"
+    }
+  ],
+  "ukrainian": [
+    {
+      "key": "dummy_key",
+      "text": "dummy text about this key"
+    },
+    {
+      "key": "dummy_key2",
+      "text": "dummy text about this key"
+    }
+  ]
+}
