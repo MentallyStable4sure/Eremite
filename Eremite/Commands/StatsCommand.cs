@@ -11,7 +11,6 @@ namespace Eremite.Commands
     public sealed class StatsCommand : BaseCommandModule
     {
         public DataHandler DataHandler { get; set; }
-        public LocalizationHandler LocalizationHandler { get; set; }
 
         [Command("stats"), Description("Shows the current user eremite stats such as teapot times visited, daily challenges done, characters pulled, etc.")]
         public async Task ShowStats(CommandContext context)

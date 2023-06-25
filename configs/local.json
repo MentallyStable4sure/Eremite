@@ -1,8 +1,108 @@
 {
   "english": [
     {
-      "key": "dummy_key",
-      "text": "Wrong login or password, try again or you might wanna register?"
+      "key": "star",
+      "text": "<:Stardust3:1122370119608303716>"
+    },
+    {
+      "key": "trigger_event_timer",
+      "text": "You can trigger event in"
+    },
+    {
+      "key": "event_already_triggered",
+      "text": "You already triggered this event"
+    },
+    {
+      "key": "adventures.no_adventures_found",
+      "text": "We dont have places to travel, configure places in adventures.json"
+    },
+    {
+      "key": "adventures.start_adventure",
+      "text": "goes on an adventure.."
+    },
+    {
+      "key": "adventures.description",
+      "text": "'Every journey has its final day, dont rush', choose where you want to go next."
+    },
+    {
+      "key": "profile.pull_button",
+      "text": "Pull Character"
+    },
+    {
+      "key": "profile.account_stats_button",
+      "text": "Account Stats"
+    },
+    {
+      "key": "profile.user_profile",
+      "text": "profile"
+    },
+    {
+      "key": "profile.main_character",
+      "text": "Main Character:"
+    },
+    {
+      "key": "profile.character_buff",
+      "text": "Character Buff:"
+    },
+    {
+      "key": "profile.characters_obtained",
+      "text": "Characters Obtained:"
+    },
+    {
+      "key": "pull.set_new_char_as_main",
+      "text": "Set this character as main"
+    },
+    {
+      "key": "pull.overview_new_char_info",
+      "text": "Overview this character info"
+    },
+    {
+      "key": "pull.wish",
+      "text": "wished for a character.."
+    },
+    {
+      "key": "mora",
+      "text": "<:mora2:1122373137443598417>"
+    },
+    {
+      "key": "primos",
+      "text": "<:imf2pbtw:1113103136991756328>"
+    },
+    {
+      "key": "pills",
+      "text": "<:pillwhite:1119700330259693629>"
+    },
+    {
+      "key": "not_enough_currency",
+      "text": "Not enough currency! Try any activities like `!adventure`, `!daily`, etc. to get currency. (`!help` to see all commands)"
+    },
+    {
+      "key": "sacrifice.character_not_found",
+      "text": "I didnt find this character in your character list, try calling it by name?"
+    },
+    {
+      "key": "sacrifice.error",
+      "text": "Cant sacrifice this character or sacrifice price is zero"
+    },
+    {
+      "key": "sacrifice.sacrificed",
+      "text": "sacrificed"
+    },
+    {
+      "key": "setcharacter.not_found",
+      "text": "I didnt find this character in your character list, try calling it by name?"
+    },
+    {
+      "key": "setcharacter.already_equipped",
+      "text": "You already equipped this character, try `!akasha` or `!profile` to see more info"
+    },
+    {
+      "key": "setcharacter.char_can_be_sacrificed",
+      "text": "Can be sacrificed `!sacrifice`"
+    },
+    {
+      "key": "setcharacter.no_main_character",
+      "text": "None, use `!set [name]` or `!pull`"
     }
   ],
   "french": [
@@ -17,12 +117,104 @@
   ],
   "ukrainian": [
     {
-      "key": "dummy_key",
-      "text": "dummy text about this key"
+      "key": "star",
+      "text": "<:Stardust3:1122370119608303716>"
     },
     {
-      "key": "dummy_key2",
-      "text": "dummy text about this key"
+      "key": "adventures.trigger_event_timer",
+      "text": "Знову розпочати подію можна через"
+    },
+    {
+      "key": "adventures.event_already_triggered",
+      "text": "Ти нещодавно був на цій події"
+    },
+    {
+      "key": "adventures.no_adventures_found",
+      "text": "Нема що розпочинати, відредагуй будь ласочка adventures.json"
+    },
+    {
+      "key": "adventures.start_adventure",
+      "text": "розпочинає свій тяжкий шлях.."
+    },
+    {
+      "key": "adventures.description",
+      "text": "'Кожна подорож має свій кінець, не поспішай, друже', дбайливо обирай де почнеш подорож."
+    },
+    {
+      "key": "profile.pull_button",
+      "text": "Загадати бажання"
+    },
+    {
+      "key": "profile.account_stats_button",
+      "text": "Статистика аккаунту"
+    },
+    {
+      "key": "profile.user_profile",
+      "text": "відкриває сторінку"
+    },
+    {
+      "key": "profile.main_character",
+      "text": "Головний персонаж:"
+    },
+    {
+      "key": "profile.character_buff",
+      "text": "Вміння персонажа:"
+    },
+    {
+      "key": "profile.characters_obtained",
+      "text": "Мої персонажі:"
+    },
+    {
+      "key": "pull.set_new_char_as_main",
+      "text": "Зробити головним персонажем"
+    },
+    {
+      "key": "pull.overview_new_char_info",
+      "text": "Оглянути персонажа"
+    },
+    {
+      "key": "mora",
+      "text": "<:mora2:1122373137443598417>"
+    },
+    {
+      "key": "primos",
+      "text": "<:imf2pbtw:1113103136991756328>"
+    },
+    {
+      "key": "pills",
+      "text": "<:pillwhite:1119700330259693629>"
+    },
+    {
+      "key": "not_enough_currency",
+      "text": "Не достає валюти! Спробуй активності, наприклад `!adventure`, `!daily`. (`!help` щоб побачити усі команди)"
+    },
+    {
+      "key": "sacrifice.character_not_found",
+      "text": "Не вдалось знайти цього персонажа у твоєму списку персонажів, спробуй інше ім'я?"
+    },
+    {
+      "key": "sacrifice.error",
+      "text": "Неможливо пожертвувати цим персонажем або його ціна дорівнює 0"
+    },
+    {
+      "key": "sacrifice.sacrificed",
+      "text": "жертвує"
+    },
+    {
+      "key": "setcharacter.not_found",
+      "text": "Не вдалось знайти цього персонажа у твоєму списку персонажів, спробуй інше ім'я?"
+    },
+    {
+      "key": "setcharacter.already_equipped",
+      "text": "Цей персонаж вже головний, подивись у `!akasha` або `!profile`"
+    },
+    {
+      "key": "setcharacter.char_can_be_sacrificed",
+      "text": "Можна пожертвувати через `!sacrifice`"
+    },
+    {
+      "key": "setcharacter.no_main_character",
+      "text": "Немає, спробуй `!set [ім'я персонажа]` або `!pull`"
     }
   ]
 }

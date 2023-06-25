@@ -12,7 +12,6 @@ namespace Eremite.Commands
     public sealed class DailyCommand : BaseCommandModule
     {
         public DataHandler DataHandler { get; set; }
-        public LocalizationHandler LocalizationHandler { get; set; }
 
         public List<TimeGatedEvent> CachedDailies { get; protected set; } = null;
 
@@ -34,7 +33,7 @@ namespace Eremite.Commands
             {
                 var previousEvent = user.GetPreviousEventByType(DailyType);
                 string countdown = previousEvent.LastTimeTriggered.Add(previousEvent.TimeBetweenTriggers).Subtract(DateTime.UtcNow).GetNormalTime();
-                await context.RespondAsync($"> {TimeGatedAction.ErrorByTime}. You can trigger event in {countdown}");
+                await context.RespondAsync($"> {Localization.GetText(TimeGatedAction.eventAlreadyTriggered)}. {Localization.GetText(TimeGatedAction.triggerTimeSuggestion)} {countdown}");
                 return;
             }
 

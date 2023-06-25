@@ -10,7 +10,9 @@ namespace Eremite.Commands
     public sealed class SetCharacterCommand : BaseCommandModule
     {
         public DataHandler DataHandler { get; set; }
-        public LocalizationHandler LocalizationHandler { get; set; }
+
+        private readonly string characterNotFound = "setcharacter.not_found";
+        private readonly string alreadyEquipped = "setcharacter.already_equipped";
 
         [Command("setcharacter"), Description("Sets character as a main equipped character")]
         public async Task SetCharacter(CommandContext context, string name, string lastname)
@@ -24,13 +26,13 @@ namespace Eremite.Commands
 
             if(matchingCharacter == null)
             {
-                await context.RespondAsync($"> I didnt find this character in your character list, try calling it by name?");
+                await context.RespondAsync($"> {Localization.GetText(characterNotFound)}");
                 return;
             }
 
             if(matchingCharacter.CharacterId == user.EquippedCharacter)
             {
-                await context.RespondAsync($"> You already equipped this character, try !akasha to see more info");
+                await context.RespondAsync($"> {Localization.GetText(alreadyEquipped)}");
                 return;
             }
 

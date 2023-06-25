@@ -4,21 +4,33 @@ using Newtonsoft.Json;
 
 namespace Eremite.Services
 {
-    public class LocalizationHandler
+    public class Localization
     {
         private const string LocalizationPacketName = "local.json";
 
-        protected LocalizationPacket localizationPacket = new LocalizationPacket();
+        public const string MoraKey = "mora";
+        public const string PrimosKey = "primos";
+        public const string PillsKey = "pills";
+        public const string StarKey = "star";
 
-        public Language CurrentLanguage { get; protected set; } = Language.English;
+        public const string NoCurrencyKey = "not_enough_currency";
+
+        protected static LocalizationPacket localizationPacket = new LocalizationPacket();
+
+        public static Language CurrentLanguage { get; protected set; } = Language.English;
 
         public event Action<Language> OnLanguageChanged;
 
         internal async Task InitPacketAsync() => await LoadJson();
 
-        public string GetTextBasedOnLanguage(string key) => localizationPacket.GetText(CurrentLanguage, key);
+        /// <summary>
+        /// Gets Text based on current <see cref="Language"/>
+        /// </summary>
+        /// <param name="key">Key to search</param>
+        /// <returns>language-ready string</returns>
+        public static string GetText(string key) => localizationPacket.GetText(CurrentLanguage, key);
 
-        private async Task LoadJson()
+        public async Task LoadJson()
         {
             var jsonRawData = await DataGrabber.GrabFromConfigs(LocalizationPacketName);
 

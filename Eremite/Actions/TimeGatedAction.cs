@@ -5,7 +5,8 @@ namespace Eremite.Actions
 {
     public static class TimeGatedAction
     {
-        public const string ErrorByTime = "> You already triggered this event.";
+        public const string eventAlreadyTriggered = "event_already_triggered";
+        public const string triggerTimeSuggestion = "trigger_event_timer";
 
         /// <summary>
         /// Shows if this event could be ticked (eg. is needed time passed)
@@ -87,7 +88,7 @@ namespace Eremite.Actions
                 Color = DiscordColor.Purple,
                 Title = $"{user.Username} triggered {timeGatedEvent.EventType} event",
                 ImageUrl = timeGatedEvent.ImageUrl,
-                Description = $"{user.Username} found {characters} and collected {award.CurrenciesToAdd}"
+                Description = $"{user.Username} meet {characters} and collected {award.CurrenciesToAdd}"
             };
         }
     }

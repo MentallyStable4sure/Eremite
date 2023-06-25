@@ -21,7 +21,7 @@ namespace Eremite.Actions
         /// <returns>already formatted string</returns>
         public static string GetMessageAboutUser(UserData user)
         {
-            var currentCharacter = user.IsAnyCharacterEquipped() ? CharactersHandler.ConvertId(user.EquippedCharacter).CharacterName : AkashaCommand.DefaultNullError;
+            var currentCharacter = user.IsAnyCharacterEquipped() ? CharactersHandler.ConvertId(user.EquippedCharacter).CharacterName : Localization.GetText(SetCharacterAction.noMainCharacter);
 
             return $"[ID:{user.UserId}]\n\n> **Main Character: {currentCharacter}**" +
                     $"\n> Characters pulled: {user.Characters.Count} | Pulled: {user.Stats.TimesPulled} times" +

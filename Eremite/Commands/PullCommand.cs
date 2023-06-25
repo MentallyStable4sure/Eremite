@@ -13,15 +13,17 @@ namespace Eremite.Commands
     public sealed class PullCommand : BaseCommandModule
     {
         public DataHandler DataHandler { get; set; }
-        public LocalizationHandler LocalizationHandler { get; set; }
         public PullAction PullAction { get; set; }
+
+        private readonly string overviewKey = "pull.set_new_char_as_main";
+        private readonly string setKey = "pull.overview_new_char_info";
 
         [Command("pull"), Description("Pull for a character X times")]
         public async Task PullCharacter(CommandContext context, int number)
         {
             var user = await DataHandler.GetData(context.User);
 
-            if (user.Wallet.Primogems < DataHandler.Config.PullCost * number) await context.RespondAsync(PullAction.NotEnoughPrimosError);
+            if (user.Wallet.Primogems < DataHandler.Config.PullCost * number) await context.RespondAsync($"> {Localization.NoCurrencyKey}");
             else
             {
                 var charactersPulled = await PullAction.ForUserAsyncSave(user, number);
@@ -41,8 +43,8 @@ namespace Eremite.Commands
             var setMainGuid = Guid.NewGuid().ToString();
             var statsGuid = Guid.NewGuid().ToString();
 
-            var setMainButton = new DiscordButtonComponent(ButtonStyle.Primary, setMainGuid, $"Set {highestTier.CharacterName} as Main");
-            var statsButton = new DiscordButtonComponent(ButtonStyle.Secondary, statsGuid, $"Overview {highestTier.CharacterName} info");
+            var setMainButton = new DiscordButtonComponent(ButtonStyle.Primary, setMainGuid, Localization.GetText(setKey));
+            var statsButton = new DiscordButtonComponent(ButtonStyle.Secondary, statsGuid, Localization.GetText(overviewKey));
 
             context.Client.ComponentInteractionCreated += async (client, args) =>
             {

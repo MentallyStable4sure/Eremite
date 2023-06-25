@@ -12,7 +12,6 @@ namespace Eremite.Commands
     public sealed class ShopCommand : BaseCommandModule
     {
         public DataHandler DataHandler { get; set; }
-        public LocalizationHandler LocalizationHandler { get; set; }
 
         [Command("shop"), Description("Shows the current shop lots and prices from Dori herself.")]
         public async Task ShowShop(CommandContext context)
