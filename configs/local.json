@@ -5,11 +5,43 @@
       "text": "<:Stardust3:1122370119608303716>"
     },
     {
-      "key": "trigger_event_timer",
+      "key": "mora",
+      "text": "<:mora2:1122373137443598417>"
+    },
+    {
+      "key": "primos",
+      "text": "<:imf2pbtw:1113103136991756328>"
+    },
+    {
+      "key": "pills",
+      "text": "<:pillwhite:1119700330259693629>"
+    },
+    {
+      "key": "events.triggered",
+      "text": "triggered"
+    },
+    {
+      "key": "events.event_key",
+      "text": "event"
+    },
+    {
+      "key": "events.meet",
+      "text": "meets"
+    },
+    {
+      "key": "events.meet0characters",
+      "text": "0 Characters"
+    },
+    {
+      "key": "events.collected",
+      "text": "and collected"
+    },
+    {
+      "key": "events.trigger_event_timer",
       "text": "You can trigger event in"
     },
     {
-      "key": "event_already_triggered",
+      "key": "events.already_triggered",
       "text": "You already triggered this event"
     },
     {
@@ -61,18 +93,6 @@
       "text": "wished for a character.."
     },
     {
-      "key": "mora",
-      "text": "<:mora2:1122373137443598417>"
-    },
-    {
-      "key": "primos",
-      "text": "<:imf2pbtw:1113103136991756328>"
-    },
-    {
-      "key": "pills",
-      "text": "<:pillwhite:1119700330259693629>"
-    },
-    {
       "key": "not_enough_currency",
       "text": "Not enough currency! Try any activities like `!adventure`, `!daily`, etc. to get currency. (`!help` to see all commands)"
     },
@@ -103,6 +123,74 @@
     {
       "key": "setcharacter.no_main_character",
       "text": "None, use `!set [name]` or `!pull`"
+    },
+    {
+      "key": "shop.welcome",
+      "text": "Dori's ~~jaw droppin prices~~ brilliant shop!"
+    },
+    {
+      "key": "shop.description",
+      "text": "For explosive discounts, go to http://mentallystable4sure.dev and visit the 'Alcazarzaray Palace' which is exclusively avaliable in MS Launcher."
+    },
+    {
+      "key": "shop.input_placeholder",
+      "text": "Dori will pick your lot from market"
+    },
+    {
+      "key": "shop.lot_unavaliable",
+      "text": "Lot currently unavaliable... Sorry."
+    },
+    {
+      "key": "shop.lot_bought",
+      "text": "Successfully bought item"
+    },
+    {
+      "key": "shop.lot.100primogems",
+      "text": "Thats a great deal, trust Dori!"
+    },
+    {
+      "key": "shop.lot.crimson_witch_hat",
+      "text": "Will make anyone a pyro witch!"
+    },
+    {
+      "key": "shop.lot.welkin_moon",
+      "text": "Visit my Palace which is exclusive in MS Launcher"
+    },
+    {
+      "key": "shop.lot.100pills",
+      "text": "I love mora! And Mora loves me! Hehe~"
+    },
+    {
+      "key": "stats.top.by_pulls",
+      "text": "TOP Users by pulls"
+    },
+    {
+      "key": "stats.top.by_primos",
+      "text": "TOP Users by primogems"
+    },
+    {
+      "key": "stats.top.by_pills",
+      "text": "TOP Users by pills"
+    },
+    {
+      "key": "stats.times_pulled",
+      "text": "Times pulled:"
+    },
+    {
+      "key": "stats.times_traveled",
+      "text": "Times traveled:"
+    },
+    {
+      "key": "stats.dailies_completed",
+      "text": "Dailies completed:"
+    },
+    {
+      "key": "stats.total_primogems",
+      "text": "Total primogems earned/spent:"
+    },
+    {
+      "key": "stats.total_pills",
+      "text": "Total pills earned/spent:"
     }
   ],
   "french": [
@@ -121,12 +209,44 @@
       "text": "<:Stardust3:1122370119608303716>"
     },
     {
-      "key": "adventures.trigger_event_timer",
+      "key": "mora",
+      "text": "<:mora2:1122373137443598417>"
+    },
+    {
+      "key": "primos",
+      "text": "<:imf2pbtw:1113103136991756328>"
+    },
+    {
+      "key": "pills",
+      "text": "<:pillwhite:1119700330259693629>"
+    },
+    {
+      "key": "events.triggered",
+      "text": "виконує"
+    },
+    {
+      "key": "events.event_key",
+      "text": "подію"
+    },
+    {
+      "key": "events.meet",
+      "text": "зустрічає"
+    },
+    {
+      "key": "events.meet0characters",
+      "text": "0 персонажів"
+    },
+    {
+      "key": "events.collected",
+      "text": "та знаходить"
+    },
+    {
+      "key": "events.trigger_event_timer",
       "text": "Знову розпочати подію можна через"
     },
     {
-      "key": "adventures.event_already_triggered",
-      "text": "Ти нещодавно був на цій події"
+      "key": "events.already_triggered",
+      "text": "Ти вже виконував цю дію нещодавно"
     },
     {
       "key": "adventures.no_adventures_found",
@@ -173,18 +293,6 @@
       "text": "Оглянути персонажа"
     },
     {
-      "key": "mora",
-      "text": "<:mora2:1122373137443598417>"
-    },
-    {
-      "key": "primos",
-      "text": "<:imf2pbtw:1113103136991756328>"
-    },
-    {
-      "key": "pills",
-      "text": "<:pillwhite:1119700330259693629>"
-    },
-    {
       "key": "not_enough_currency",
       "text": "Не достає валюти! Спробуй активності, наприклад `!adventure`, `!daily`. (`!help` щоб побачити усі команди)"
     },
@@ -215,6 +323,74 @@
     {
       "key": "setcharacter.no_main_character",
       "text": "Немає, спробуй `!set [ім'я персонажа]` або `!pull`"
+    },
+    {
+      "key": "shop.welcome",
+      "text": "Дорі має ~~величезну націнку~~ неймовірні знижки!"
+    },
+    {
+      "key": "shop.description",
+      "text": "Для ну просто вибухових знаижок завітай на http://mentallystable4sure.dev та заходь до 'Палацу Алказарзараа' який ексклюзивно доступний у ігровому лаунчері."
+    },
+    {
+      "key": "shop.input_placeholder",
+      "text": "Дорі допоможе вибрати щось гарненьке"
+    },
+    {
+      "key": "shop.lot_unavaliable",
+      "text": "Цей лот наразі недоступний... Перепрошуємо за незручності."
+    },
+    {
+      "key": "shop.lot_bought",
+      "text": "Оплата успішна, було приємно мати з Вами справу!"
+    },
+    {
+      "key": "shop.lot.100primogems",
+      "text": "Це дуже гарна пропозиція, повір Дорі!"
+    },
+    {
+      "key": "shop.lot.crimson_witch_hat",
+      "text": "Що ще потрібно гарячій відьмі? ~~купальник~~ шляпа!"
+    },
+    {
+      "key": "shop.lot.welkin_moon",
+      "text": "Знижки діють у моємі палаці, який є ексклюзивом у лаунчері"
+    },
+    {
+      "key": "shop.lot.100pills",
+      "text": "Я люблю мору, а мора любить мене! Хехе~"
+    },
+    {
+      "key": "stats.top.by_pulls",
+      "text": "Найкращі гравці по бажанням"
+    },
+    {
+      "key": "stats.top.by_primos",
+      "text": "Найкращі гравці по камінцям"
+    },
+    {
+      "key": "stats.top.by_pills",
+      "text": "Найкращі гравці по таблеткам"
+    },
+    {
+      "key": "stats.times_pulled",
+      "text": "Усього бажань загадано:"
+    },
+    {
+      "key": "stats.times_traveled",
+      "text": "Кількість пригод:"
+    },
+    {
+      "key": "stats.dailies_completed",
+      "text": "Кількість щоденних завдань:"
+    },
+    {
+      "key": "stats.total_primogems",
+      "text": "Усього камінців зароблено/витрачено:"
+    },
+    {
+      "key": "stats.total_pills",
+      "text": "Усього таблеток зароблено/витрачено:"
     }
   ]
 }

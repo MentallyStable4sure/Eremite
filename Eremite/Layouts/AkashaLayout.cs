@@ -10,10 +10,10 @@ namespace Eremite.Layouts
         private UserData user;
         private string defaultBannerImage;
 
-        private readonly string profileKey = "profile.user_profile";
-        private readonly string mainCharacterKey = "profile.main_character";
-        private readonly string characterBuffKey = "profile.character_buff";
-        private readonly string charactersObtained = "profile.characters_obtained";
+        public const string profileKey = "profile.user_profile";
+        public const string mainCharacterKey = "profile.main_character";
+        public const string characterBuffKey = "profile.character_buff";
+        public const string charactersObtained = "profile.characters_obtained";
 
         public AkashaLayout(UserData user, string defaultBannerImage)
         {

@@ -13,6 +13,8 @@ namespace Eremite.Commands
     {
         public DataHandler DataHandler { get; set; }
 
+        private readonly string inputPlaceholder = "shop.input_placeholder";
+
         [Command("shop"), Description("Shows the current shop lots and prices from Dori herself.")]
         public async Task ShowShop(CommandContext context)
         {
@@ -20,7 +22,7 @@ namespace Eremite.Commands
             var shopAction = new ShopAction(user);
 
             var options = shopAction.CreateShopDropdown(context);
-            var dropdown = new DiscordSelectComponent("shopdropdown", "Dori will pick your lot from market", options.Values, false, 1, 1);
+            var dropdown = new DiscordSelectComponent("shopdropdown", Localization.GetText(inputPlaceholder), options.Values, false, 1, 1);
 
             var messageBuilder = new DiscordMessageBuilder()
                 .AddComponents(dropdown)

@@ -21,14 +21,27 @@ namespace Eremite.Actions
 
         public ShopAction(UserData user) => _user = user;
 
+        public const string shopWelcome = "shop.welcome";
+        public const string shopDescription = "shop.description";
+        public const string lotUnavaliable = "shop.lot_unavaliable";
+        public const string lotBought = "shop.lot_bought";
+
+        public const string witchHatEmoji = "<:crimsonwitchhat:1119701575313653924>";
+        public const string welkinEmoji = "<:Resin:765128125301915658>";
+
+        public const string lot100Primogems = "shop.lot.100primogems";
+        public const string lotCrimsonWitch = "shop.lot.crimson_witch_hat";
+        public const string lotWelkin = "shop.lot.welkin_moon";
+        public const string lot100pills = "shop.lot.100pills";
+
         public static DiscordEmbedBuilder GetEmbedWithShopInfo()
         {
             return new DiscordEmbedBuilder()
             {
                 Color = DiscordColor.Purple,
-                Title = "Dori's ~~jaw droppin prices~~ brilliant shop!",
+                Title = Localization.GetText(shopWelcome),
                 ImageUrl = DoriShopBannerUrl,
-                Description = $"> For explosive discounts, go to http://mentallystable4sure.dev and visit the 'Alcazarzaray Palace' which is exclusively avaliable in MS Launcher."
+                Description = $"> {Localization.GetText(shopDescription)}"
             };
         }
 
@@ -42,24 +55,24 @@ namespace Eremite.Actions
             var dropdrownOptions = new Dictionary<Identifier, DiscordSelectComponentOption>()
             {
                 { new Identifier(oneHundredPrimosGuid, (int)DoriLot.ONE_HUNDRED_PRIMOS), new DiscordSelectComponentOption(
-                    "3000 Mora --> 100 Primogems",
+                    $"3000 {Localization.MoraKey} --> 100 {Localization.PrimosKey}",
                     oneHundredPrimosGuid,
-                    "Thats a great deal, trust Dori!",
+                    Localization.GetText(lot100Primogems),
                     emoji: new DiscordComponentEmoji(1113103136991756328)) },
                 { new Identifier(crimsonWitchHatGuid, (int)DoriLot.CRIMSON_WITCH_HAT), new DiscordSelectComponentOption(
-                    "400 Pills --> Crimson Witch Hat",
+                    $"400 {Localization.PillsKey} --> {witchHatEmoji}",
                     crimsonWitchHatGuid,
-                    "Will make anyone a pyro witch!",
+                    Localization.GetText(witchHatEmoji),
                     emoji: new DiscordComponentEmoji(1119701575313653924)) },
                 { new Identifier(welkinMoonGuid, (int)DoriLot.WELKIN_MOON), new DiscordSelectComponentOption(
-                    "2000 Pills --> Welkin Moon",
+                    $"2000 {Localization.PillsKey} --> {welkinEmoji}",
                     welkinMoonGuid,
-                    "It will cost u only 1000 if u trade it in our launcher",
+                    Localization.GetText(lotWelkin),
                     emoji: new DiscordComponentEmoji(765128125301915658)) },
                 { new Identifier(oneHundredPillsGuid, (int)DoriLot.ONE_HUNDRED_PILLS), new DiscordSelectComponentOption(
-                    "10000 Mora --> 100 Pills",
+                    $"10000 {Localization.MoraKey} --> 100 {Localization.PillsKey}",
                     oneHundredPillsGuid,
-                    "I love mora! And Mora loves me! Hehe~",
+                    Localization.GetText(lot100pills),
                     emoji : new DiscordComponentEmoji(1119700330259693629)) },
             };
 
@@ -99,7 +112,7 @@ namespace Eremite.Actions
                     break;
                 case DoriLot.WELKIN_MOON:
                     if (user.Wallet.Pills < 2000) return NotEnoughMaterialsError;
-                    return "Welkin Moon lot currently unavaliable... Sorry.";
+                    return Localization.GetText(lotUnavaliable);
                     user.Wallet.Pills -= 2000;
                     //TODO: Connect PayPal or better redirect on ms4s/php
                     break;
@@ -118,7 +131,7 @@ namespace Eremite.Actions
         {
             string message = string.Empty;
 
-            if (response == null || response == string.Empty) message = "> Successfully bought item(s).";
+            if (response == null || response == string.Empty) message = $"> {Localization.GetText(lotBought)}.";
             else message = response;
 
             await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage, new DiscordInteractionResponseBuilder().WithContent(message));
