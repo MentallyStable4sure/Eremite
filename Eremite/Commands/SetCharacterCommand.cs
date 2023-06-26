@@ -11,6 +11,9 @@ namespace Eremite.Commands
     {
         public DataHandler DataHandler { get; set; }
 
+        private readonly string characterNotFound = "setcharacter.not_found";
+        private readonly string alreadyEquipped = "setcharacter.already_equipped";
+
         [Command("setcharacter"), Description("Sets character as a main equipped character")]
         public async Task SetCharacter(CommandContext context, string name, string lastname)
         {
@@ -23,13 +26,13 @@ namespace Eremite.Commands
 
             if(matchingCharacter == null)
             {
-                await context.RespondAsync($"> I didnt find this character in your character list, try calling it by name?");
+                await context.RespondAsync($"> {user.GetText(characterNotFound)}");
                 return;
             }
 
             if(matchingCharacter.CharacterId == user.EquippedCharacter)
             {
-                await context.RespondAsync($"> You already equipped this character, try !akasha to see more info");
+                await context.RespondAsync($"> {user.GetText(alreadyEquipped)}");
                 return;
             }
 
@@ -38,7 +41,7 @@ namespace Eremite.Commands
             var updateQuery = new UserUpdateQueryBuilder(user, QueryElement.EquippedCharacter).Build();
             await DataHandler.SendData(user, updateQuery);
 
-            await context.Message.RespondAsync(SetCharacterAction.GetEmbedWithCharacterInfo(matchingCharacter));
+            await context.Message.RespondAsync(SetCharacterAction.GetEmbedWithCharacterInfo(user, matchingCharacter));
         }
 
         [Command("setcharacter"), Description("Sets character as a main equipped character")]

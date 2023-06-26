@@ -1,4 +1,6 @@
 ﻿
+using Eremite.Data.Localization;
+
 namespace Eremite.Data.DiscordData
 {
     [Serializable]
@@ -17,5 +19,7 @@ namespace Eremite.Data.DiscordData
         public int LargestCashback = 0;
         public int TotalCashback = 0;
         public int TotalCharactersSacrificed = 0;
+
+        public Language Language = Language.English;
     }
 }

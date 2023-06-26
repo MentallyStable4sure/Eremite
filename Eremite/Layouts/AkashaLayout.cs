@@ -1,44 +1,54 @@
 ﻿using DSharpPlus.Entities;
-using Eremite.Commands;
+using Eremite.Services;
 using Eremite.Data.DiscordData;
+using Eremite.Actions;
 
 namespace Eremite.Layouts
 {
     internal class AkashaLayout
     {
-        private UserData _user;
-        private string _defaultBannerImage;
+        private UserData user;
+        private string defaultBannerImage;
+
+        public const string profileKey = "profile.user_profile";
+        public const string mainCharacterKey = "profile.main_character";
+        public const string characterBuffKey = "profile.character_buff";
+        public const string charactersObtained = "profile.characters_obtained";
 
         public AkashaLayout(UserData user, string defaultBannerImage)
         {
-            _defaultBannerImage = defaultBannerImage;
-            _user = user;
+            this.defaultBannerImage = defaultBannerImage;
+            this.user = user;
         }
 
-        public DiscordEmbedBuilder GetMainAkashaEmbed( List<Character> characters, Character current)
+        public DiscordEmbedBuilder GetMainAkashaEmbed(UserData user, List<Character> characters, Character current)
         {
-            var info = new AkashaEmbedInfo(current, _defaultBannerImage);
+            var info = new AkashaEmbedInfo(user, current, defaultBannerImage);
 
             return new DiscordEmbedBuilder()
             {
                 Color = DiscordColor.Orange,
-                Title = $"{_user.Username}'s profile",
+                Title = $"{user.Username} {user.GetText(profileKey)}",
                 ImageUrl = info.profileImageUrl,
-                Description = $"[ID:{_user.UserId}]\n\n> **Main Character: {info.characterName}**" +
-                    $"\n> Character Buff: {info.characterBuffInfo}\n\nCharacters Obtained: {characters.ToCharacterList()}" +
-                    $"\n\n`Primogems: {_user.Wallet.Primogems} | Mora: {_user.Wallet.Mora} | {_user.Wallet.Pills} 💊`"
+                Description = $"[ID:{user.UserId}]\n\n> **{user.GetText(mainCharacterKey)} {info.characterName}**" +
+                    $"\n> {user.GetText(characterBuffKey)} {info.characterBuffInfo}\n\n{user.GetText(charactersObtained)} {characters.ToCharacterList(user)}" +
+                    $"\n\n`{user.Wallet.Primogems}` {Localization.PrimosEmoji} | `{user.Wallet.Mora}` {Localization.MoraEmoji} | `{user.Wallet.Pills}` {Localization.PillsEmoji}"
             };
         }
 
         private class AkashaEmbedInfo
         {
-            public string characterName = AkashaCommand.DefaultNullError;
-            public string characterBuffInfo = "None, use !setcharacter [name] or !pull to get one :)";
+            public string characterName;
+            public string characterBuffInfo;
             public string profileImageUrl;
 
-            public AkashaEmbedInfo(Character character, string defaultImage)
+            public AkashaEmbedInfo(UserData user, Character character, string defaultImage)
             {
+                var noText = user.GetText(SetCharacterAction.noMainCharacter);
                 profileImageUrl = defaultImage;
+                characterBuffInfo = noText;
+                characterName = noText;
+
                 if (character == null) return;
 
                 characterName = character.CharacterName;

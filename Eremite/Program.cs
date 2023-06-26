@@ -14,7 +14,7 @@ namespace Eremite
 
         static async Task Main(string[] args)
         {
-            var localizationHandler = new LocalizationHandler();
+            var localizationHandler = new Localization();
             await localizationHandler.InitPacketAsync();
 
             var databaseConfig = await GetDatabaseConfig();
@@ -29,7 +29,6 @@ namespace Eremite
             services.AddSingleton(profileService);
             services.AddSingleton(dataHandler);
             services.AddSingleton(pullAction);
-            services.AddSingleton(localizationHandler);
 
             var discord = new DiscordClient(await profileService.SetConfig());
             DiscordActivity activity = await profileService.SetStatus();

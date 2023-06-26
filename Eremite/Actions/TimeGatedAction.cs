@@ -1,11 +1,18 @@
 ﻿using DSharpPlus.Entities;
 using Eremite.Data.DiscordData;
+using Eremite.Services;
 
 namespace Eremite.Actions
 {
     public static class TimeGatedAction
     {
-        public const string ErrorByTime = "> You already triggered this event.";
+        public const string eventAlreadyTriggered = "events.already_triggered";
+        public const string triggerTimeSuggestion = "events.trigger_event_timer";
+        public const string triggeredKey = "events.triggered";
+        public const string eventKey = "events.event_key";
+        public const string meetKey = "events.meet";
+        public const string collectedKey = "events.collected";
+        public const string noCharactersFound = "events.meet0characters";
 
         /// <summary>
         /// Shows if this event could be ticked (eg. is needed time passed)
@@ -81,13 +88,13 @@ namespace Eremite.Actions
         {
             var award = timeGatedEvent.Award;
 
-            string characters = award.CharactersToAdd?.Count > 0 ? award.CharactersToAdd.GetHighestTier().CharacterName : "0 Characters";
+            string characters = award.CharactersToAdd?.Count > 0 ? award.CharactersToAdd.GetHighestTier().CharacterName : user.GetText(noCharactersFound);
             return new DiscordEmbedBuilder()
             {
                 Color = DiscordColor.Purple,
-                Title = $"{user.Username} triggered {timeGatedEvent.EventType} event",
+                Title = $"{user.Username} {user.GetText(triggeredKey)} {timeGatedEvent.EventType} {user.GetText(eventKey)}",
                 ImageUrl = timeGatedEvent.ImageUrl,
-                Description = $"{user.Username} found {characters} and collected {award.CurrenciesToAdd}"
+                Description = $"{user.Username} {user.GetText(meetKey)} {characters} {user.GetText(collectedKey)} {award.CurrenciesToAdd}"
             };
         }
     }

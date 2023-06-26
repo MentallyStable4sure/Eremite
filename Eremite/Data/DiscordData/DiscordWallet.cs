@@ -1,4 +1,5 @@
-﻿
+﻿using Eremite.Services;
+
 namespace Eremite.Data.DiscordData
 {
     [Serializable]
@@ -18,6 +19,6 @@ namespace Eremite.Data.DiscordData
             Pills = pills;
         }
 
-        public override string ToString() => $"[{Primogems}] Primogems, [{Mora}] Mora, [{Pills}] 💊";
+        public override string ToString() => $"[{Primogems}] <:imf2pbtw:1113103136991756328>, [{Mora}] <:mora2:1122373137443598417>, [{Pills}] <:pillwhite:1119700330259693629>";
     }
 }

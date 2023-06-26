@@ -12,6 +12,10 @@ namespace Eremite.Commands
     {
         public DataHandler DataHandler { get; set; }
 
+        private readonly string sacrificeCharacterNotFound = "sacrifice.character_not_found";
+        private readonly string cantSacrificeCharacterError = "sacrifice.error";
+        private readonly string sacrificed = "sacrifice.sacrificed";
+
         [Command("sacrifice"), Description("Sacrifice character for some pills")]
         public async Task Sacrifice(CommandContext context, string name, string lastname)
         {
@@ -25,13 +29,13 @@ namespace Eremite.Commands
 
             if (matchingCharacter == null)
             {
-                await context.RespondAsync($"> I didnt find this character in your character list, try calling it by name?");
+                await context.RespondAsync($"> {user.GetText(sacrificeCharacterNotFound)}");
                 return;
             }
 
             if(matchingCharacter.SellPrice <= 0)
             {
-                await context.RespondAsync($"> Cant sacrifice this character or sacrifice price is zero");
+                await context.RespondAsync($">{user.GetText(cantSacrificeCharacterError)}");
                 return;
             }
 
@@ -49,7 +53,7 @@ namespace Eremite.Commands
             var updateQuery = new UserUpdateQueryBuilder(user, QueryElement.EquippedCharacter, QueryElement.Characters, QueryElement.Wallet, QueryElement.Stats).Build();
             await DataHandler.SendData(user, updateQuery);
 
-            await context.RespondAsync($"{user.Username} sacrificed {matchingCharacter.CharacterName} for {matchingCharacter.SellPrice} 💊");
+            await context.RespondAsync($"{user.Username} {user.GetText(sacrificed)} {matchingCharacter.CharacterName} [{matchingCharacter.SellPrice} {Localization.PillsEmoji}]");
         }
 
         [Command("sacrifice"), Description("Sacrifice character for some pills")]

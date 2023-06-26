@@ -1,7 +1,9 @@
 ﻿using DSharpPlus.Entities;
+using Eremite.Actions;
 using Eremite.Commands;
 using Eremite.Data;
 using Eremite.Data.DiscordData;
+using Eremite.Services;
 using Newtonsoft.Json;
 
 namespace Eremite
@@ -20,14 +22,14 @@ namespace Eremite
             Console.WriteLine(isCorrupted ? corruptedMessage : successMessage);
         }
 
-        public static string ToCharacterList(this List<Character> characters)
+        public static string ToCharacterList(this List<Character> characters, UserData user)
         {
-            if (characters == null || characters.Count <= 0) return AkashaCommand.DefaultNullError;
+            if (characters == null || characters.Count <= 0) return user.GetText(SetCharacterAction.noMainCharacter);
 
             string charactersInInventory = string.Empty;
             foreach (var character in characters)
             {
-                charactersInInventory = $"{charactersInInventory} {character.CharacterName} <{character.StarsRarity}{AkashaCommand.StarSign}> ";
+                charactersInInventory = $"{charactersInInventory} {character.CharacterName} <{character.StarsRarity}{Localization.StarEmoji}> ";
             }
 
             return charactersInInventory;

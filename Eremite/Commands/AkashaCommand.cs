@@ -15,8 +15,10 @@ namespace Eremite.Commands
         public DataHandler DataHandler { get; set; }
         public PullAction PullAction { get; set; }
 
-        public const string StarSign = "✦";
-        public const string DefaultNullError = "None, use !pull to get one.";
+        private readonly string pullKey = "profile.pull_button";
+        private readonly string statsKey = "profile.account_stats_button";
+        private readonly string overviewKey = "pull.overview_new_char_info";
+        private readonly string setKey = "pull.set_new_char_as_main";
 
         private AkashaLayout _layout;
 
@@ -33,7 +35,7 @@ namespace Eremite.Commands
 
             var messageBuilder = new DiscordMessageBuilder()
                 .AddComponents(buttons.Keys)
-                .WithEmbed(_layout.GetMainAkashaEmbed(characterIdsConverted, currentCharacter));
+                .WithEmbed(_layout.GetMainAkashaEmbed(user, characterIdsConverted, currentCharacter));
 
             await context.RespondAsync(messageBuilder);
         }
@@ -56,14 +58,14 @@ namespace Eremite.Commands
 
             return new Dictionary<DiscordButtonComponent, string>()
             {
-                { new DiscordButtonComponent(ButtonStyle.Success, pullGuid, "Pull"), pullGuid },
-                { new DiscordButtonComponent(ButtonStyle.Secondary, statsGuid, "Account Stats"), statsGuid }
+                { new DiscordButtonComponent(ButtonStyle.Success, pullGuid, user.GetText(pullKey)), pullGuid },
+                { new DiscordButtonComponent(ButtonStyle.Secondary, statsGuid, user.GetText(statsKey)), statsGuid }
             };
         }
 
         private async Task Pull(CommandContext context, ComponentInteractionCreateEventArgs args, UserData user)
         {
-            if (user.Wallet.Primogems < DataHandler.Config.PullCost) await context.RespondAsync(PullAction.NotEnoughPrimosError);
+            if (user.Wallet.Primogems < DataHandler.Config.PullCost) await context.RespondAsync($"> {user.GetText(Localization.NoCurrencyKey)}");
             else
             {
                 var charactersPulled = await PullAction.ForUserAsyncSave(user, 1);
@@ -75,15 +77,15 @@ namespace Eremite.Commands
                 await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage,
                     new DiscordInteractionResponseBuilder().AddEmbed(PullAction.GetEmbedWithCharacters(charactersPulled, user))
                     .AddComponents(
-                        new DiscordButtonComponent(ButtonStyle.Primary, setCharacterGuid, $"Set {highestTier.CharacterName} as Main"),
-                        new DiscordButtonComponent(ButtonStyle.Secondary, infoAboutCharacterGuid, $"Overview {highestTier.CharacterName} info")));
+                        new DiscordButtonComponent(ButtonStyle.Primary, setCharacterGuid, user.GetText(setKey)),
+                        new DiscordButtonComponent(ButtonStyle.Secondary, infoAboutCharacterGuid, user.GetText(overviewKey))));
 
                 context.Client.ComponentInteractionCreated += async (client, args) =>
                 {
                     if (args.User.Id.ToString() != context.User.Id.ToString()) return;
 
                     if (args.Id == setCharacterGuid) await AkashaAction.EquipCharacter(args, highestTier, DataHandler, user);
-                    if (args.Id == infoAboutCharacterGuid) await AkashaAction.ShowCharacterStats(args, highestTier);
+                    if (args.Id == infoAboutCharacterGuid) await AkashaAction.ShowCharacterStats(user, args, highestTier);
                 };
             };
         }

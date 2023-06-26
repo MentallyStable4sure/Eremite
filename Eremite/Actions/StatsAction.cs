@@ -1,8 +1,8 @@
 ﻿using DSharpPlus.Entities;
 using Eremite.Services;
-using Eremite.Commands;
 using Eremite.Data.DiscordData;
 using System.Text;
+using Eremite.Layouts;
 
 namespace Eremite.Actions
 {
@@ -11,8 +11,11 @@ namespace Eremite.Actions
         public const int BestCounter = 5;
         public const string TopImage = "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/topusers.png";
 
-        public const string PrimogemsEmoji = "<:imf2pbtw:1113103136991756328>";
-        public const string PillsEmoji = "<:pillwhite:1119700330259693629>";
+        public const string timesPulled = "stats.times_pulled"; //Times pulled
+        public const string timesTraveled = "stats.times_traveled"; //Times traveled
+        public const string dailiesCompleted = "stats.dailies_completed"; //Dailies completed
+        public const string totalPirmogems = "stats.total_primogems"; //Total primogems earned/spent
+        public const string totalPills = "stats.total_pills"; //Total pills earned/spent
 
         /// <summary>
         /// Gets formatted string about all user stats
@@ -21,14 +24,13 @@ namespace Eremite.Actions
         /// <returns>already formatted string</returns>
         public static string GetMessageAboutUser(UserData user)
         {
-            var currentCharacter = user.IsAnyCharacterEquipped() ? CharactersHandler.ConvertId(user.EquippedCharacter).CharacterName : AkashaCommand.DefaultNullError;
+            var currentCharacter = user.IsAnyCharacterEquipped() ? CharactersHandler.ConvertId(user.EquippedCharacter).CharacterName : user.GetText(SetCharacterAction.noMainCharacter);
 
-            return $"[ID:{user.UserId}]\n\n> **Main Character: {currentCharacter}**" +
-                    $"\n> Characters pulled: {user.Characters.Count} | Pulled: {user.Stats.TimesPulled} times" +
-                    $"\n\nTraveled: {user.Stats.TimesTraveled} times | Dailies completed: {user.Stats.TimesDailiesCompleted} times" +
-                    $"\nTotal primogems earned/spent: [{user.Stats.TotalPrimogemsEarned}|{user.Stats.TotalPrimogemsSpent}]" +
-                    $"\nLargest cashback: {user.Stats.LargestCashback} | Total cashback: {user.Stats.TotalCashback}" +
-                    $"\nTotal pills earned/spent: [{user.Stats.TotalPillsEarned}|{user.Stats.TotalPillsSpent}]";
+            return $"[ID:{user.UserId}]\n\n> **{user.GetText(AkashaLayout.mainCharacterKey)}: {currentCharacter}**" +
+                    $"\n> {user.GetText(AkashaLayout.charactersObtained)}: {user.Characters.Count} | {user.GetText(timesPulled)} {user.Stats.TimesPulled}" +
+                    $"\n\n{user.GetText(timesTraveled)} {user.Stats.TimesTraveled} | {user.GetText(dailiesCompleted)} {user.Stats.TimesDailiesCompleted}" +
+                    $"\n{user.GetText(totalPirmogems)} [{user.Stats.TotalPrimogemsEarned}|{user.Stats.TotalPrimogemsSpent}]" +
+                    $"\n{user.GetText(totalPills)} [{user.Stats.TotalPillsEarned}|{user.Stats.TotalPillsSpent}]";
         }
 
         /// <summary>
@@ -95,7 +97,7 @@ namespace Eremite.Actions
             for (int i = 0; i < users.Count; i++)
             {
                 var user = users[i];
-                stringBuilder.Append($"\n> [{i+1}] {user.Username} | Pulls: {user.Stats.TimesPulled} | {user.Stats.TotalPrimogemsEarned} {PrimogemsEmoji} | {user.Stats.TotalPillsEarned} {PillsEmoji}");
+                stringBuilder.Append($"\n> [{i+1}] {user.Username} | {user.GetText(timesPulled)} {user.Stats.TimesPulled} | {user.Stats.TotalPrimogemsEarned} {Localization.PrimosEmoji} | {user.Stats.TotalPillsEarned} {Localization.PillsEmoji}");
             }
 
             return new DiscordInteractionResponseBuilder().AddEmbed(new DiscordEmbedBuilder()

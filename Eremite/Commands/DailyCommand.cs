@@ -33,7 +33,7 @@ namespace Eremite.Commands
             {
                 var previousEvent = user.GetPreviousEventByType(DailyType);
                 string countdown = previousEvent.LastTimeTriggered.Add(previousEvent.TimeBetweenTriggers).Subtract(DateTime.UtcNow).GetNormalTime();
-                await context.RespondAsync($"> {TimeGatedAction.ErrorByTime}. You can trigger event in {countdown}");
+                await context.RespondAsync($"> {user.GetText(TimeGatedAction.eventAlreadyTriggered)}. {user.GetText(TimeGatedAction.triggerTimeSuggestion)} {countdown}");
                 return;
             }
 

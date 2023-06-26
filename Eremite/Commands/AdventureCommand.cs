@@ -18,6 +18,11 @@ namespace Eremite.Commands
         public DataHandler DataHandler { get; set; }
         public List<AdventureEvent> CachedAdventures { get; private set; } = null;
 
+        //Localization Keys
+        private readonly string noAdventuresFound = "adventures.no_adventures_found";
+        private readonly string startAdventure = "adventures.start_adventure";
+        private readonly string adventureDescription = "adventures.description";
+
         public const string AdventuresConfig = "adventures.json";
         public const string AdventuresImage = "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventure.png";
 
@@ -34,14 +39,14 @@ namespace Eremite.Commands
             if (!isPossible)
             {
                 string countdown = previousEvent.LastTimeTriggered.Add(previousEvent.TimeBetweenTriggers).Subtract(DateTime.UtcNow).GetNormalTime();
-                await context.RespondAsync($"> {TimeGatedAction.ErrorByTime}. You can trigger event in {countdown}");
+                await context.RespondAsync($"> {user.GetText(TimeGatedAction.eventAlreadyTriggered)}. {user.GetText(TimeGatedAction.triggerTimeSuggestion)} {countdown}");
                 return;
             }
 
             if (CachedAdventures == null) await CacheAdventures();
             if (CachedAdventures == null || CachedAdventures.Count <= 0)
             {
-                await context.RespondAsync("We dont have places to travel, configure places in adventures.json");
+                await context.RespondAsync(user.GetText(noAdventuresFound));
                 return;
             }
             var randomAdventures = AdventureAction.FillRandomAdventures(CachedAdventures);
@@ -49,8 +54,8 @@ namespace Eremite.Commands
 
             await context.RespondAsync(new DiscordMessageBuilder().WithEmbed(new DiscordEmbedBuilder
             {
-                Title = $"{user.Username} starts new adventure..",
-                Description = $"{user.Username}'s granpa always said: 'every journey has its final day, dont rush', so {user.Username} thinking about where to go next..",
+                Title = $"{user.Username} {user.GetText(startAdventure)}",
+                Description = user.GetText(adventureDescription),
                 ImageUrl = AdventuresImage,
                 Color = DiscordColor.Orange
             }).AddComponents(buttons.Values));

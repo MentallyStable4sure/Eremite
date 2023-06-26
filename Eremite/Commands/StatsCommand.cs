@@ -12,6 +12,10 @@ namespace Eremite.Commands
     {
         public DataHandler DataHandler { get; set; }
 
+        private readonly string topByPullsKey = "stats.top.by_pulls";
+        private readonly string topByPrimosKey = "stats.top.by_primos";
+        private readonly string topByPillsKey = "stats.top.by_pills";
+
         [Command("stats"), Description("Shows the current user eremite stats such as teapot times visited, daily challenges done, characters pulled, etc.")]
         public async Task ShowStats(CommandContext context)
         {
@@ -31,9 +35,9 @@ namespace Eremite.Commands
             var topPrimos = Guid.NewGuid().ToString();
             var topPills = Guid.NewGuid().ToString();
 
-            var topPullsButton = new DiscordButtonComponent(ButtonStyle.Success, topPulls, "TOP by Pulls");
-            var topPrimosButton = new DiscordButtonComponent(ButtonStyle.Secondary, topPrimos, "TOP by Primos");
-            var topPillsButton = new DiscordButtonComponent(ButtonStyle.Secondary, topPills, "TOP by Pills");
+            var topPullsButton = new DiscordButtonComponent(ButtonStyle.Success, topPulls, user.GetText(topByPullsKey));
+            var topPrimosButton = new DiscordButtonComponent(ButtonStyle.Secondary, topPrimos, user.GetText(topByPrimosKey));
+            var topPillsButton = new DiscordButtonComponent(ButtonStyle.Secondary, topPills, user.GetText(topByPillsKey));
 
 
             context.Client.ComponentInteractionCreated += async (sender, args) =>
