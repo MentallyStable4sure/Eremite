@@ -34,18 +34,18 @@ namespace Eremite.Actions
         public const string lotWelkin = "shop.lot.welkin_moon";
         public const string lot100pills = "shop.lot.100pills";
 
-        public static DiscordEmbedBuilder GetEmbedWithShopInfo()
+        public static DiscordEmbedBuilder GetEmbedWithShopInfo(UserData user)
         {
             return new DiscordEmbedBuilder()
             {
                 Color = DiscordColor.Purple,
-                Title = Localization.GetText(shopWelcome),
+                Title = user.GetText(shopWelcome),
                 ImageUrl = DoriShopBannerUrl,
-                Description = $"> {Localization.GetText(shopDescription)}"
+                Description = $"> {user.GetText(shopDescription)}"
             };
         }
 
-        public Dictionary<Identifier, DiscordSelectComponentOption> CreateShopDropdown(CommandContext context)
+        public Dictionary<Identifier, DiscordSelectComponentOption> CreateShopDropdown(CommandContext context, UserData user)
         {
             var oneHundredPrimosGuid = Guid.NewGuid().ToString();
             var crimsonWitchHatGuid = Guid.NewGuid().ToString();
@@ -55,24 +55,24 @@ namespace Eremite.Actions
             var dropdrownOptions = new Dictionary<Identifier, DiscordSelectComponentOption>()
             {
                 { new Identifier(oneHundredPrimosGuid, (int)DoriLot.ONE_HUNDRED_PRIMOS), new DiscordSelectComponentOption(
-                    $"3000 {Localization.MoraKey} --> 100 {Localization.PrimosKey}",
+                    $"3000 {Localization.MoraEmoji} --> 100 {Localization.PrimosEmoji}",
                     oneHundredPrimosGuid,
-                    Localization.GetText(lot100Primogems),
+                    user.GetText(lot100Primogems),
                     emoji: new DiscordComponentEmoji(1113103136991756328)) },
                 { new Identifier(crimsonWitchHatGuid, (int)DoriLot.CRIMSON_WITCH_HAT), new DiscordSelectComponentOption(
-                    $"400 {Localization.PillsKey} --> {witchHatEmoji}",
+                    $"400 {Localization.PillsEmoji} --> {witchHatEmoji}",
                     crimsonWitchHatGuid,
-                    Localization.GetText(witchHatEmoji),
+                    user.GetText(witchHatEmoji),
                     emoji: new DiscordComponentEmoji(1119701575313653924)) },
                 { new Identifier(welkinMoonGuid, (int)DoriLot.WELKIN_MOON), new DiscordSelectComponentOption(
-                    $"2000 {Localization.PillsKey} --> {welkinEmoji}",
+                    $"2000 {Localization.PillsEmoji} --> {welkinEmoji}",
                     welkinMoonGuid,
-                    Localization.GetText(lotWelkin),
+                    user.GetText(lotWelkin),
                     emoji: new DiscordComponentEmoji(765128125301915658)) },
                 { new Identifier(oneHundredPillsGuid, (int)DoriLot.ONE_HUNDRED_PILLS), new DiscordSelectComponentOption(
-                    $"10000 {Localization.MoraKey} --> 100 {Localization.PillsKey}",
+                    $"10000 {Localization.MoraEmoji} --> 100 {Localization.PillsEmoji}",
                     oneHundredPillsGuid,
-                    Localization.GetText(lot100pills),
+                    user.GetText(lot100pills),
                     emoji : new DiscordComponentEmoji(1119700330259693629)) },
             };
 
@@ -85,7 +85,7 @@ namespace Eremite.Actions
                     if (!args.Values.Contains(option.Key.identifier)) continue;
                     string response = Buy(_user, (DoriLot)option.Key.content);
 
-                    await ShowFeedbackFromShop(response, args);
+                    await ShowFeedbackFromShop(user, response, args);
                 }
 
                 OnShopInteracted?.Invoke(args);
@@ -112,7 +112,7 @@ namespace Eremite.Actions
                     break;
                 case DoriLot.WELKIN_MOON:
                     if (user.Wallet.Pills < 2000) return NotEnoughMaterialsError;
-                    return Localization.GetText(lotUnavaliable);
+                    return user.GetText(lotUnavaliable);
                     user.Wallet.Pills -= 2000;
                     //TODO: Connect PayPal or better redirect on ms4s/php
                     break;
@@ -127,11 +127,11 @@ namespace Eremite.Actions
             return string.Empty;
         }
 
-        public static async Task ShowFeedbackFromShop(string response, ComponentInteractionCreateEventArgs args)
+        public static async Task ShowFeedbackFromShop(UserData user, string response, ComponentInteractionCreateEventArgs args)
         {
             string message = string.Empty;
 
-            if (response == null || response == string.Empty) message = $"> {Localization.GetText(lotBought)}.";
+            if (response == null || response == string.Empty) message = $"> {user.GetText(lotBought)}.";
             else message = response;
 
             await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage, new DiscordInteractionResponseBuilder().WithContent(message));

@@ -19,10 +19,10 @@ namespace Eremite.Actions
 
         public static void Dequip(UserData user) => user.EquippedCharacter = UserExtensions.UnsetId;
 
-        public static DiscordEmbedBuilder GetEmbedWithCharacterInfo(Character character)
+        public static DiscordEmbedBuilder GetEmbedWithCharacterInfo(UserData user, Character character)
         {
             var characterRarityColor = character.GetCorrespondingColor();
-            string sacrificePrice = character.SellPrice > 0 ? $"\n\n> {Localization.GetText(sacrificableCharacter)} [{character.SellPrice} {Localization.GetText(Localization.PillsKey)}]" : string.Empty;
+            string sacrificePrice = character.SellPrice > 0 ? $"\n\n> {user.GetText(sacrificableCharacter)} [{character.SellPrice} {Localization.PillsEmoji}]" : string.Empty;
             return new DiscordEmbedBuilder()
             {
                 Color = characterRarityColor,

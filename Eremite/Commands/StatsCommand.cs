@@ -35,9 +35,9 @@ namespace Eremite.Commands
             var topPrimos = Guid.NewGuid().ToString();
             var topPills = Guid.NewGuid().ToString();
 
-            var topPullsButton = new DiscordButtonComponent(ButtonStyle.Success, topPulls, Localization.GetText(topByPullsKey));
-            var topPrimosButton = new DiscordButtonComponent(ButtonStyle.Secondary, topPrimos, Localization.GetText(topByPrimosKey));
-            var topPillsButton = new DiscordButtonComponent(ButtonStyle.Secondary, topPills, Localization.GetText(topByPillsKey));
+            var topPullsButton = new DiscordButtonComponent(ButtonStyle.Success, topPulls, user.GetText(topByPullsKey));
+            var topPrimosButton = new DiscordButtonComponent(ButtonStyle.Secondary, topPrimos, user.GetText(topByPrimosKey));
+            var topPillsButton = new DiscordButtonComponent(ButtonStyle.Secondary, topPills, user.GetText(topByPillsKey));
 
 
             context.Client.ComponentInteractionCreated += async (sender, args) =>

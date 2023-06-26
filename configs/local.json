@@ -1,22 +1,6 @@
 {
   "english": [
     {
-      "key": "star",
-      "text": "<:Stardust3:1122370119608303716>"
-    },
-    {
-      "key": "mora",
-      "text": "<:mora2:1122373137443598417>"
-    },
-    {
-      "key": "primos",
-      "text": "<:imf2pbtw:1113103136991756328>"
-    },
-    {
-      "key": "pills",
-      "text": "<:pillwhite:1119700330259693629>"
-    },
-    {
       "key": "events.triggered",
       "text": "triggered"
     },
@@ -191,6 +175,14 @@
     {
       "key": "stats.total_pills",
       "text": "Total pills earned/spent:"
+    },
+    {
+      "key": "localization.lang_changed",
+      "text": "Language succesfullly changed."
+    },
+    {
+      "key": "localization.lang_not_found",
+      "text": "Language not found, try calling abbreviation like `en` `fr` `ua`"
     }
   ],
   "french": [
@@ -204,22 +196,6 @@
     }
   ],
   "ukrainian": [
-    {
-      "key": "star",
-      "text": "<:Stardust3:1122370119608303716>"
-    },
-    {
-      "key": "mora",
-      "text": "<:mora2:1122373137443598417>"
-    },
-    {
-      "key": "primos",
-      "text": "<:imf2pbtw:1113103136991756328>"
-    },
-    {
-      "key": "pills",
-      "text": "<:pillwhite:1119700330259693629>"
-    },
     {
       "key": "events.triggered",
       "text": "виконує"
@@ -391,6 +367,14 @@
     {
       "key": "stats.total_pills",
       "text": "Усього таблеток зароблено/витрачено:"
+    },
+    {
+      "key": "localization.lang_changed",
+      "text": "Вашу мову успішно змінено."
+    },
+    {
+      "key": "localization.lang_not_found",
+      "text": "Мову не знайдено, спробуйте абревіацію, накшталт `en` `fr` `ua`"
     }
   ]
 }

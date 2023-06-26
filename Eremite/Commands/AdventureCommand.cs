@@ -39,14 +39,14 @@ namespace Eremite.Commands
             if (!isPossible)
             {
                 string countdown = previousEvent.LastTimeTriggered.Add(previousEvent.TimeBetweenTriggers).Subtract(DateTime.UtcNow).GetNormalTime();
-                await context.RespondAsync($"> {Localization.GetText(TimeGatedAction.eventAlreadyTriggered)}. {Localization.GetText(TimeGatedAction.triggerTimeSuggestion)} {countdown}");
+                await context.RespondAsync($"> {user.GetText(TimeGatedAction.eventAlreadyTriggered)}. {user.GetText(TimeGatedAction.triggerTimeSuggestion)} {countdown}");
                 return;
             }
 
             if (CachedAdventures == null) await CacheAdventures();
             if (CachedAdventures == null || CachedAdventures.Count <= 0)
             {
-                await context.RespondAsync(Localization.GetText(noAdventuresFound));
+                await context.RespondAsync(user.GetText(noAdventuresFound));
                 return;
             }
             var randomAdventures = AdventureAction.FillRandomAdventures(CachedAdventures);
@@ -54,8 +54,8 @@ namespace Eremite.Commands
 
             await context.RespondAsync(new DiscordMessageBuilder().WithEmbed(new DiscordEmbedBuilder
             {
-                Title = $"{user.Username} {Localization.GetText(startAdventure)}",
-                Description = Localization.GetText(adventureDescription),
+                Title = $"{user.Username} {user.GetText(startAdventure)}",
+                Description = user.GetText(adventureDescription),
                 ImageUrl = AdventuresImage,
                 Color = DiscordColor.Orange
             }).AddComponents(buttons.Values));

@@ -24,13 +24,13 @@ namespace Eremite.Actions
         /// <returns>already formatted string</returns>
         public static string GetMessageAboutUser(UserData user)
         {
-            var currentCharacter = user.IsAnyCharacterEquipped() ? CharactersHandler.ConvertId(user.EquippedCharacter).CharacterName : Localization.GetText(SetCharacterAction.noMainCharacter);
+            var currentCharacter = user.IsAnyCharacterEquipped() ? CharactersHandler.ConvertId(user.EquippedCharacter).CharacterName : user.GetText(SetCharacterAction.noMainCharacter);
 
-            return $"[ID:{user.UserId}]\n\n> **{Localization.GetText(AkashaLayout.mainCharacterKey)}: {currentCharacter}**" +
-                    $"\n> {Localization.GetText(AkashaLayout.charactersObtained)}: {user.Characters.Count} | {Localization.GetText(timesPulled)} {user.Stats.TimesPulled}" +
-                    $"\n\n{Localization.GetText(timesTraveled)} {user.Stats.TimesTraveled} | {Localization.GetText(dailiesCompleted)} {user.Stats.TimesDailiesCompleted}" +
-                    $"\n{Localization.GetText(totalPirmogems)} [{user.Stats.TotalPrimogemsEarned}|{user.Stats.TotalPrimogemsSpent}]" +
-                    $"\n{Localization.GetText(totalPills)} [{user.Stats.TotalPillsEarned}|{user.Stats.TotalPillsSpent}]";
+            return $"[ID:{user.UserId}]\n\n> **{user.GetText(AkashaLayout.mainCharacterKey)}: {currentCharacter}**" +
+                    $"\n> {user.GetText(AkashaLayout.charactersObtained)}: {user.Characters.Count} | {user.GetText(timesPulled)} {user.Stats.TimesPulled}" +
+                    $"\n\n{user.GetText(timesTraveled)} {user.Stats.TimesTraveled} | {user.GetText(dailiesCompleted)} {user.Stats.TimesDailiesCompleted}" +
+                    $"\n{user.GetText(totalPirmogems)} [{user.Stats.TotalPrimogemsEarned}|{user.Stats.TotalPrimogemsSpent}]" +
+                    $"\n{user.GetText(totalPills)} [{user.Stats.TotalPillsEarned}|{user.Stats.TotalPillsSpent}]";
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace Eremite.Actions
             for (int i = 0; i < users.Count; i++)
             {
                 var user = users[i];
-                stringBuilder.Append($"\n> [{i+1}] {user.Username} | {Localization.GetText(timesPulled)}: {user.Stats.TimesPulled} | {user.Stats.TotalPrimogemsEarned} {Localization.PrimosKey} | {user.Stats.TotalPillsEarned} {Localization.PillsKey}");
+                stringBuilder.Append($"\n> [{i+1}] {user.Username} | {user.GetText(timesPulled)}: {user.Stats.TimesPulled} | {user.Stats.TotalPrimogemsEarned} {Localization.PrimosEmoji} | {user.Stats.TotalPillsEarned} {Localization.PillsEmoji}");
             }
 
             return new DiscordInteractionResponseBuilder().AddEmbed(new DiscordEmbedBuilder()

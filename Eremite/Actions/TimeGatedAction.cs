@@ -88,13 +88,13 @@ namespace Eremite.Actions
         {
             var award = timeGatedEvent.Award;
 
-            string characters = award.CharactersToAdd?.Count > 0 ? award.CharactersToAdd.GetHighestTier().CharacterName : Localization.GetText(noCharactersFound);
+            string characters = award.CharactersToAdd?.Count > 0 ? award.CharactersToAdd.GetHighestTier().CharacterName : user.GetText(noCharactersFound);
             return new DiscordEmbedBuilder()
             {
                 Color = DiscordColor.Purple,
-                Title = $"{user.Username} {Localization.GetText(triggeredKey)} {timeGatedEvent.EventType} {Localization.GetText(eventKey)}",
+                Title = $"{user.Username} {user.GetText(triggeredKey)} {timeGatedEvent.EventType} {user.GetText(eventKey)}",
                 ImageUrl = timeGatedEvent.ImageUrl,
-                Description = $"{user.Username} {Localization.GetText(meetKey)} {characters} {Localization.GetText(collectedKey)} {award.CurrenciesToAdd}"
+                Description = $"{user.Username} {user.GetText(meetKey)} {characters} {user.GetText(collectedKey)} {award.CurrenciesToAdd}"
             };
         }
     }

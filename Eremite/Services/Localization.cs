@@ -1,4 +1,5 @@
 ﻿using Eremite.Data;
+using Eremite.Data.DiscordData;
 using Eremite.Data.Localization;
 using Newtonsoft.Json;
 
@@ -8,27 +9,30 @@ namespace Eremite.Services
     {
         private const string LocalizationPacketName = "local.json";
 
-        public const string MoraKey = "mora";
-        public const string PrimosKey = "primos";
-        public const string PillsKey = "pills";
-        public const string StarKey = "star";
+        public const string MoraEmoji = "<:mora2:1122373137443598417>";
+        public const string PrimosEmoji = "<:imf2pbtw:1113103136991756328>";
+        public const string PillsEmoji = "<:pillwhite:1119700330259693629>";
+        public const string StarEmoji = "<:Stardust3:1122370119608303716>";
 
         public const string NoCurrencyKey = "not_enough_currency";
 
         protected static LocalizationPacket localizationPacket = new LocalizationPacket();
 
-        public static Language CurrentLanguage { get; protected set; } = Language.English;
-
-        public event Action<Language> OnLanguageChanged;
-
         internal async Task InitPacketAsync() => await LoadJson();
 
         /// <summary>
-        /// Gets Text based on current <see cref="Language"/>
+        /// Gets Text based on the <see cref="Language"/> provided
         /// </summary>
         /// <param name="key">Key to search</param>
         /// <returns>language-ready string</returns>
-        public static string GetText(string key) => localizationPacket.GetText(CurrentLanguage, key);
+        public static string GetText(Language lang, string key) => localizationPacket.GetText(lang, key);
+
+        /// <summary>
+        /// Gets Text based on the user chosen <see cref="Language"/>
+        /// </summary>
+        /// <param name="key">Key to search</param>
+        /// <returns>language-ready string</returns>
+        public static string GetText(UserData user, string key) => localizationPacket.GetText(user.Stats.Language, key);
 
         public async Task LoadJson()
         {
@@ -37,15 +41,13 @@ namespace Eremite.Services
             jsonRawData.LogStatus("Localization Packet");
 
             localizationPacket = JsonConvert.DeserializeObject<LocalizationPacket>(jsonRawData);
-            OnLanguageChanged?.Invoke(CurrentLanguage);
         }
 
-        public void ChangeLanugage(Language languageToSet)
+        public static void ChangeLanugage(UserData user, Language languageToSet)
         {
-            if (CurrentLanguage == languageToSet) return;
+            if (user.Stats.Language == languageToSet) return;
 
-            CurrentLanguage = languageToSet;
-            OnLanguageChanged?.Invoke(CurrentLanguage);
+            user.Stats.Language = languageToSet;
         }
 
         //Generate JSON (USE TO CREATE A FIRST-TIME DUMMY)

@@ -21,12 +21,12 @@ namespace Eremite.Commands
             var user = await DataHandler.GetData(context.User);
             var shopAction = new ShopAction(user);
 
-            var options = shopAction.CreateShopDropdown(context);
-            var dropdown = new DiscordSelectComponent("shopdropdown", Localization.GetText(inputPlaceholder), options.Values, false, 1, 1);
+            var options = shopAction.CreateShopDropdown(context, user);
+            var dropdown = new DiscordSelectComponent("shopdropdown", user.GetText(inputPlaceholder), options.Values, false, 1, 1);
 
             var messageBuilder = new DiscordMessageBuilder()
                 .AddComponents(dropdown)
-                .WithEmbed(ShopAction.GetEmbedWithShopInfo());
+                .WithEmbed(ShopAction.GetEmbedWithShopInfo(user));
 
             shopAction.OnUserBought += SaveData;
             await context.RespondAsync(messageBuilder);

@@ -29,13 +29,13 @@ namespace Eremite.Commands
 
             if (matchingCharacter == null)
             {
-                await context.RespondAsync($"> {Localization.GetText(sacrificeCharacterNotFound)}");
+                await context.RespondAsync($"> {user.GetText(sacrificeCharacterNotFound)}");
                 return;
             }
 
             if(matchingCharacter.SellPrice <= 0)
             {
-                await context.RespondAsync($">{Localization.GetText(cantSacrificeCharacterError)}");
+                await context.RespondAsync($">{user.GetText(cantSacrificeCharacterError)}");
                 return;
             }
 
@@ -53,7 +53,7 @@ namespace Eremite.Commands
             var updateQuery = new UserUpdateQueryBuilder(user, QueryElement.EquippedCharacter, QueryElement.Characters, QueryElement.Wallet, QueryElement.Stats).Build();
             await DataHandler.SendData(user, updateQuery);
 
-            await context.RespondAsync($"{user.Username} {Localization.GetText(sacrificed)} {matchingCharacter.CharacterName} [{matchingCharacter.SellPrice} {Localization.GetText(Localization.PillsKey)}]");
+            await context.RespondAsync($"{user.Username} {user.GetText(sacrificed)} {matchingCharacter.CharacterName} [{matchingCharacter.SellPrice} {Localization.PillsEmoji}]");
         }
 
         [Command("sacrifice"), Description("Sacrifice character for some pills")]

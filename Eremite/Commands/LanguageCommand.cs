@@ -1,10 +1,10 @@
 ﻿using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
-using Eremite.Actions;
-using Eremite.Services;
-using Eremite.Data;
-using Eremite.Data.DiscordData;
+using Eremite.Base.Interfaces;
 using Eremite.Builders;
+using Eremite.Data;
+using Eremite.Data.Localization;
+using Eremite.Services;
 
 namespace Eremite.Commands
 {
@@ -12,51 +12,33 @@ namespace Eremite.Commands
     {
         public DataHandler DataHandler { get; set; }
 
-        private readonly string sacrificeCharacterNotFound = "sacrifice.character_not_found";
-        private readonly string cantSacrificeCharacterError = "sacrifice.error";
-        private readonly string sacrificed = "sacrifice.sacrificed";
+        private readonly string langChanged = "localization.lang_changed";
+        private readonly string langNotFound = "localization.lang_not_found";
 
-        [Command("sacrifice"), Description("Sacrifice character for some pills")]
-        public async Task Sacrifice(CommandContext context, string name, string lastname)
+        [Command("language"), Description("Changes the bot language for corresponding user")]
+        public async Task ChangeLanguage(CommandContext context, string languageName)
         {
             var user = await DataHandler.GetData(context.User);
-            var characters = CharactersHandler.ConvertIds(user.Characters);
-            var currentCharacter = CharactersHandler.ConvertId(user.EquippedCharacter);
+            languageName = languageName.ToLower();
 
-            var matchingCharacter = characters.FirstOrDefault(character =>
-                character.CharacterName.ToLower() == $"{name.ToLower()} {lastname.ToLower()}"
-                || character.CharacterName.ToLower().Contains(name.ToLower()));
+            Language newLanguage = user.Stats.Language;
+            if (languageName.Contains("fr")) newLanguage = Language.French;
+            if (languageName.Contains("ua")) newLanguage = Language.Ukrainian;
 
-            if (matchingCharacter == null)
-            {
-                await context.RespondAsync($"> {Localization.GetText(sacrificeCharacterNotFound)}");
+            if (newLanguage == user.Stats.Language)
+            {   
+                await context.RespondAsync($"> {user.GetText(langNotFound)}");
                 return;
             }
 
-            if (matchingCharacter.SellPrice <= 0)
-            {
-                await context.RespondAsync($">{Localization.GetText(cantSacrificeCharacterError)}");
-                return;
-            }
+            Localization.ChangeLanugage(user, newLanguage);
+            await context.RespondAsync($"> {user.GetText(langChanged)}");
 
-            if (matchingCharacter.CharacterName == currentCharacter.CharacterName) SetCharacterAction.Dequip(user);
-            user.RemovePulledCharacter(matchingCharacter);
-
-            user.Stats.TotalCharactersSacrificed += 1;
-            user.Stats.TotalPillsEarned += matchingCharacter.SellPrice;
-
-            var award = new Award(new DiscordWallet(0, 0, matchingCharacter.SellPrice));
-            PerkAction.ApplyPerk(user, TimeGatedEventType.None, award);
-
-            user.AddAward(award);
-
-            var updateQuery = new UserUpdateQueryBuilder(user, QueryElement.EquippedCharacter, QueryElement.Characters, QueryElement.Wallet, QueryElement.Stats).Build();
-            await DataHandler.SendData(user, updateQuery);
-
-            await context.RespondAsync($"{user.Username} {Localization.GetText(sacrificed)} {matchingCharacter.CharacterName} [{matchingCharacter.SellPrice} {Localization.GetText(Localization.PillsKey)}]");
+            IQueryBuilder query = new UserUpdateQueryBuilder(user, QueryElement.Stats);
+            await DataHandler.SendData(user, query.Build());
         }
 
-        [Command("sacrifice"), Description("Sacrifice character for some pills")]
-        public async Task Sacrifice(CommandContext context, string name) => await Sacrifice(context, name, string.Empty);
+        [Command("lang"), Description("Changes the bot language for corresponding user")]
+        public async Task ChangeLang(CommandContext context, string languageName) => await ChangeLanguage(context, languageName);
     }
 }

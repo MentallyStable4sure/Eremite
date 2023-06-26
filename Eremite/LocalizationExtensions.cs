@@ -1,4 +1,6 @@
-﻿using Eremite.Data.Localization;
+﻿using Eremite.Data.DiscordData;
+using Eremite.Data.Localization;
+using Eremite.Services;
 
 namespace Eremite
 {
@@ -35,15 +37,15 @@ namespace Eremite
             switch (language)
             {
                 case Language.French:
-                    text = packet.french.Find(match => match.key == key).text;
+                    text = packet.french.Find(match => match.key == key)?.text;
                     break;
 
                 case Language.Ukrainian:
-                    text = packet.ukrainian.Find(match => match.key == key).text;
+                    text = packet.ukrainian.Find(match => match.key == key)?.text;
                     break;
 
                 default:
-                    text = packet.english.Find(match => match.key == key).text;
+                    text = packet.english.Find(match => match.key == key)?.text;
                     break;
             }
 
@@ -80,6 +82,8 @@ namespace Eremite
             }
 
         }
+
+        public static string GetText(this UserData user, string key) => Localization.GetText(user, key);
 
     }
 }

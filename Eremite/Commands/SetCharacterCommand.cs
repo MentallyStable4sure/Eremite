@@ -26,13 +26,13 @@ namespace Eremite.Commands
 
             if(matchingCharacter == null)
             {
-                await context.RespondAsync($"> {Localization.GetText(characterNotFound)}");
+                await context.RespondAsync($"> {user.GetText(characterNotFound)}");
                 return;
             }
 
             if(matchingCharacter.CharacterId == user.EquippedCharacter)
             {
-                await context.RespondAsync($"> {Localization.GetText(alreadyEquipped)}");
+                await context.RespondAsync($"> {user.GetText(alreadyEquipped)}");
                 return;
             }
 
@@ -41,7 +41,7 @@ namespace Eremite.Commands
             var updateQuery = new UserUpdateQueryBuilder(user, QueryElement.EquippedCharacter).Build();
             await DataHandler.SendData(user, updateQuery);
 
-            await context.Message.RespondAsync(SetCharacterAction.GetEmbedWithCharacterInfo(matchingCharacter));
+            await context.Message.RespondAsync(SetCharacterAction.GetEmbedWithCharacterInfo(user, matchingCharacter));
         }
 
         [Command("setcharacter"), Description("Sets character as a main equipped character")]

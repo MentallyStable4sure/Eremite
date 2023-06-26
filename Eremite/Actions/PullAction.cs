@@ -95,9 +95,9 @@ namespace Eremite.Actions
             return new DiscordEmbedBuilder()
             {
                 Color = highestTierColor,
-                Title = $"{user.Username} {Localization.GetText(wishKey)}",
+                Title = $"{user.Username} {user.GetText(wishKey)}",
                 ImageUrl = highestTier.ImagePullBannerUrl,
-                Description = $"> {characters.ToCharacterList()}"
+                Description = $"> {characters.ToCharacterList(user)}"
             };
         }
     }

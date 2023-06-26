@@ -22,14 +22,14 @@ namespace Eremite
             Console.WriteLine(isCorrupted ? corruptedMessage : successMessage);
         }
 
-        public static string ToCharacterList(this List<Character> characters)
+        public static string ToCharacterList(this List<Character> characters, UserData user)
         {
-            if (characters == null || characters.Count <= 0) return Localization.GetText(SetCharacterAction.noMainCharacter);
+            if (characters == null || characters.Count <= 0) return user.GetText(SetCharacterAction.noMainCharacter);
 
             string charactersInInventory = string.Empty;
             foreach (var character in characters)
             {
-                charactersInInventory = $"{charactersInInventory} {character.CharacterName} <{character.StarsRarity}{Localization.GetText(Localization.StarKey)}> ";
+                charactersInInventory = $"{charactersInInventory} {character.CharacterName} <{character.StarsRarity}{Localization.StarEmoji}> ";
             }
 
             return charactersInInventory;

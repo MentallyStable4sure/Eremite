@@ -21,18 +21,18 @@ namespace Eremite.Layouts
             this.user = user;
         }
 
-        public DiscordEmbedBuilder GetMainAkashaEmbed(List<Character> characters, Character current)
+        public DiscordEmbedBuilder GetMainAkashaEmbed(UserData user, List<Character> characters, Character current)
         {
-            var info = new AkashaEmbedInfo(current, defaultBannerImage);
+            var info = new AkashaEmbedInfo(user, current, defaultBannerImage);
 
             return new DiscordEmbedBuilder()
             {
                 Color = DiscordColor.Orange,
-                Title = $"{user.Username} {Localization.GetText(profileKey)}",
+                Title = $"{user.Username} {user.GetText(profileKey)}",
                 ImageUrl = info.profileImageUrl,
-                Description = $"[ID:{user.UserId}]\n\n> **{Localization.GetText(mainCharacterKey)} {info.characterName}**" +
-                    $"\n> {Localization.GetText(characterBuffKey)} {info.characterBuffInfo}\n\n{Localization.GetText(charactersObtained)} {characters.ToCharacterList()}" +
-                    $"\n\n`{user.Wallet.Primogems}` {Localization.GetText(Localization.PrimosKey)} | `{user.Wallet.Mora}` {Localization.GetText(Localization.MoraKey)} | `{user.Wallet.Pills}` {Localization.GetText(Localization.PillsKey)}"
+                Description = $"[ID:{user.UserId}]\n\n> **{user.GetText(mainCharacterKey)} {info.characterName}**" +
+                    $"\n> {user.GetText(characterBuffKey)} {info.characterBuffInfo}\n\n{user.GetText(charactersObtained)} {characters.ToCharacterList(user)}" +
+                    $"\n\n`{user.Wallet.Primogems}` {Localization.PrimosEmoji} | `{user.Wallet.Mora}` {Localization.MoraEmoji} | `{user.Wallet.Pills}` {Localization.PillsEmoji}"
             };
         }
 
@@ -42,9 +42,9 @@ namespace Eremite.Layouts
             public string characterBuffInfo;
             public string profileImageUrl;
 
-            public AkashaEmbedInfo(Character character, string defaultImage)
+            public AkashaEmbedInfo(UserData user, Character character, string defaultImage)
             {
-                var noText = Localization.GetText(SetCharacterAction.noMainCharacter);
+                var noText = user.GetText(SetCharacterAction.noMainCharacter);
                 profileImageUrl = defaultImage;
                 characterBuffInfo = noText;
                 characterName = noText;
