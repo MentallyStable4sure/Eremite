@@ -97,7 +97,7 @@ namespace Eremite.Actions
             for (int i = 0; i < users.Count; i++)
             {
                 var user = users[i];
-                stringBuilder.Append($"\n> [{i+1}] {user.Username} | {user.GetText(timesPulled)}: {user.Stats.TimesPulled} | {user.Stats.TotalPrimogemsEarned} {Localization.PrimosEmoji} | {user.Stats.TotalPillsEarned} {Localization.PillsEmoji}");
+                stringBuilder.Append($"\n> [{i+1}] {user.Username} | {user.GetText(timesPulled)} {user.Stats.TimesPulled} | {user.Stats.TotalPrimogemsEarned} {Localization.PrimosEmoji} | {user.Stats.TotalPillsEarned} {Localization.PillsEmoji}");
             }
 
             return new DiscordInteractionResponseBuilder().AddEmbed(new DiscordEmbedBuilder()
