@@ -27,7 +27,7 @@ namespace Eremite.Actions
         public const string lotUnavaliable = "shop.lot_unavaliable";
         public const string lotBought = "shop.lot_bought";
 
-        public const string witchHatKey = "shop.witch_hat";
+        public const string witchHatKey = "shop.crimson_witch_hat";
         public const string welkinKey = "shop.welkin_moon";
 
         public const string lot100Primogems = "shop.lot.100primogems";
