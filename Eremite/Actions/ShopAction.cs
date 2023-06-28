@@ -62,7 +62,7 @@ namespace Eremite.Actions
                 { new Identifier(crimsonWitchHatGuid, (int)DoriLot.CRIMSON_WITCH_HAT), new DiscordSelectComponentOption(
                     $"400 {Localization.PillsEmoji} --> {witchHatEmoji}",
                     crimsonWitchHatGuid,
-                    user.GetText(witchHatEmoji),
+                    user.GetText(lotCrimsonWitch),
                     emoji: new DiscordComponentEmoji(1119701575313653924)) },
                 { new Identifier(welkinMoonGuid, (int)DoriLot.WELKIN_MOON), new DiscordSelectComponentOption(
                     $"2000 {Localization.PillsEmoji} --> {welkinEmoji}",
