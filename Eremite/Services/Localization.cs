@@ -14,6 +14,10 @@ namespace Eremite.Services
         public const string PillsEmoji = "<:pillwhite:1119700330259693629>";
         public const string StarEmoji = "<:Stardust3:1122370119608303716>";
 
+        public const string Mora = "currency.mora";
+        public const string Primos = "currency.primogems";
+        public const string Pills = "currency.pills";
+
         public const string NoCurrencyKey = "not_enough_currency";
 
         protected static LocalizationPacket localizationPacket = new LocalizationPacket();

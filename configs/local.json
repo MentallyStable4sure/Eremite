@@ -1,6 +1,18 @@
 {
   "english": [
     {
+      "key": "currency.mora",
+      "text": "Mora"
+    },
+    {
+      "key": "currency.primogems",
+      "text": "Primogems"
+    },
+    {
+      "key": "currency.pills",
+      "text": "Pills"
+    },
+    {
       "key": "events.triggered",
       "text": "triggered"
     },
@@ -134,15 +146,23 @@
     },
     {
       "key": "shop.lot.crimson_witch_hat",
-      "text": "Will make anyone a pyro witch!"
+      "text": "What else pyro witch needs?"
     },
     {
       "key": "shop.lot.welkin_moon",
-      "text": "Visit my Palace which is exclusive in MS Launcher"
+      "text": "For larger sale visit Dori's palace in MS Launcher"
     },
     {
       "key": "shop.lot.100pills",
       "text": "I love mora! And Mora loves me! Hehe~"
+    },
+    {
+      "key": "shop.welkin_moon",
+      "text": "Welkin Moon"
+    },
+    {
+      "key": "shop.crimson_witch_hat",
+      "text": "Crimson Witch Hat"
     },
     {
       "key": "stats.top.by_pulls",
@@ -196,6 +216,18 @@
     }
   ],
   "ukrainian": [
+    {
+      "key": "currency.mora",
+      "text": "Мора"
+    },
+    {
+      "key": "currency.primogems",
+      "text": "Камінці"
+    },
+    {
+      "key": "currency.pills",
+      "text": "Таблетки"
+    },
     {
       "key": "events.triggered",
       "text": "виконує"
@@ -335,6 +367,14 @@
     {
       "key": "shop.lot.100pills",
       "text": "Я люблю мору, а мора любить мене! Хехе~"
+    },
+    {
+      "key": "shop.welkin_moon",
+      "text": "Місячне благословлення"
+    },
+    {
+      "key": "shop.crimson_witch_hat",
+      "text": "Відьомська Шляпа"
     },
     {
       "key": "stats.top.by_pulls",
