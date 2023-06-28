@@ -1,6 +1,5 @@
 ﻿using DSharpPlus.Entities;
 using Eremite.Actions;
-using Eremite.Commands;
 using Eremite.Data;
 using Eremite.Data.DiscordData;
 using Eremite.Services;
@@ -29,7 +28,7 @@ namespace Eremite
             string charactersInInventory = string.Empty;
             foreach (var character in characters)
             {
-                charactersInInventory = $"{charactersInInventory} {character.CharacterName} <{character.StarsRarity}{Localization.StarEmoji}> ";
+                charactersInInventory = $"{charactersInInventory} {user.GetText($"character.{character.CharacterId}.name")} <{character.StarsRarity}{Localization.StarEmoji}> ";
             }
 
             return charactersInInventory;
@@ -52,7 +51,7 @@ namespace Eremite
             switch (character.StarsRarity)
             {
                 case 3: return DiscordColor.Green;
-                case 4: return DiscordColor.Blue;
+                case 4: return DiscordColor.Aquamarine;
                 case 5: return DiscordColor.Orange;
                 case 10: return DiscordColor.Red;
                 default: return DiscordColor.White;

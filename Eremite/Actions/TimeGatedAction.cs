@@ -88,7 +88,7 @@ namespace Eremite.Actions
         {
             var award = timeGatedEvent.Award;
 
-            string characters = award.CharactersToAdd?.Count > 0 ? award.CharactersToAdd.GetHighestTier().CharacterName : user.GetText(noCharactersFound);
+            string characters = award.CharactersToAdd?.Count > 0 ? award.CharactersToAdd.ToCharacterList(user) : user.GetText(noCharactersFound);
             return new DiscordEmbedBuilder()
             {
                 Color = DiscordColor.Purple,

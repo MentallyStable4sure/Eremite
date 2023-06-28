@@ -1,5 +1,6 @@
 ﻿using DSharpPlus;
 using DSharpPlus.CommandsNext;
+using DSharpPlus.CommandsNext.Converters;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using Eremite.Base;
@@ -26,8 +27,8 @@ namespace Eremite.Actions
         public const string lotUnavaliable = "shop.lot_unavaliable";
         public const string lotBought = "shop.lot_bought";
 
-        public const string witchHatEmoji = "<:crimsonwitchhat:1119701575313653924>";
-        public const string welkinEmoji = "<:Resin:765128125301915658>";
+        public const string witchHatKey = "shop.crimson_witch_hat";
+        public const string welkinKey = "shop.welkin_moon";
 
         public const string lot100Primogems = "shop.lot.100primogems";
         public const string lotCrimsonWitch = "shop.lot.crimson_witch_hat";
@@ -55,22 +56,22 @@ namespace Eremite.Actions
             var dropdrownOptions = new Dictionary<Identifier, DiscordSelectComponentOption>()
             {
                 { new Identifier(oneHundredPrimosGuid, (int)DoriLot.ONE_HUNDRED_PRIMOS), new DiscordSelectComponentOption(
-                    $"3000 {Localization.MoraEmoji} --> 100 {Localization.PrimosEmoji}",
+                    $"✦ 3000 {user.GetText(Localization.Mora)} ✦ ➜➜ ✦ 100 {user.GetText(Localization.Primos)} ✦",
                     oneHundredPrimosGuid,
                     user.GetText(lot100Primogems),
                     emoji: new DiscordComponentEmoji(1113103136991756328)) },
                 { new Identifier(crimsonWitchHatGuid, (int)DoriLot.CRIMSON_WITCH_HAT), new DiscordSelectComponentOption(
-                    $"400 {Localization.PillsEmoji} --> {witchHatEmoji}",
+                    $"✦ 400 {user.GetText(Localization.Pills)} ✦ ➜➜ ✦ {user.GetText(witchHatKey)} ✦",
                     crimsonWitchHatGuid,
-                    user.GetText(witchHatEmoji),
+                    user.GetText(lotCrimsonWitch),
                     emoji: new DiscordComponentEmoji(1119701575313653924)) },
                 { new Identifier(welkinMoonGuid, (int)DoriLot.WELKIN_MOON), new DiscordSelectComponentOption(
-                    $"2000 {Localization.PillsEmoji} --> {welkinEmoji}",
+                    $"✦ 5000 {user.GetText(Localization.Pills)} ✦ ➜➜ ✦ {user.GetText(welkinKey)} ✦",
                     welkinMoonGuid,
                     user.GetText(lotWelkin),
                     emoji: new DiscordComponentEmoji(765128125301915658)) },
                 { new Identifier(oneHundredPillsGuid, (int)DoriLot.ONE_HUNDRED_PILLS), new DiscordSelectComponentOption(
-                    $"10000 {Localization.MoraEmoji} --> 100 {Localization.PillsEmoji}",
+                    $"✦ 10000 {user.GetText(Localization.Mora)} ✦ ➜➜ ✦ 300 {user.GetText(Localization.Pills)} ✦",
                     oneHundredPillsGuid,
                     user.GetText(lot100pills),
                     emoji : new DiscordComponentEmoji(1119700330259693629)) },
@@ -111,15 +112,15 @@ namespace Eremite.Actions
                     user.AddPulledCharacter(allCharacters.Find(character => character.CharacterName.ToLower().Contains("signora")).CharacterId);
                     break;
                 case DoriLot.WELKIN_MOON:
-                    if (user.Wallet.Pills < 2000) return NotEnoughMaterialsError;
+                    if (user.Wallet.Pills < 5000) return NotEnoughMaterialsError;
                     return user.GetText(lotUnavaliable);
-                    user.Wallet.Pills -= 2000;
+                    user.Wallet.Pills -= 5000;
                     //TODO: Connect PayPal or better redirect on ms4s/php
                     break;
                 case DoriLot.ONE_HUNDRED_PILLS:
                     if (user.Wallet.Mora < 10000) return NotEnoughMaterialsError;
                     user.Wallet.Mora -= 10000;
-                    user.Wallet.Pills += 100;
+                    user.Wallet.Pills += 300;
                     break;
             }
 

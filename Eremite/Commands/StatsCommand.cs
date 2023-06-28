@@ -44,9 +44,9 @@ namespace Eremite.Commands
             {
                 if (args.User.Id.ToString() != user.UserId) return;
 
-                if (args.Id == topPulls) await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage, StatsAction.SortUsersInBuilder(await StatsAction.GetTopUsers(DataHandler, SortMethod.Pulls)));
-                if (args.Id == topPrimos) await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage, StatsAction.SortUsersInBuilder(await StatsAction.GetTopUsers(DataHandler, SortMethod.Primogems)));
-                if (args.Id == topPills) await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage, StatsAction.SortUsersInBuilder(await StatsAction.GetTopUsers(DataHandler, SortMethod.Pills)));
+                if (args.Id == topPulls) await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage, StatsAction.SortUsersInBuilder(user.Stats.Language, await StatsAction.GetTopUsers(DataHandler, SortMethod.Pulls)));
+                if (args.Id == topPrimos) await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage, StatsAction.SortUsersInBuilder(user.Stats.Language, await StatsAction.GetTopUsers(DataHandler, SortMethod.Primogems)));
+                if (args.Id == topPills) await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage, StatsAction.SortUsersInBuilder(user.Stats.Language, await StatsAction.GetTopUsers(DataHandler, SortMethod.Pills)));
             };
 
             var buttons = new Dictionary<DiscordButtonComponent, string>();

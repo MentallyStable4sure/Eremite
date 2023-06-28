@@ -51,8 +51,8 @@ namespace Eremite.Layouts
 
                 if (character == null) return;
 
-                characterName = character.CharacterName;
-                characterBuffInfo = character.PerkInfo;
+                characterName = user.GetText($"character.{character.CharacterId}.name");
+                characterBuffInfo = user.GetText($"character.{character.CharacterId}.perk_info");
                 profileImageUrl = character.ImageAkashaBannerUrl;
             }
         }
