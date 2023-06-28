@@ -202,7 +202,7 @@
     },
     {
       "key": "localization.lang_not_found",
-      "text": "Language not found, try calling abbreviation like `en` `fr` `ua`"
+      "text": "Language not found or you already set this language, try calling abbreviation like `en` `fr` `ua`"
     }
   ],
   "french": [
@@ -358,11 +358,11 @@
     },
     {
       "key": "shop.lot.crimson_witch_hat",
-      "text": "Що ще потрібно гарячій відьмі? ~~купальник~~ шляпа!"
+      "text": "Що ще потрібно гарячій відьмі? купальн-кх.. шляпа!"
     },
     {
       "key": "shop.lot.welkin_moon",
-      "text": "Знижки діють у моємі палаці, який є ексклюзивом у лаунчері"
+      "text": "Ексклюзивні знижки у палаці Дорі у лаунчері"
     },
     {
       "key": "shop.lot.100pills",
@@ -414,7 +414,7 @@
     },
     {
       "key": "localization.lang_not_found",
-      "text": "Мову не знайдено, спробуйте абревіацію, накшталт `en` `fr` `ua`"
+      "text": "Мову не знайдено або вона вже встановлена, спробуйте абревіацію, накшталт `en` `fr` `ua`"
     }
   ]
 }

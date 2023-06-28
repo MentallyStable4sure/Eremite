@@ -22,6 +22,7 @@ namespace Eremite.Commands
             languageName = languageName.ToLower();
 
             Language newLanguage = user.Stats.Language;
+            if (languageName.Contains("en")) newLanguage = Language.English;
             if (languageName.Contains("fr")) newLanguage = Language.French;
             if (languageName.Contains("ua")) newLanguage = Language.Ukrainian;
 
