@@ -26,9 +26,9 @@ namespace Eremite.Actions
             return new DiscordEmbedBuilder()
             {
                 Color = characterRarityColor,
-                Title = character.CharacterName,
+                Title = user.GetText($"character.{character.CharacterId}.name"),
                 ImageUrl = character.ImageAkashaBannerUrl,
-                Description = $" {character.PerkInfo}{sacrificePrice}"
+                Description = $" {user.GetText($"character.{character.CharacterId}.perk_info")}{sacrificePrice}"
             };
         }
     }

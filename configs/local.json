@@ -203,6 +203,110 @@
     {
       "key": "localization.lang_not_found",
       "text": "Language not found or you already set this language, try calling abbreviation like `en` `fr` `ua`"
+    },
+    {
+      "key": "character.1.name",
+      "text": "Electro Mage"
+    },
+    {
+      "key": "character.2.name",
+      "text": "Gorou"
+    },
+    {
+      "key": "character.3.name",
+      "text": "Bosacius"
+    },
+    {
+      "key": "character.4.name",
+      "text": "Jeht"
+    },
+    {
+      "key": "character.5.name",
+      "text": "Menogias"
+    },
+    {
+      "key": "character.6.name",
+      "text": "Indarias"
+    },
+    {
+      "key": "character.7.name",
+      "text": "Candace"
+    },
+    {
+      "key": "character.8.name",
+      "text": "Xiao"
+    },
+    {
+      "key": "character.9.name",
+      "text": "Baizhu"
+    },
+    {
+      "key": "character.10.name",
+      "text": "Itto"
+    },
+    {
+      "key": "character.11.name",
+      "text": "Unknown God"
+    },
+    {
+      "key": "character.12.name",
+      "text": "Bonanus"
+    },
+    {
+      "key": "character.13.name",
+      "text": "Signora"
+    },
+    {
+      "key": "character.1.perk_info",
+      "text": "Getting double the amount (x2) Mora from all resources (!adventure, !daily, !pull, etc.)"
+    },
+    {
+      "key": "character.2.perk_info",
+      "text": "Gorou will provide assistance! The more characters you have the more time from !daily expedition will reset. Each character in party provides 30 minutes (Including Gorou, but cap is 75%). Whos a good boy?"
+    },
+    {
+      "key": "character.3.perk_info",
+      "text": "[Fate] - Getting double the amount (x2) Mora from all resources (!adventure, !daily, !pull, etc.) but also x2 lower primogems."
+    },
+    {
+      "key": "character.4.perk_info",
+      "text": "Whenever Jeht goes on an !adventure she always come back with two times more stuff then other eremites. (Applies to any currency)"
+    },
+    {
+      "key": "character.5.perk_info",
+      "text": "[Fate and Balance] Nothing is permanent"
+    },
+    {
+      "key": "character.6.perk_info",
+      "text": "[Clarity] - Lowers !daily cooldown by 12 hours"
+    },
+    {
+      "key": "character.7.perk_info",
+      "text": "Candace is an experienced warrior and protector of her own village. When you go on an !adventure your cooldown is gonna go lower by 10 minutes per character in your inventory (limit is 75%))"
+    },
+    {
+      "key": "character.8.perk_info",
+      "text": "[Sacrifice] - your Mora will be converted with 1/2 ratio into primogems from !adventure"
+    },
+    {
+      "key": "character.9.perk_info",
+      "text": "Lowers !adventure cooldown by 1 hour"
+    },
+    {
+      "key": "character.10.perk_info",
+      "text": "[The show begins!] Doubles (x2) the primogems but half a mora you receive goes to Kuki Shinobu in order to keep the clan alive"
+    },
+    {
+      "key": "character.11.perk_info",
+      "text": "[Your journey ends here!] gives you double the pills from !daily"
+    },
+    {
+      "key": "character.12.perk_info",
+      "text": "[Sacrifice with Kindness] - your Mora will be converted with 1/1 ratio into primogems from ALL resources (!adventure, !daily, !pull, etc.). But this will not delay poor yakshas fate.."
+    },
+    {
+      "key": "character.13.perk_info",
+      "text": "[Crimson Witch] - Converts primogems into pills 💊 with 1/2 ratio, but burns all your mora upon receiving"
     }
   ],
   "french": [
@@ -299,6 +403,10 @@
     {
       "key": "pull.overview_new_char_info",
       "text": "Оглянути персонажа"
+    },
+    {
+      "key": "pull.wish",
+      "text": "загадує бажання.."
     },
     {
       "key": "not_enough_currency",
@@ -415,6 +523,110 @@
     {
       "key": "localization.lang_not_found",
       "text": "Мову не знайдено або вона вже встановлена, спробуйте абревіацію, накшталт `en` `fr` `ua`"
+    },
+    {
+      "key": "character.1.name",
+      "text": "Громова Відьма"
+    },
+    {
+      "key": "character.2.name",
+      "text": "Горо"
+    },
+    {
+      "key": "character.3.name",
+      "text": "Босаціус"
+    },
+    {
+      "key": "character.4.name",
+      "text": "Джехт"
+    },
+    {
+      "key": "character.5.name",
+      "text": "Меногіас"
+    },
+    {
+      "key": "character.6.name",
+      "text": "Індаріас"
+    },
+    {
+      "key": "character.7.name",
+      "text": "Кендіс"
+    },
+    {
+      "key": "character.8.name",
+      "text": "Сяо"
+    },
+    {
+      "key": "character.9.name",
+      "text": "Байчжу"
+    },
+    {
+      "key": "character.10.name",
+      "text": "Ітто"
+    },
+    {
+      "key": "character.11.name",
+      "text": "Невідома Богиня"
+    },
+    {
+      "key": "character.12.name",
+      "text": "Бонанус"
+    },
+    {
+      "key": "character.13.name",
+      "text": "Сеньйора"
+    },
+    {
+      "key": "character.1.perk_info",
+      "text": "Отримує удвічі більше (x2) Мори з усіх ресурсів (!adventure, !daily, !pull, etc.)"
+    },
+    {
+      "key": "character.2.perk_info",
+      "text": "Горо допоможе! Чим більше персонажів ви маєте тим менший !daily експидція матиме відкат. Кожен персонаж дає -30 хвилин (Включаючи Горо, але не більш ніж 75%). Хто тут гарний хлопчик?"
+    },
+    {
+      "key": "character.3.perk_info",
+      "text": "[Fate] - Отримує вдвічі більше (x2) Мори з усіх ресурсів (!adventure, !daily, !pull, etc.) але також x2 менше камінців."
+    },
+    {
+      "key": "character.4.perk_info",
+      "text": "Коли Джехт ходить у !adventure вона зазвичай знаходить удвічі більше аніж інше еремітки. (Стосується усієї нагороди)"
+    },
+    {
+      "key": "character.5.perk_info",
+      "text": "[Fate and Balance] Ніщо не вічно"
+    },
+    {
+      "key": "character.6.perk_info",
+      "text": "[Clarity] - Зменшує !daily відкат на 12 годин"
+    },
+    {
+      "key": "character.7.perk_info",
+      "text": "Вона завзята войовниця та заступниця свого села. Під час зборів у !adventure вона заздалегіть усе планує, тому відкат буде на 10 хвилин менший за кожного персонажа (Але не більш ніж 75%))"
+    },
+    {
+      "key": "character.8.perk_info",
+      "text": "[Sacrifice] - уся Мора конвертується 1 до 2 в камінці але лише з !adventure"
+    },
+    {
+      "key": "character.9.perk_info",
+      "text": "Зменшує відкат !adventure на 1 годину"
+    },
+    {
+      "key": "character.10.perk_info",
+      "text": "[The show begins!] Подвоює (x2) усі камінці але половина усієї Мори йде до Кукі щоб утримувати клан"
+    },
+    {
+      "key": "character.11.perk_info",
+      "text": "[Your journey ends here!] подвоює таблетки з !daily події"
+    },
+    {
+      "key": "character.12.perk_info",
+      "text": "[Sacrifice with Kindness] - Мора конвертується 1 до 1 у камінці з усих ресурсів (!adventure, !daily, !pull, etc.). Але це не відсрочить її жахливу долю.."
+    },
+    {
+      "key": "character.13.perk_info",
+      "text": "[Crimson Witch] - Конвертує камінці у таблетки 💊 1 до 2, але уся Мора згорає коли її торкається відьма"
     }
   ]
 }

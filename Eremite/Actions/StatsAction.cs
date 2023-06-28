@@ -25,10 +25,10 @@ namespace Eremite.Actions
         /// <returns>already formatted string</returns>
         public static string GetMessageAboutUser(UserData user)
         {
-            var currentCharacter = user.IsAnyCharacterEquipped() ? CharactersHandler.ConvertId(user.EquippedCharacter).CharacterName : user.GetText(SetCharacterAction.noMainCharacter);
+            var currentCharacter = user.IsAnyCharacterEquipped() ? user.GetText($"character.{user.EquippedCharacter}.name") : user.GetText(SetCharacterAction.noMainCharacter);
 
-            return $"[ID:{user.UserId}]\n\n> **{user.GetText(AkashaLayout.mainCharacterKey)}: {currentCharacter}**" +
-                    $"\n> {user.GetText(AkashaLayout.charactersObtained)}: {user.Characters.Count} | {user.GetText(timesPulled)} {user.Stats.TimesPulled}" +
+            return $"[ID:{user.UserId}]\n\n> **{user.GetText(AkashaLayout.mainCharacterKey)} {currentCharacter}**" +
+                    $"\n> {user.GetText(AkashaLayout.charactersObtained)} {user.Characters.Count} | {user.GetText(timesPulled)} {user.Stats.TimesPulled}" +
                     $"\n\n{user.GetText(timesTraveled)} {user.Stats.TimesTraveled} | {user.GetText(dailiesCompleted)} {user.Stats.TimesDailiesCompleted}" +
                     $"\n{user.GetText(totalPirmogems)} [{user.Stats.TotalPrimogemsEarned}|{user.Stats.TotalPrimogemsSpent}]" +
                     $"\n{user.GetText(totalPills)} [{user.Stats.TotalPillsEarned}|{user.Stats.TotalPillsSpent}]";
