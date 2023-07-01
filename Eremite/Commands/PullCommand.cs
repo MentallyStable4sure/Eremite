@@ -23,7 +23,7 @@ namespace Eremite.Commands
         {
             var user = await DataHandler.GetData(context.User);
 
-            if (user.Wallet.Primogems < DataHandler.Config.PullCost * number) await context.RespondAsync($"> {Localization.NoCurrencyKey}");
+            if (user.Wallet.Primogems < DataHandler.Config.PullCost * number) await context.RespondAsync($"> {user.GetText(Localization.NoCurrencyKey)}");
             else
             {
                 var charactersPulled = await PullAction.ForUserAsyncSave(user, number);
