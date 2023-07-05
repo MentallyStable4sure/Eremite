@@ -102,23 +102,23 @@ namespace Eremite.Actions
             switch (lot)
             {
                 case DoriLot.ONE_HUNDRED_PRIMOS:
-                    if (user.Wallet.Mora < 3000) return NotEnoughMaterialsError;
+                    if (user.Wallet.Mora < 3000) return user.GetText(Localization.NoCurrencyKey);
                     user.Wallet.Mora -= 3000;
                     user.Wallet.Primogems += 100;
                     break;
                 case DoriLot.CRIMSON_WITCH_HAT:
-                    if (user.Wallet.Pills < 400) return NotEnoughMaterialsError;
+                    if (user.Wallet.Pills < 400) return user.GetText(Localization.NoCurrencyKey);
                     user.Wallet.Pills -= 400;
                     user.AddPulledCharacter(allCharacters.Find(character => character.CharacterName.ToLower().Contains("signora")).CharacterId);
                     break;
                 case DoriLot.WELKIN_MOON:
-                    if (user.Wallet.Pills < 5000) return NotEnoughMaterialsError;
+                    if (user.Wallet.Pills < 5000) return user.GetText(Localization.NoCurrencyKey);
                     return user.GetText(lotUnavaliable);
                     user.Wallet.Pills -= 5000;
                     //TODO: Connect PayPal or better redirect on ms4s/php
                     break;
                 case DoriLot.ONE_HUNDRED_PILLS:
-                    if (user.Wallet.Mora < 10000) return NotEnoughMaterialsError;
+                    if (user.Wallet.Mora < 10000) return user.GetText(Localization.NoCurrencyKey);
                     user.Wallet.Mora -= 10000;
                     user.Wallet.Pills += 300;
                     break;
