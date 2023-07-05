@@ -21,5 +21,6 @@ namespace Eremite.Data.DiscordData
         public int TotalCharactersSacrificed = 0;
 
         public Language Language = Language.English;
+        public string UserUID = string.Empty;
     }
 }
