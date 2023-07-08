@@ -1,7 +1,7 @@
 # C# Discord Bot with MySQL DB on DSharpPlus [.NET 7]
  2nd version of an [old mini-games Genshin bot](https://github.com/dentalmisorder/genshin-eremite-discordbot). .NET 7+ is required. Pull requests are welcomed.
 ***
-> [Documentation WIP]
+> [Documentation](https://mentally-stable.gitbook.io/eremite/)
 
 > [Invite Bot](https://discord.com/api/oauth2/authorize?client_id=739487241469952000&permissions=8&scope=bot) or mess with the bot in [our server #bot-commands](https://discord.gg/mentallystable4sure)
 ***
