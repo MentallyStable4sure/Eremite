@@ -32,13 +32,12 @@ namespace Eremite.Data
         /// </summary>
         /// <param name="additionalUrl">url after a base url (e.g subfolders)</param>
         /// <returns>raw text response</returns>
-        public static async Task<string> SendPostRequest(string additionalUrl, string json)
+        public static async Task<string> SendPostRequest(string additionalUrl, FormUrlEncodedContent content)
         {
             HttpClient httpClient = new HttpClient();
             var request = new HttpRequestMessage(HttpMethod.Post, $"{BASE_ROUTE}{additionalUrl}");
 
-            var jsonContent = new StringContent(json, Encoding.UTF8, "application/json");
-            var response = await httpClient.PostAsync(request.RequestUri, jsonContent);
+            var response = await httpClient.PostAsync(request.RequestUri, content);
 
             string responseText = new string(await response.Content.ReadAsStringAsync());
 

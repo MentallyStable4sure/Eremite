@@ -1,7 +1,7 @@
 ﻿using Eremite.Data;
+using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Text.Json;
 
 namespace Eremite.Actions
 {
@@ -10,11 +10,18 @@ namespace Eremite.Actions
 
         public async static Task<bool> BuyWelkin(string playerUID)
         {
-            var orderData = new OrderData() { ID = playerUID };
-
             var timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-            string jsonData = JsonSerializer.Serialize<OrderData>(orderData);
-            var orderResponse = JsonSerializer.Deserialize<OrderDataResponse>(await DataRouter.SendPostRequest($"{Endpoint.SERVICES_ENDPOINT}/{Endpoint.SIGN_PAYLOAD}", jsonData));
+            var orderData = new Dictionary<string, string>
+            {
+                { "ID", playerUID },
+                { "Path", "order/create_order" }
+            };
+
+            var content = new FormUrlEncodedContent(orderData);
+            var orderRawResponse = await DataRouter.SendPostRequest($"{Endpoint.SERVICES_ENDPOINT}/{Endpoint.SIGN_PAYLOAD}", content);
+
+            var orderResponse = JsonConvert.DeserializeObject<OrderDataResponse>(orderRawResponse);
+            orderResponse.Payload = orderResponse.Payload.Replace("\\", "");
 
             var auth = orderResponse.Sign; //await DataRouter.SendGetRequest($"{Endpoint.SERVICES_ENDPOINT}/{Endpoint.SIGN_PAYLOAD}");
             Console.WriteLine(auth);
@@ -31,14 +38,14 @@ namespace Eremite.Actions
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", auth_basic);
 
                 var stringContent = new StringContent(orderResponse.Payload, Encoding.UTF8, "application/json");
-                var response = await client.PostAsync($"wp-json/v1/api/{orderData.Path}", stringContent);
+                var response = await client.PostAsync($"wp-json/v1/api/order/create_order", stringContent);
 
                 if (response.IsSuccessStatusCode)
                 {
                     var responseString = await response.Content.ReadAsStringAsync();
                     Console.WriteLine("Success response!: " + responseString);
 
-                    if (responseString.Contains("200")) return true;
+                    if (responseString.Contains("Order has been created successfully")) return true;
                     else return false;
                 }
 

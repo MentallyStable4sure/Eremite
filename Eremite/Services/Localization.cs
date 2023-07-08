@@ -42,7 +42,7 @@ namespace Eremite.Services
         {
             var jsonRawData = await DataGrabber.GrabFromConfigs(LocalizationPacketName);
 
-            jsonRawData.LogStatus("Localization Packet");
+            jsonRawData.LogStatus(LocalizationPacketName);
 
             localizationPacket = JsonConvert.DeserializeObject<LocalizationPacket>(jsonRawData);
         }

@@ -315,12 +315,316 @@
   ],
   "french": [
     {
-      "key": "dummy_key",
-      "text": "dummy text about this key"
+      "key": "currency.mora",
+      "text": "Mora"
     },
     {
-      "key": "dummy_key2",
-      "text": "dummy text about this key"
+      "key": "currency.primogems",
+      "text": "Primo-gemmes"
+    },
+    {
+      "key": "currency.pills",
+      "text": "Pilules"
+    },
+    {
+      "key": "events.triggered",
+      "text": "a déclenché l'évènement"
+    },
+    {
+      "key": "events.event_key",
+      "text": ":O"
+    },
+    {
+      "key": "events.meet",
+      "text": "recontre"
+    },
+    {
+      "key": "events.meet0characters",
+      "text": "0 personnages"
+    },
+    {
+      "key": "events.collected",
+      "text": "et a collecté"
+    },
+    {
+      "key": "events.trigger_event_timer",
+      "text": "Cet évènement peut être déclenché de nouveau dans"
+    },
+    {
+      "key": "events.already_triggered",
+      "text": "Cet évènement à déjà été déclenché"
+    },
+    {
+      "key": "adventures.no_adventures_found",
+      "text": "Il n'y a aucun lieu à visiter, configure les lieux dans adventures.json"
+    },
+    {
+      "key": "adventures.start_adventure",
+      "text": "pars à l'aventure.."
+    },
+    {
+      "key": "adventures.description",
+      "text": "'Chaque périple à une fin, ne te précipite pas', où aller ensuite ?"
+    },
+    {
+      "key": "profile.pull_button",
+      "text": "Faire des voeux"
+    },
+    {
+      "key": "profile.account_stats_button",
+      "text": "Statistiques du compte"
+    },
+    {
+      "key": "profile.user_profile",
+      "text": "et son profil"
+    },
+    {
+      "key": "profile.main_character",
+      "text": "Personnage principal:"
+    },
+    {
+      "key": "profile.character_buff",
+      "text": "Bonus de personnage:"
+    },
+    {
+      "key": "profile.characters_obtained",
+      "text": "Personnages obtenus:"
+    },
+    {
+      "key": "pull.set_new_char_as_main",
+      "text": "Définir ce personnage comme principal"
+    },
+    {
+      "key": "pull.overview_new_char_info",
+      "text": "Voir les informations du personnage"
+    },
+    {
+      "key": "pull.wish",
+      "text": "a fait un vœu.."
+    },
+    {
+      "key": "not_enough_currency",
+      "text": "Pas assez d'argent! Il faut faire des activités comme `!adventure`, `!daily`, etc. pour gagner de l'argent. (`!help` pour voir toutes les commandes)"
+    },
+    {
+      "key": "sacrifice.character_not_found",
+      "text": "Je n'ai pas trouvé ce personnage dans la liste, peut-être en utilisant son nom?"
+    },
+    {
+      "key": "sacrifice.error",
+      "text": "Impossible de sacrifier ce personnage ou sa valeur de sacrifice est de 0"
+    },
+    {
+      "key": "sacrifice.sacrificed",
+      "text": "a sacrifié"
+    },
+    {
+      "key": "setcharacter.not_found",
+      "text": "Je n'ai pas trouvé ce personnage dans la liste, peut-être en utilisant son nom?"
+    },
+    {
+      "key": "setcharacter.already_equipped",
+      "text": "Ce personnage est déjà équipé, essayez `!akasha` ou `!profile` pour avoir plus d'informations"
+    },
+    {
+      "key": "setcharacter.char_can_be_sacrificed",
+      "text": "Peut être sacrifié `!sacrifice`"
+    },
+    {
+      "key": "setcharacter.no_main_character",
+      "text": "Aucun, utilisez `!set [nom]` ou `!pull`"
+    },
+    {
+      "key": "shop.welcome",
+      "text": "Le magasin brillant ~~avec des prix extraordinaires~~ de Dori!"
+    },
+    {
+      "key": "shop.description",
+      "text": "Pour des promotions sans précedent, allez sur https://mentallystable4sure.dev (en anglais :<) puis allez sur 'Alcazarzaray Palace' qui est uniquement disponible dans le MS Launcher."
+    },
+    {
+      "key": "shop.input_placeholder",
+      "text": "Dori ira recupérer l'article directement dans le marché."
+    },
+    {
+      "key": "shop.lot_unavaliable",
+      "text": "L'article n'est pas disponible... Malheureusement :c"
+    },
+    {
+      "key": "shop.lot_uid_needed",
+      "text": "Merci de fournir votre UID Genshin afin de pouvoir envoyer la Bénédiction de la Lune (Exemple: `!genshin 700000000` avec l'UID au lieu du nombre)"
+    },
+    {
+      "key": "shop.lot_bought",
+      "text": "Article acheté avec succès !"
+    },
+    {
+      "key": "shop.lot.100primogems",
+      "text": "C'était une bonne affaire, comme toujours avec Dori !"
+    },
+    {
+      "key": "shop.lot.crimson_witch_hat",
+      "text": "Dori n'est pas responsable des incendies causés par l'article."
+    },
+    {
+      "key": "shop.lot.welkin_moon",
+      "text": "Pour des plus gros articles, merci d'aller dans le Palace de Dori (dans le MS Launcher)"
+    },
+    {
+      "key": "shop.lot.100pills",
+      "text": "J'adore les Moras ! Et les Moras m'adorent aussi ! Merveilleux~~"
+    },
+    {
+      "key": "shop.welkin_moon",
+      "text": "Bénédiction de la Lune"
+    },
+    {
+      "key": "shop.crimson_witch_hat",
+      "text": "Chapeau de la Sorcière des flammes ardentes"
+    },
+    {
+      "key": "stats.top.by_pulls",
+      "text": "Classement des utilisateurs par vœux"
+    },
+    {
+      "key": "stats.top.by_primos",
+      "text": "Classement des utilisateurs par primo-gemmes"
+    },
+    {
+      "key": "stats.top.by_pills",
+      "text": "Classement des utilisateurs par pilules"
+    },
+    {
+      "key": "stats.times_pulled",
+      "text": "Nombre de vœux:"
+    },
+    {
+      "key": "stats.times_traveled",
+      "text": "Nombre de voyages:"
+    },
+    {
+      "key": "stats.dailies_completed",
+      "text": "Nombre de missions quotidiennes terminées:"
+    },
+    {
+      "key": "stats.total_primogems",
+      "text": "Total des dépenses/gains de primo-gemmes :"
+    },
+    {
+      "key": "stats.total_pills",
+      "text": "Total des dépenses/gains de pilules :"
+    },
+    {
+      "key": "localization.lang_changed",
+      "text": "Changement de langue terminé :D"
+    },
+    {
+      "key": "localization.lang_not_found",
+      "text": "Impossible de trouver le language, ou il est déjà utilisé, il est aussi possible d'utiliser des abréviations comme `en` `fr` `ua`"
+    },
+    {
+      "key": "character.1.name",
+      "text": "Mage Electro"
+    },
+    {
+      "key": "character.2.name",
+      "text": "Gorou"
+    },
+    {
+      "key": "character.3.name",
+      "text": "Bosacius"
+    },
+    {
+      "key": "character.4.name",
+      "text": "Jeht"
+    },
+    {
+      "key": "character.5.name",
+      "text": "Menogias"
+    },
+    {
+      "key": "character.6.name",
+      "text": "Indarias"
+    },
+    {
+      "key": "character.7.name",
+      "text": "Candace"
+    },
+    {
+      "key": "character.8.name",
+      "text": "Xiao"
+    },
+    {
+      "key": "character.9.name",
+      "text": "Baizhu"
+    },
+    {
+      "key": "character.10.name",
+      "text": "Itto"
+    },
+    {
+      "key": "character.11.name",
+      "text": "Unknown God"
+    },
+    {
+      "key": "character.12.name",
+      "text": "Bonanus"
+    },
+    {
+      "key": "character.13.name",
+      "text": "La Signora"
+    },
+    {
+      "key": "character.1.perk_info",
+      "text": "Double les gains de Moras. Fonctionne avec toutes les commandes (!adventure, !daily, !pull, etc.)"
+    },
+    {
+      "key": "character.2.perk_info",
+      "text": "Gorou veut aider ! La durée entre chaque !daily diminue proportionnellement au nombre de personnages possédés par tranches de 30 minutes (Gorou inclus, mais limité à 75% du temps de base). Gentil gorou~"
+    },
+    {
+      "key": "character.3.perk_info",
+      "text": "[Destinée] - Double les gains de Moras. Fonctionne avec toutes les commandes (!adventure, !daily, !pull, etc.) mais diminue la quantité de primo-gemmes par 2 également."
+    },
+    {
+      "key": "character.4.perk_info",
+      "text": "Chaque fois que Jeht pars dans une !adventure, elle reviens toujours avec le double des ressources des autres érémites. (S'applique à toutes les monnaies)"
+    },
+    {
+      "key": "character.5.perk_info",
+      "text": "[Équilibre] Rien n'est permanent"
+    },
+    {
+      "key": "character.6.perk_info",
+      "text": "[Clarté] - Diminue de 12 heures la fréquence d'utilisation de !daily"
+    },
+    {
+      "key": "character.7.perk_info",
+      "text": "Candance est une guerrière talentueuse qui protège son propre village. Lorsqu'elle pars dans une !adventure le temps avant de pouvoir refaire la commande diminue de 10 minutes par personnage possédé (limité à 75% du temps de base)"
+    },
+    {
+      "key": "character.8.perk_info",
+      "text": "[Sacrifice] - Pour chaque !adventure, 50% des Moras sont convertis en primo-gemmes"
+    },
+    {
+      "key": "character.9.perk_info",
+      "text": "Diminue le temps entre chaque !adventure de 1 heure"
+    },
+    {
+      "key": "character.10.perk_info",
+      "text": "[Auspicité] Double la quantité de primo-gemmes, mais divise par deux la quantité de Moras qui reviendra directement à Kuki pour payer les dette d'Itto"
+    },
+    {
+      "key": "character.11.perk_info",
+      "text": "[Inéluctabilité] Double la quantité de pilules pour !daily"
+    },
+    {
+      "key": "character.12.perk_info",
+      "text": "[Obligeance] - L'entièreté des Moras sont convertis en primo-gemmes depuis toutes les commandes (!adventure, !daily, !pull, etc.). Mais au prix d'entraver les affaires de Dori..."
+    },
+    {
+      "key": "character.13.perk_info",
+      "text": "[Ardence] - Transforme 50% des primo-gemmes en pilules, mais détruit tous les Moras reçus en même temps."
     }
   ],
   "ukrainian": [
