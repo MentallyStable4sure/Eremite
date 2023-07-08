@@ -25,6 +25,10 @@ namespace Eremite
                     packet.ukrainian.Add(text);
                     break;
 
+                case Language.Russian:
+                    packet.russian.Add(text);
+                    break;
+
                 default:
                     packet.english.Add(text);
                     break;
@@ -42,6 +46,10 @@ namespace Eremite
 
                 case Language.Ukrainian:
                     text = packet.ukrainian.Find(match => match.key == key)?.text;
+                    break;
+
+                case Language.Russian:
+                    text = packet.russian.Find(match => match.key == key)?.text;
                     break;
 
                 default:
@@ -66,6 +74,10 @@ namespace Eremite
                     list = packet.ukrainian;
                     break;
 
+                case Language.Russian:
+                    list = packet.russian;
+                    break;
+
                 default:
                     list = packet.english;
                     break;
@@ -79,6 +91,7 @@ namespace Eremite
                 packet.french.Remove(list[i]);
                 packet.ukrainian.Remove(list[i]);
                 packet.english.Remove(list[i]);
+                packet.russian.Remove(list[i]);
             }
 
         }

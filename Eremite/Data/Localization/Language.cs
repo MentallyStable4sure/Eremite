@@ -5,6 +5,7 @@ namespace Eremite.Data.Localization
     {
         English,
         French,
-        Ukrainian
+        Ukrainian,
+        Russian
     }
 }
