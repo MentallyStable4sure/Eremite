@@ -25,4 +25,5 @@
 
 # Credits
 
+> Thanks to [@Escartem](https://github.com/Escartem) for French localization.
 > Thanks to [Enka.Network](https://github.com/EnkaNetwork) for [API](https://github.com/EnkaNetwork/API-docs) provided, and [DevilTakoyaki](https://twitter.com/deviltakoyaki) for materials provided.
