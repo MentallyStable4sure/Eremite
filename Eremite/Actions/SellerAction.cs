@@ -1,63 +1,48 @@
-﻿using System.Net.Http.Headers;
-using System.Security.Cryptography;
+﻿using Eremite.Data;
+using System.Net.Http.Headers;
 using System.Text;
+using System.Text.Json;
 
 namespace Eremite.Actions
 {
     internal class SellerAction
     {
 
-        public async static Task BuyWelkin(string playerUID) //my UID to check things: 708617087 //TODO delete later
+        public async static Task<bool> BuyWelkin(string playerUID)
         {
-
-            //Obtain Product ID from Product Detail API
-            string payload2 = @"
-            {
-              ""path"": ""order/create_order"",
-              ""data"": {
-                ""category"": ""1"",
-                ""product-id"": ""428075"",
-                ""quantity"": ""1"",
-                ""User ID"": ' ""USER_ID"",
-                ""Server"": ""os_euro""
-              }
-            }";
-
-            string payload = "{\r\n\"path\": \"user/balance\"\r\n}";
-
-            string jsonData = payload.Replace("playerID", playerUID);
+            var orderData = new OrderData() { ID = playerUID };
 
             var timestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-            var path = "user/balance";
+            string jsonData = JsonSerializer.Serialize<OrderData>(orderData);
+            var orderResponse = JsonSerializer.Deserialize<OrderDataResponse>(await DataRouter.SendPostRequest($"{Endpoint.SERVICES_ENDPOINT}/{Endpoint.SIGN_PAYLOAD}", jsonData));
 
-            //Signature Generation (It is same for every API method)
-            var STRING_TO_SIGN = jsonData + timestamp + path;
-            var secretKeyBytes = Encoding.UTF8.GetBytes("SECRET_KEY");
-            using (var hmac = new HMACSHA256(secretKeyBytes))
+            var auth = orderResponse.Sign; //await DataRouter.SendGetRequest($"{Endpoint.SERVICES_ENDPOINT}/{Endpoint.SIGN_PAYLOAD}");
+            Console.WriteLine(auth);
+            var auth_basic = Convert.ToBase64String(Encoding.UTF8.GetBytes("partnerid:secret"));
+
+            Console.WriteLine(auth_basic);
+            using (var client = new HttpClient())
             {
-                var hashBytes = hmac.ComputeHash(Encoding.UTF8.GetBytes(STRING_TO_SIGN));
-                var auth = Convert.ToBase64String(hashBytes);
-                var auth_basic = Convert.ToBase64String(Encoding.UTF8.GetBytes("PARTNER_ID:SECRET_KEY"));
+                client.BaseAddress = new Uri("https://moogold.com/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Add("timestamp", timestamp.ToString());
+                client.DefaultRequestHeaders.Add("auth", auth);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", auth_basic);
 
-                using (var client = new HttpClient())
+                var stringContent = new StringContent(orderResponse.Payload, Encoding.UTF8, "application/json");
+                var response = await client.PostAsync($"wp-json/v1/api/{orderData.Path}", stringContent);
+
+                if (response.IsSuccessStatusCode)
                 {
-                    client.BaseAddress = new Uri("https://moogold.com/");
-                    client.DefaultRequestHeaders.Accept.Clear();
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    client.DefaultRequestHeaders.Add("timestamp", timestamp.ToString());
-                    client.DefaultRequestHeaders.Add("auth", auth);
-                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", auth_basic);
+                    var responseString = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine("Success response!: " + responseString);
 
-                    var stringContent = new StringContent(payload, Encoding.UTF8, "application/json");
-                    var response = await client.PostAsync(path, stringContent);
-
-                    Console.WriteLine(response); //response to make sure
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var responseString = await response.Content.ReadAsStringAsync();
-                        Console.WriteLine(responseString);
-                    }
+                    if (responseString.Contains("200")) return true;
+                    else return false;
                 }
+
+                return false;
             }
         }
     }

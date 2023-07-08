@@ -26,6 +26,7 @@ namespace Eremite.Actions
         public const string shopDescription = "shop.description";
         public const string lotUnavaliable = "shop.lot_unavaliable";
         public const string lotBought = "shop.lot_bought";
+        public const string uidNeeded = "shop.lot_uid_needed";
 
         public const string witchHatKey = "shop.crimson_witch_hat";
         public const string welkinKey = "shop.welkin_moon";
@@ -84,7 +85,7 @@ namespace Eremite.Actions
                 foreach (var option in dropdrownOptions)
                 {
                     if (!args.Values.Contains(option.Key.identifier)) continue;
-                    string response = Buy(_user, (DoriLot)option.Key.content);
+                    string response = await Buy(_user, (DoriLot)option.Key.content);
 
                     await ShowFeedbackFromShop(user, response, args);
                 }
@@ -96,7 +97,7 @@ namespace Eremite.Actions
             return dropdrownOptions;
         }
 
-        internal string Buy(UserData user, DoriLot lot)
+        internal async Task<string> Buy(UserData user, DoriLot lot)
         {
             var allCharacters = CharactersHandler.CharactersData;
             switch (lot)
@@ -105,27 +106,44 @@ namespace Eremite.Actions
                     if (user.Wallet.Mora < 3000) return user.GetText(Localization.NoCurrencyKey);
                     user.Wallet.Mora -= 3000;
                     user.Wallet.Primogems += 100;
+                    ChangeStats(user, new DiscordWallet(100, -3000));
                     break;
                 case DoriLot.CRIMSON_WITCH_HAT:
                     if (user.Wallet.Pills < 400) return user.GetText(Localization.NoCurrencyKey);
                     user.Wallet.Pills -= 400;
                     user.AddPulledCharacter(allCharacters.Find(character => character.CharacterName.ToLower().Contains("signora")).CharacterId);
+                    ChangeStats(user, new DiscordWallet(0, 0, -400));
                     break;
                 case DoriLot.WELKIN_MOON:
                     if (user.Wallet.Pills < 5000) return user.GetText(Localization.NoCurrencyKey);
-                    return user.GetText(lotUnavaliable);
+                    if(!ConnectAction.CheckGenshinUID(user.Stats.UserUID)) return user.GetText(uidNeeded);
+
+                    var result = await SellerAction.BuyWelkin(user.Stats.UserUID);
+
+                    if (!result) return user.GetText(lotUnavaliable);
                     user.Wallet.Pills -= 5000;
-                    //TODO: Connect PayPal or better redirect on ms4s/php
+                    ChangeStats(user, new DiscordWallet(0, 0, -5000));
+
                     break;
                 case DoriLot.ONE_HUNDRED_PILLS:
                     if (user.Wallet.Mora < 10000) return user.GetText(Localization.NoCurrencyKey);
                     user.Wallet.Mora -= 10000;
                     user.Wallet.Pills += 300;
+                    ChangeStats(user, new DiscordWallet(300, -10000, 0));
                     break;
             }
 
             OnUserBought?.Invoke(user, lot);
             return string.Empty;
+        }
+
+        private void ChangeStats(UserData user, DiscordWallet wallet)
+        {
+            if (wallet.Pills > 0) user.Stats.TotalPillsEarned += wallet.Pills;
+            else user.Stats.TotalPillsSpent += wallet.Pills * -1;
+
+            if (wallet.Primogems > 0) user.Stats.TotalPrimogemsEarned += wallet.Primogems;
+            else user.Stats.TotalPrimogemsSpent += wallet.Primogems * -1;
         }
 
         public static async Task ShowFeedbackFromShop(UserData user, string response, ComponentInteractionCreateEventArgs args)

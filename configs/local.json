@@ -137,6 +137,10 @@
       "text": "Lot currently unavaliable... Sorry."
     },
     {
+      "key": "shop.lot_uid_needed",
+      "text": "Kindly link your genshin UID so we know where to send Welkin Moon (Example of linking: `!genshin 700000000` instead of number put your UID)"
+    },
+    {
       "key": "shop.lot_bought",
       "text": "Successfully bought item"
     },
@@ -455,6 +459,10 @@
     {
       "key": "shop.lot_unavaliable",
       "text": "Цей лот наразі недоступний... Перепрошуємо за незручності."
+    },
+    {
+      "key": "shop.lot_uid_needed",
+      "text": "Будь ласка вкажіть ваш UID з Геншин Імпакт щоб ми знали куди відправляти подарунки (Приклад що писати щоб зв'язати аккаунт: `!genshin 700000000` де цифри це Ваш UID)"
     },
     {
       "key": "shop.lot_bought",

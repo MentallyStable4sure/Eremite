@@ -1,14 +1,7 @@
-﻿using DSharpPlus;
-using DSharpPlus.Entities;
-using DSharpPlus.EventArgs;
+﻿using Eremite.Actions;
+using Eremite.Services;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
-using Eremite.Actions;
-using Eremite.Services;
-using Eremite.Data.DiscordData;
-using Eremite.Layouts;
-using Eremite.Builders;
-using Eremite.Data;
 
 namespace Eremite.Commands
 {
@@ -17,35 +10,20 @@ namespace Eremite.Commands
         public DataHandler DataHandler { get; set; }
 
         [Command("genshin"), Description("Connects your genshin UID")]
-        public async Task ShowAkasha(CommandContext context, string uid)
+        public async Task ConnectGenshin(CommandContext context, string uid)
         {
+            var action = new ConnectAction(DataHandler);
+
             var user = await DataHandler.GetData(context.User);
-            if (uid.Length != 9) return;
+            if (!ConnectAction.CheckGenshinUID(uid))
+            {
+                await context.RespondAsync($"> UID Error. Example `!genshin 700000001`");
+                return;
+            }
 
-            user.Stats.UserUID = uid;
+            await action.ConnectGenshinUIDForUser(user, uid);
 
-            var updateQuery = new UserUpdateQueryBuilder(user, QueryElement.Stats).Build();
-            await DataHandler.SendData(user, updateQuery);
-            await context.RespondAsync($"> UID: {user.Stats.UserUID}");
-        }
-
-        [Command("welkin"), Description("Connects your genshin UID")]
-        public async Task BuyWelkin(CommandContext context, string uid)
-        {
-            var user = await DataHandler.GetData(context.User);
-            if (uid.Length != 9) return;
-
-            user.Stats.UserUID = uid;
-
-            await SellerAction.BuyWelkin(uid);
-            await context.RespondAsync($"> UID: {user.Stats.UserUID}");
-        }
-
-        [Command("test"), Description("Connects your genshin UID")]
-        public async Task BuyWelkin(CommandContext context)
-        {
-            await SellerAction.BuyWelkin("708617087");
-            await context.RespondAsync($"> UID: 708617087");
+            await context.RespondAsync($"> {user.Username} UID: {user.Stats.UserUID}");
         }
     }
 }
