@@ -7,9 +7,9 @@
     "TimesTicked": 0,
     "Award": {
       "CurrenciesToAdd": {
-        "Mora": 160,
-        "Primogems": 460,
-        "Pills": 7
+        "Mora": 660,
+        "Primogems": 360,
+        "Pills": 17
       },
       "CharactersToAdd": []
     }
@@ -22,8 +22,8 @@
     "TimesTicked": 0,
     "Award": {
       "CurrenciesToAdd": {
-        "Mora": 200,
-        "Primogems": 220,
+        "Mora": 400,
+        "Primogems": 280,
         "Pills": 5
       },
       "CharactersToAdd": []
@@ -37,8 +37,8 @@
     "TimesTicked": 0,
     "Award": {
       "CurrenciesToAdd": {
-        "Mora": 360,
-        "Primogems": 260,
+        "Mora": 760,
+        "Primogems": 360,
         "Pills": 10
       },
       "CharactersToAdd": []
