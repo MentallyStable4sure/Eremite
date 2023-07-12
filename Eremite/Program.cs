@@ -40,6 +40,7 @@ namespace Eremite
             };
 
             var commandsNext = discord.UseCommandsNext(commands);
+            commandsNext.SetHelpFormatter<HelperAboutFormatter>();
             commandsNext.RegisterCommands(typeof(Program).Assembly);
 
             await discord.ConnectAsync(activity, UserStatus.Idle);

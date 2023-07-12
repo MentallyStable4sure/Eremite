@@ -74,7 +74,7 @@ namespace Eremite.Actions
             isPossible = CheckTimeGatedEvent(previousEvent);
             if (!isPossible) return isPossible;
 
-            TickEvent(user, participatedEvent, previousEvent); //tick the current event
+            user.TickEvent(participatedEvent, previousEvent); //tick the current event
             return isPossible;
         }
 

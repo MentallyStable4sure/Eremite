@@ -1,6 +1,7 @@
 ﻿
 using Eremite.Services;
 using Eremite.Data.DiscordData;
+using System.Diagnostics;
 
 namespace Eremite.Actions
 {
@@ -19,6 +20,7 @@ namespace Eremite.Actions
         {
             if (!user.IsAnyCharacterEquipped()) return;
             var perk = (Perk)(CharactersHandler.ConvertId(user.EquippedCharacter).PerkStat);
+            Console.WriteLine($"Applying perk from user {user.Username}, event type: {eventType.ToString()}, equipped char: {user.EquippedCharacter}, perk: {perk}");
 
             switch (perk)
             {
