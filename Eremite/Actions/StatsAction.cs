@@ -31,7 +31,7 @@ namespace Eremite.Actions
                     $"\n> {user.GetText(AkashaLayout.charactersObtained)} {user.Characters.Count} | {user.GetText(timesPulled)} {user.Stats.TimesPulled}" +
                     $"\n\n{user.GetText(timesTraveled)} {user.Stats.TimesTraveled} | {user.GetText(dailiesCompleted)} {user.Stats.TimesDailiesCompleted}" +
                     $"\n{user.GetText(totalPirmogems)} [{user.Stats.TotalPrimogemsEarned}|{user.Stats.TotalPrimogemsSpent}]" +
-                    $"\n{user.GetText(totalPills)} [{user.Stats.TotalPillsEarned}|{user.Stats.TotalPillsSpent}]";
+                    $"\n{user.GetText(totalPills)} [{user.Stats.TotalPillsEarned}|{user.Stats.TotalPillsSpent}]\n\n> Genshin UID: {user.Stats.UserUID}";
         }
 
         /// <summary>
