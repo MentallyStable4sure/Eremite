@@ -124,12 +124,12 @@ namespace Eremite.Actions
 
                     if (!result) return user.GetText(lotUnavaliable);
 
-                    var canTrigger = user.HandleEvent(new TimeGatedEvent(TimeGatedEventType.Welkin, new TimeSpan(30, 0, 0, 0));
+                    var canTrigger = user.HandleEvent(new TimeGatedEvent(TimeGatedEventType.Welkin, new TimeSpan(30, 0, 0, 0)));
                     if(!canTrigger)
                     {
                         var previousEvent = user.GetPreviousEventByType(TimeGatedEventType.Welkin);
                         string countdown = previousEvent.LastTimeTriggered.Add(previousEvent.TimeBetweenTriggers).Subtract(DateTime.UtcNow).GetNormalTime();
-                        return $"> {user.GetText(TimeGatedAction.eventAlreadyTriggered)}. {user.GetText(TimeGatedAction.triggerTimeSuggestion)} {countdown}");
+                        return $"> {user.GetText(TimeGatedAction.eventAlreadyTriggered)}. {user.GetText(TimeGatedAction.triggerTimeSuggestion)} {countdown}";
                     }
 
                     user.Wallet.Pills -= 5000;
