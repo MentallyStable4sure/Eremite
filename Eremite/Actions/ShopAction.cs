@@ -108,12 +108,14 @@ namespace Eremite.Actions
                     user.Wallet.Primogems += 100;
                     ChangeStats(user, new DiscordWallet(100, -3000));
                     break;
+
                 case DoriLot.CRIMSON_WITCH_HAT:
-                    if (user.Wallet.Pills < 400) return user.GetText(Localization.NoCurrencyKey);
-                    user.Wallet.Pills -= 400;
+                    if (user.Wallet.Pills < 2500) return user.GetText(Localization.NoCurrencyKey);
+                    user.Wallet.Pills -= 2500;
                     user.AddPulledCharacter(allCharacters.Find(character => character.CharacterName.ToLower().Contains("signora")).CharacterId);
-                    ChangeStats(user, new DiscordWallet(0, 0, -400));
+                    ChangeStats(user, new DiscordWallet(0, 0, -2500));
                     break;
+
                 case DoriLot.WELKIN_MOON:
                     if (user.Wallet.Pills < 5000) return user.GetText(Localization.NoCurrencyKey);
                     if(!ConnectAction.CheckGenshinUID(user.Stats.UserUID)) return user.GetText(uidNeeded);
@@ -121,10 +123,20 @@ namespace Eremite.Actions
                     var result = await SellerAction.BuyWelkin(user.Stats.UserUID);
 
                     if (!result) return user.GetText(lotUnavaliable);
+
+                    var canTrigger = user.HandleEvent(new TimeGatedEvent(TimeGatedEventType.Welkin, new TimeSpan(30, 0, 0, 0));
+                    if(!canTrigger)
+                    {
+                        var previousEvent = user.GetPreviousEventByType(TimeGatedEventType.Welkin);
+                        string countdown = previousEvent.LastTimeTriggered.Add(previousEvent.TimeBetweenTriggers).Subtract(DateTime.UtcNow).GetNormalTime();
+                        return $"> {user.GetText(TimeGatedAction.eventAlreadyTriggered)}. {user.GetText(TimeGatedAction.triggerTimeSuggestion)} {countdown}");
+                    }
+
                     user.Wallet.Pills -= 5000;
                     ChangeStats(user, new DiscordWallet(0, 0, -5000));
 
                     break;
+
                 case DoriLot.ONE_HUNDRED_PILLS:
                     if (user.Wallet.Mora < 10000) return user.GetText(Localization.NoCurrencyKey);
                     user.Wallet.Mora -= 10000;
