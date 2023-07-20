@@ -62,7 +62,7 @@ namespace Eremite.Actions
                     user.GetText(lot100Primogems),
                     emoji: new DiscordComponentEmoji(1113103136991756328)) },
                 { new Identifier(crimsonWitchHatGuid, (int)DoriLot.CRIMSON_WITCH_HAT), new DiscordSelectComponentOption(
-                    $"✦ 400 {user.GetText(Localization.Pills)} ✦ ➜➜ ✦ {user.GetText(witchHatKey)} ✦",
+                    $"✦ 2500 {user.GetText(Localization.Pills)} ✦ ➜➜ ✦ {user.GetText(witchHatKey)} ✦",
                     crimsonWitchHatGuid,
                     user.GetText(lotCrimsonWitch),
                     emoji: new DiscordComponentEmoji(1119701575313653924)) },
