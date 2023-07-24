@@ -5,6 +5,16 @@
 
 > [Invite Bot](https://discord.com/api/oauth2/authorize?client_id=739487241469952000&permissions=8&scope=bot) or mess with the bot in [our server #bot-commands](https://discord.gg/mentallystable4sure)
 ***
+# This bot is a basically a DEMO-version (limited)
+Actual [Eremite APP](https://github.com/MentallyStable4sure/Eremite-App) is avaliable in our Launcher.
+Bot functions:
+- Gift Welkin Moon in Genshin Impact
+- Pull characters
+- Sacrifice characters
+- Earn pills/primogems/mora
+- Set main character/receive buffs
+- Go on an Adventures
+- Do dailies
 
 # How to setup
   <img src=https://github.com/MentallyStable4sure/Eremite/blob/main/content/img_pull2.png width='450'></img>
