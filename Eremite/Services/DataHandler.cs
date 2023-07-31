@@ -5,10 +5,11 @@ using DSharpPlus.Entities;
 using MySql.Data.MySqlClient;
 using Eremite.Data.DiscordData;
 using Eremite.Builders;
+using Eremite.Base.Interfaces;
 
 namespace Eremite.Services
 {
-    public class DataHandler
+    public class DataHandler : IEremiteService
     {
         private DatabaseConfig cachedDbConfig = null;
 

@@ -3,10 +3,11 @@ using DSharpPlus;
 using DSharpPlus.Entities;
 using Newtonsoft.Json;
 using Eremite.Data;
+using Eremite.Base.Interfaces;
 
 namespace Eremite.Services
 {
-    internal class BotProfileHandler 
+    internal class BotProfileHandler : IEremiteService
     {
         private StartupConfig? botStartupConfig;
         private DiscordActivity currentStatus;
