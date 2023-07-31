@@ -86,7 +86,6 @@ namespace Eremite.Actions
                     string response = await Buy(_user, (DoriLot)option.Key.content);
                     string message = $"> {user.GetText(lotBought)}.";
                     if (response != null && response != string.Empty) message = response;
-                    Console.WriteLine(message);
 
                     await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage, new DiscordInteractionResponseBuilder().WithContent(message));
                 }
@@ -119,10 +118,6 @@ namespace Eremite.Actions
                     if (user.Wallet.Pills < 5000) return user.GetText(Localization.NoCurrencyKey);
                     if(!ConnectAction.CheckGenshinUID(user.Stats.UserUID)) return user.GetText(uidNeeded);
 
-                    var result = await SellerAction.BuyWelkin(user.Stats.UserUID);
-
-                    if (!result) return user.GetText(lotUnavaliable);
-
                     var canTrigger = user.HandleEvent(new TimeGatedEvent(TimeGatedEventType.Welkin, new TimeSpan(30, 0, 0, 0)));
                     if(!canTrigger)
                     {
@@ -130,6 +125,9 @@ namespace Eremite.Actions
                         string countdown = previousEvent.LastTimeTriggered.Add(previousEvent.TimeBetweenTriggers).Subtract(DateTime.UtcNow).GetNormalTime();
                         return $"> {user.GetText(TimeGatedAction.eventAlreadyTriggered)}. {user.GetText(TimeGatedAction.triggerTimeSuggestion)} {countdown}";
                     }
+
+                    var result = await SellerAction.BuyWelkin(user.Stats.UserUID);
+                    if (!result) return user.GetText(lotUnavaliable);
 
                     user.Wallet.Pills -= 5000;
                     ChangeStats(user, new DiscordWallet(0, 0, -5000));
