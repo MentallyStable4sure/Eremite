@@ -134,7 +134,6 @@ namespace Eremite.Actions
 
                     user.Wallet.Pills -= 5000;
                     ChangeStats(user, new DiscordWallet(0, 0, -5000));
-
                     break;
 
                 case DoriLot.ONE_HUNDRED_PILLS:
