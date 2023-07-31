@@ -34,7 +34,7 @@ namespace Eremite.Commands
 
         private async void SaveData(UserData user, DoriLot lot)
         {
-            var query = new UserUpdateQueryBuilder(user, QueryElement.Wallet, QueryElement.Stats, QueryElement.Characters);
+            var query = new UserUpdateQueryBuilder(user, QueryElement.Events, QueryElement.Wallet, QueryElement.Stats, QueryElement.Characters);
             await DataHandler.SendData(user, query.Build());
         }
     }

@@ -4,14 +4,14 @@ namespace Eremite.Data.DiscordData
     [Serializable]
     public class TimeGatedEvent
     {
-        public TimeGatedEventType EventType;
-        public DateTime LastTimeTriggered;
+        public TimeGatedEventType EventType = TimeGatedEventType.None;
+        public DateTime LastTimeTriggered = DateTime.UtcNow.AddMonths(-2);
         public TimeSpan TimeBetweenTriggers;
         public string ImageUrl;
 
         public int TimesTicked = 0;
 
-        public Award Award = new Award(new DiscordWallet(200,200)); //Default award for the event participation
+        public Award Award = new Award(new DiscordWallet(0, 0, 0)); //Default award for the event participation
 
         public TimeGatedEvent(TimeGatedEventType type, TimeSpan timeBetweenTriggers, Award customAward = null)
         {
@@ -19,7 +19,7 @@ namespace Eremite.Data.DiscordData
             TimeBetweenTriggers = timeBetweenTriggers;
             if (customAward != null) Award = customAward;
 
-            LastTimeTriggered = DateTime.UtcNow.AddMonths(-1);
+            LastTimeTriggered = DateTime.UtcNow.AddMonths(-2);
         }
     }
 }

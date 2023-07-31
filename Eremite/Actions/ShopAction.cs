@@ -1,6 +1,5 @@
 ﻿using DSharpPlus;
 using DSharpPlus.CommandsNext;
-using DSharpPlus.CommandsNext.Converters;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using Eremite.Base;
@@ -18,7 +17,6 @@ namespace Eremite.Actions
         private UserData _user;
 
         public Action<UserData, DoriLot> OnUserBought;
-        public Action<ComponentInteractionCreateEventArgs> OnShopInteracted;
 
         public ShopAction(UserData user) => _user = user;
 
@@ -86,11 +84,12 @@ namespace Eremite.Actions
                 {
                     if (!args.Values.Contains(option.Key.identifier)) continue;
                     string response = await Buy(_user, (DoriLot)option.Key.content);
+                    string message = $"> {user.GetText(lotBought)}.";
+                    if (response != null && response != string.Empty) message = response;
+                    Console.WriteLine(message);
 
-                    await ShowFeedbackFromShop(user, response, args);
+                    await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage, new DiscordInteractionResponseBuilder().WithContent(message));
                 }
-
-                OnShopInteracted?.Invoke(args);
             };
 
 
@@ -155,16 +154,6 @@ namespace Eremite.Actions
 
             if (wallet.Primogems > 0) user.Stats.TotalPrimogemsEarned += wallet.Primogems;
             else user.Stats.TotalPrimogemsSpent += wallet.Primogems * -1;
-        }
-
-        public static async Task ShowFeedbackFromShop(UserData user, string response, ComponentInteractionCreateEventArgs args)
-        {
-            string message = string.Empty;
-
-            if (response == null || response == string.Empty) message = $"> {user.GetText(lotBought)}.";
-            else message = response;
-
-            await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage, new DiscordInteractionResponseBuilder().WithContent(message));
         }
     }
 }
