@@ -7,6 +7,7 @@ using DSharpPlus;
 using DSharpPlus.Entities;
 using DSharpPlus.CommandsNext;
 using Microsoft.Extensions.DependencyInjection;
+using DSharpPlus.SlashCommands;
 
 namespace Eremite
 {
@@ -15,7 +16,7 @@ namespace Eremite
 
         static async Task Main(string[] args)
         {
-            var localizationHandler = new Localization();
+            var localizationHandler = new Services.Localization();
             await localizationHandler.InitPacketAsync();
 
             var databaseConfig = await GetDatabaseConfig();
@@ -36,8 +37,11 @@ namespace Eremite
             };
 
             var commandsNext = discord.UseCommandsNext(commands);
-            commandsNext.SetHelpFormatter<HelperAboutFormatter>();
-            commandsNext.RegisterCommands(typeof(Program).Assembly);
+            var slash = discord.UseSlashCommands();
+            commandsNext.SetHelpFormatter<HelperAboutFormatter>(); //overriding default help method
+
+            commandsNext.RegisterCommands(typeof(Program).Assembly); //registering usual commands
+            slash.RegisterCommands(typeof(Program).Assembly); //registering slash commands
 
             await discord.ConnectAsync(activity, UserStatus.Idle);
             await Task.Delay(-1);
