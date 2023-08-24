@@ -8,6 +8,7 @@ using DSharpPlus.Entities;
 using DSharpPlus.CommandsNext;
 using Microsoft.Extensions.DependencyInjection;
 using DSharpPlus.SlashCommands;
+using Eremite.SlashCommands;
 
 namespace Eremite
 {
@@ -36,8 +37,14 @@ namespace Eremite
                 StringPrefixes = profileService.GetBotConfig().Prefixes
             };
 
+            var slashCommands = new SlashCommandsConfiguration()
+            {
+                Services = BindServices(profileService, dataHandler, pullAction),
+            };
+
             var commandsNext = discord.UseCommandsNext(commands);
-            var slash = discord.UseSlashCommands();
+            var slash = discord.UseSlashCommands(slashCommands);
+
             commandsNext.SetHelpFormatter<HelperAboutFormatter>(); //overriding default help method
 
             commandsNext.RegisterCommands(typeof(Program).Assembly); //registering usual commands
@@ -47,13 +54,15 @@ namespace Eremite
             await Task.Delay(-1);
         }
 
-        private static ServiceProvider BindServices(params IEremiteService[] servicesToBind)
+        private static ServiceProvider BindServices(
+            BotProfileHandler profileService, DataHandler dataHandler,
+            PullAction pullAction)
         {
             var services = new ServiceCollection();
-            foreach (var service in servicesToBind)
-            {
-                services.AddSingleton(service);
-            }
+
+            services.AddSingleton(profileService);
+            services.AddSingleton(dataHandler);
+            services.AddSingleton(pullAction);
 
             return services.BuildServiceProvider();
         }

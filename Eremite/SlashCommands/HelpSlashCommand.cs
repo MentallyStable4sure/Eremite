@@ -1,5 +1,4 @@
-﻿using DSharpPlus.Entities;
-using Eremite.Actions;
+﻿using Eremite.Actions;
 using DSharpPlus.SlashCommands;
 
 namespace Eremite.SlashCommands
@@ -9,10 +8,7 @@ namespace Eremite.SlashCommands
         [SlashCommand("about", "List of current commands, docs and links")]
         public async Task ShowAbout(InteractionContext context)
         {
-            var messageBuilder = new DiscordMessageBuilder()
-                .WithEmbed(HelpAction.GetEmbed());
-
-            await context.Channel.SendMessageAsync(messageBuilder);
+            await context.CreateResponseAsync(HelpAction.GetInteractionResponse());
         }
 
         [SlashCommand("info", "List of current commands, docs and links")]
