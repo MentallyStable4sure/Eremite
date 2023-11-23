@@ -82,13 +82,19 @@ namespace Eremite.Actions
 
                 foreach (var option in dropdrownOptions)
                 {
+                    if (args == null) continue;
                     if (!args.Values.Contains(option.Key.identifier)) continue;
                     string response = await Buy(_user, (DoriLot)option.Key.content);
                     string message = $"> {user.GetText(lotBought)}.";
+
                     if (response != null && response != string.Empty) message = response;
+                    if (args.Interaction == null) continue;
 
                     await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage, new DiscordInteractionResponseBuilder().WithContent(message));
+                    return;
                 }
+
+                return;
             };
 
 
