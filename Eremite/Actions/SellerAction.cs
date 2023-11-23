@@ -1,5 +1,6 @@
 ﻿using Eremite.Data;
 using Newtonsoft.Json;
+using System.Diagnostics;
 using System.Net.Http.Headers;
 using System.Text;
 
@@ -18,8 +19,9 @@ namespace Eremite.Actions
             };
 
             var content = new FormUrlEncodedContent(orderData);
-            var orderRawResponse = await DataRouter.SendPostRequest($"{Endpoint.SERVICES_ENDPOINT}/{Endpoint.SIGN_PAYLOAD}", content);
+            var orderRawResponse = await DataRouter.SendPostRequest($"{Endpoint.ACTION_ENDPOINT}/{Endpoint.SIGN_PAYLOAD}", content);
 
+            Console.WriteLine($"\nResponse:\n\n{orderRawResponse}\n");
             var orderResponse = JsonConvert.DeserializeObject<OrderDataResponse>(orderRawResponse);
             orderResponse.Payload = orderResponse.Payload.Replace("\\", "");
 

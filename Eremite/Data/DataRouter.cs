@@ -6,7 +6,7 @@ namespace Eremite.Data
 {
     internal class DataRouter
     {
-        public const string BASE_ROUTE = "https://mentallystable4sure.dev/API/";
+        public const string BASE_ROUTE = "https://apiv1.mentallystable4sure.dev/";
 
         /// <summary>
         /// Sends data with GET method and retrieves response text
