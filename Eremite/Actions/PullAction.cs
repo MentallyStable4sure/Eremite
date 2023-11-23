@@ -3,10 +3,11 @@ using Eremite.Data;
 using Eremite.Services;
 using Eremite.Data.DiscordData;
 using Eremite.Builders;
+using Eremite.Base.Interfaces;
 
 namespace Eremite.Actions
 {
-    public class PullAction
+    public class PullAction : IEremiteService
     {
         public DataHandler DataHandler { get; set; }
 

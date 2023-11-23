@@ -29,5 +29,10 @@ namespace Eremite.Actions
                 Description = GetMessage()
             };
         }
+
+        public static DiscordInteractionResponseBuilder GetInteractionResponse()
+        {
+            return new DiscordInteractionResponseBuilder().AddEmbed(GetEmbed());
+        }
     }
 }

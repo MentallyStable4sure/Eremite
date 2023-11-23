@@ -27,6 +27,7 @@ namespace Eremite.Actions
 
         public static TimeGatedEvent GetPreviousEventByType(this UserData user, TimeGatedEventType type)
         {
+            if (user.Events == null) return null;
             return user.Events.FirstOrDefault(previousEvent => previousEvent.EventType == type);
         }
 
@@ -70,8 +71,11 @@ namespace Eremite.Actions
                 user.TickEvent(participatedEvent);
                 return isPossible; //havent triggered any events like this, so user is free to do so
             }
+            else
+            {
+                isPossible = CheckTimeGatedEvent(previousEvent);
+            }
 
-            isPossible = CheckTimeGatedEvent(previousEvent);
             if (!isPossible) return isPossible;
 
             user.TickEvent(participatedEvent, previousEvent); //tick the current event

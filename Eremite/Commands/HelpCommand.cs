@@ -1,5 +1,4 @@
-﻿using DSharpPlus;
-using DSharpPlus.Entities;
+﻿using DSharpPlus.Entities;
 using DSharpPlus.CommandsNext;
 using Eremite.Actions;
 using DSharpPlus.CommandsNext.Attributes;

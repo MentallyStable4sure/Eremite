@@ -1,6 +1,5 @@
 ﻿using DSharpPlus;
 using DSharpPlus.CommandsNext;
-using DSharpPlus.CommandsNext.Converters;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using Eremite.Base;
@@ -18,7 +17,6 @@ namespace Eremite.Actions
         private UserData _user;
 
         public Action<UserData, DoriLot> OnUserBought;
-        public Action<ComponentInteractionCreateEventArgs> OnShopInteracted;
 
         public ShopAction(UserData user) => _user = user;
 
@@ -62,7 +60,7 @@ namespace Eremite.Actions
                     user.GetText(lot100Primogems),
                     emoji: new DiscordComponentEmoji(1113103136991756328)) },
                 { new Identifier(crimsonWitchHatGuid, (int)DoriLot.CRIMSON_WITCH_HAT), new DiscordSelectComponentOption(
-                    $"✦ 400 {user.GetText(Localization.Pills)} ✦ ➜➜ ✦ {user.GetText(witchHatKey)} ✦",
+                    $"✦ 2500 {user.GetText(Localization.Pills)} ✦ ➜➜ ✦ {user.GetText(witchHatKey)} ✦",
                     crimsonWitchHatGuid,
                     user.GetText(lotCrimsonWitch),
                     emoji: new DiscordComponentEmoji(1119701575313653924)) },
@@ -86,11 +84,11 @@ namespace Eremite.Actions
                 {
                     if (!args.Values.Contains(option.Key.identifier)) continue;
                     string response = await Buy(_user, (DoriLot)option.Key.content);
+                    string message = $"> {user.GetText(lotBought)}.";
+                    if (response != null && response != string.Empty) message = response;
 
-                    await ShowFeedbackFromShop(user, response, args);
+                    await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage, new DiscordInteractionResponseBuilder().WithContent(message));
                 }
-
-                OnShopInteracted?.Invoke(args);
             };
 
 
@@ -108,23 +106,33 @@ namespace Eremite.Actions
                     user.Wallet.Primogems += 100;
                     ChangeStats(user, new DiscordWallet(100, -3000));
                     break;
+
                 case DoriLot.CRIMSON_WITCH_HAT:
-                    if (user.Wallet.Pills < 400) return user.GetText(Localization.NoCurrencyKey);
-                    user.Wallet.Pills -= 400;
+                    if (user.Wallet.Pills < 2500) return user.GetText(Localization.NoCurrencyKey);
+                    user.Wallet.Pills -= 2500;
                     user.AddPulledCharacter(allCharacters.Find(character => character.CharacterName.ToLower().Contains("signora")).CharacterId);
-                    ChangeStats(user, new DiscordWallet(0, 0, -400));
+                    ChangeStats(user, new DiscordWallet(0, 0, -2500));
                     break;
+
                 case DoriLot.WELKIN_MOON:
                     if (user.Wallet.Pills < 5000) return user.GetText(Localization.NoCurrencyKey);
                     if(!ConnectAction.CheckGenshinUID(user.Stats.UserUID)) return user.GetText(uidNeeded);
 
-                    var result = await SellerAction.BuyWelkin(user.Stats.UserUID);
+                    var canTrigger = user.HandleEvent(new TimeGatedEvent(TimeGatedEventType.Welkin, new TimeSpan(30, 0, 0, 0)));
+                    if(!canTrigger)
+                    {
+                        var previousEvent = user.GetPreviousEventByType(TimeGatedEventType.Welkin);
+                        string countdown = previousEvent.LastTimeTriggered.Add(previousEvent.TimeBetweenTriggers).Subtract(DateTime.UtcNow).GetNormalTime();
+                        return $"> {user.GetText(TimeGatedAction.eventAlreadyTriggered)}. {user.GetText(TimeGatedAction.triggerTimeSuggestion)} {countdown}";
+                    }
 
+                    var result = await SellerAction.BuyWelkin(user.Stats.UserUID);
                     if (!result) return user.GetText(lotUnavaliable);
+
                     user.Wallet.Pills -= 5000;
                     ChangeStats(user, new DiscordWallet(0, 0, -5000));
-
                     break;
+
                 case DoriLot.ONE_HUNDRED_PILLS:
                     if (user.Wallet.Mora < 10000) return user.GetText(Localization.NoCurrencyKey);
                     user.Wallet.Mora -= 10000;
@@ -144,16 +152,6 @@ namespace Eremite.Actions
 
             if (wallet.Primogems > 0) user.Stats.TotalPrimogemsEarned += wallet.Primogems;
             else user.Stats.TotalPrimogemsSpent += wallet.Primogems * -1;
-        }
-
-        public static async Task ShowFeedbackFromShop(UserData user, string response, ComponentInteractionCreateEventArgs args)
-        {
-            string message = string.Empty;
-
-            if (response == null || response == string.Empty) message = $"> {user.GetText(lotBought)}.";
-            else message = response;
-
-            await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage, new DiscordInteractionResponseBuilder().WithContent(message));
         }
     }
 }

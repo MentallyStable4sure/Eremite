@@ -8,6 +8,7 @@ namespace Eremite.Data.DiscordData
         Adventure,
         Teapot,
         Monthly,
-        Permanent
+        Permanent,
+        Welkin
     }
 }
