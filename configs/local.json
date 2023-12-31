@@ -316,7 +316,7 @@
   "french": [
     {
       "key": "currency.mora",
-      "text": "Mora"
+      "text": "Moras"
     },
     {
       "key": "currency.primogems",
@@ -352,7 +352,7 @@
     },
     {
       "key": "events.already_triggered",
-      "text": "Cet évènement à déjà été déclenché"
+      "text": "Cet évènement a déjà été déclenché"
     },
     {
       "key": "adventures.no_adventures_found",
@@ -360,7 +360,7 @@
     },
     {
       "key": "adventures.start_adventure",
-      "text": "pars à l'aventure.."
+      "text": "part à l'aventure.."
     },
     {
       "key": "adventures.description",
@@ -508,11 +508,11 @@
     },
     {
       "key": "stats.total_primogems",
-      "text": "Total des dépenses/gains de primo-gemmes :"
+      "text": "Total des gains/dépenses de primo-gemmes :"
     },
     {
       "key": "stats.total_pills",
-      "text": "Total des dépenses/gains de pilules :"
+      "text": "Total des gains/dépenses de pilules :"
     },
     {
       "key": "localization.lang_changed",
