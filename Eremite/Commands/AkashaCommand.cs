@@ -70,14 +70,17 @@ namespace Eremite.Commands
             if (user.Wallet.Primogems < DataHandler.Config.PullCost) await context.RespondAsync($"> {user.GetText(Localization.NoCurrencyKey)}");
             else
             {
-                var charactersPulled = await PullAction.ForUserAsyncSave(user, 1);
+                var pullResult = await PullAction.ForUserAsyncSave(user, 1);
+                var charactersPulled = pullResult.Item1;
+                var cashback = pullResult.Item2;
+
                 var highestTier = charactersPulled.GetHighestTier();
 
                 var setCharacterGuid = Guid.NewGuid().ToString();
                 var infoAboutCharacterGuid = Guid.NewGuid().ToString();
 
                 await args.Interaction.CreateResponseAsync(InteractionResponseType.UpdateMessage,
-                    new DiscordInteractionResponseBuilder().AddEmbed(PullAction.GetEmbedWithCharacters(charactersPulled, user))
+                    new DiscordInteractionResponseBuilder().AddEmbed(PullAction.GetEmbedWithCharacters(charactersPulled, CashbackAction.GetCashbackMessage(user, cashback), user))
                     .AddComponents(
                         new DiscordButtonComponent(ButtonStyle.Primary, setCharacterGuid, user.GetText(setKey)),
                         new DiscordButtonComponent(ButtonStyle.Secondary, infoAboutCharacterGuid, user.GetText(overviewKey))));

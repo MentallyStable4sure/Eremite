@@ -4,6 +4,7 @@
     public class Config
     {
         public int PullCost = 160;
+        public int MaxCashback = 3001; //Max Mora cashback
 
         //chances
         public Dictionary<int, int> Chances = new Dictionary<int, int>(); //KEY:Value eg. STARS:Chance

@@ -21,14 +21,17 @@ namespace Eremite.Actions
         /// <param name="user">User to add characters for</param>
         /// <param name="numberOfPulls">X amount of times to pull</param>
         /// <returns>List of characters got from pull(s)</returns>
-        public List<Character> ForUser(UserData user, int numberOfPulls)
+        public (List<Character>, int) ForUser(UserData user, int numberOfPulls)
         {
             var charactersGot = new List<Character>();
             var cost = DataHandler.Config.PullCost;
 
-            if (user.Wallet.Primogems < cost * numberOfPulls) return charactersGot;
+            if (user.Wallet.Primogems < cost * numberOfPulls) return (charactersGot, 0);
 
             var chances = DataHandler.Config.Chances;
+
+            var cashback = new CashbackAction(DataHandler, user);
+            int totalCashback = 0;
 
             for (int i = 0; i < numberOfPulls; i++)
             {
@@ -38,14 +41,16 @@ namespace Eremite.Actions
                 user.Wallet.Primogems -= cost;
                 var pulledCharacter = charactersPool[Random.Shared.Next(0, charactersPool.Count)];
 
+                totalCashback += cashback.GetCashbackForCharacter(pulledCharacter.CharacterId);
                 user.AddPulledCharacter(pulledCharacter);
                 charactersGot.Add(pulledCharacter);
             }
 
+            user.Wallet.Mora += totalCashback;
             user.Stats.TimesPulled += numberOfPulls;
             user.Stats.TotalPrimogemsSpent += numberOfPulls * cost;
 
-            return charactersGot;
+            return (charactersGot, totalCashback);
         }
 
         private List<Character> GetCharactersPoolByStar(List<Character> allCharacters, int star)
@@ -76,19 +81,22 @@ namespace Eremite.Actions
         /// <param name="user">User to add characters for</param>
         /// <param name="numberOfPulls">X amount of times to pull</param>
         /// <returns>List of characters got from pull(s)</returns>
-        public async Task<List<Character>> ForUserAsyncSave(UserData user, int numberOfPulls)
+        public async Task<(List<Character>, int)> ForUserAsyncSave(UserData user, int numberOfPulls)
         {
-            var characters = ForUser(user, numberOfPulls);
-            if(characters.Count == 0) return characters;
+            var result = ForUser(user, numberOfPulls);
+            var characters = result.Item1;
+            var totalCashback = result.Item2;
+
+            if(characters.Count <= 0) return (characters, totalCashback);
 
             var updateQuery = new UserUpdateQueryBuilder(user, QueryElement.Characters, QueryElement.Wallet, QueryElement.Stats).Build();
 
             await DataHandler.SendData(user, updateQuery);
 
-            return characters;
+            return (characters, totalCashback);
         }
 
-        public static DiscordEmbedBuilder GetEmbedWithCharacters(List<Character> characters, UserData user)
+        public static DiscordEmbedBuilder GetEmbedWithCharacters(List<Character> characters, string cashback, UserData user)
         {
             var highestTier = characters.GetHighestTier();
             var highestTierColor = highestTier.GetCorrespondingColor();
@@ -98,7 +106,7 @@ namespace Eremite.Actions
                 Color = highestTierColor,
                 Title = $"{user.Username} {user.GetText(wishKey)}",
                 ImageUrl = highestTier.ImagePullBannerUrl,
-                Description = $"> {characters.ToCharacterList(user)}"
+                Description = $"> {characters.ToCharacterList(user)}\n{cashback}"
             };
         }
     }

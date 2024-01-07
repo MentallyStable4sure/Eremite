@@ -27,11 +27,14 @@ namespace Eremite.Commands
             if (user.Wallet.Primogems < DataHandler.Config.PullCost * number) await context.RespondAsync($"> {user.GetText(Localization.NoCurrencyKey)}");
             else
             {
-                var charactersPulled = await PullAction.ForUserAsyncSave(user, number);
+                var pullResult = await PullAction.ForUserAsyncSave(user, number);
+                var charactersPulled = pullResult.Item1;
+                var cashback = pullResult.Item2;
+
                 var buttons = CreateButtons(context, user, charactersPulled.GetHighestTier());
 
                 await context.RespondAsync(new DiscordMessageBuilder()
-                    .WithEmbed(PullAction.GetEmbedWithCharacters(charactersPulled, user))
+                    .WithEmbed(PullAction.GetEmbedWithCharacters(charactersPulled, CashbackAction.GetCashbackMessage(user, cashback), user))
                     .AddComponents(buttons.Keys));
             };
         }

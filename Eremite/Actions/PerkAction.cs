@@ -93,7 +93,19 @@ namespace Eremite.Actions
                 case Perk.CONVERT_PRIMOS_INTO_MORA_ALL_1TO1:
                     ConvertPrimosToMora(award, 1);
                     break;
+
+                default:
+                    break;
             }
+        }
+
+        private static void GiveAwardPerChar(UserData user, Award award)
+        {
+            var charsCount = user.Characters.Count;
+
+            award.CurrenciesToAdd.Mora *= charsCount;
+            award.CurrenciesToAdd.Primogems *= charsCount;
+            award.CurrenciesToAdd.Pills *= charsCount;
         }
 
         public static void DoubleMora(Award award) => award.CurrenciesToAdd.Mora *= 2;

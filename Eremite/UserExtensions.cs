@@ -57,5 +57,12 @@ namespace Eremite
         public static bool IsAnyCharacterEquipped(this UserData user) => IsCharacterValid(user.EquippedCharacter);
 
         public static bool IsCharacterValid(this int id) => id != UnsetId;
+
+        public static bool IsUserHasThisCharacter(this UserData user, int characterid)
+        {
+            if(!IsAnyCharacterEquipped(user)) return false;
+
+            return user.Characters.Contains(characterid);
+        }
     }
 }
