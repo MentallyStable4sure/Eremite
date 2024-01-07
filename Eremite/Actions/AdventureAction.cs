@@ -13,9 +13,19 @@ namespace Eremite.Actions
         public const TimeGatedEventType AdventuresType = TimeGatedEventType.Adventure;
         public const int ChoicesPerAdventure = 2;
 
-        public static AdventureEvent GetRandomAdventure(List<AdventureEvent> adventures) => adventures[Random.Shared.Next(0, adventures.Count)];
+        public UserData CurrentUser { get; private set; }
 
-        public static List<AdventureEvent> FillRandomAdventures(List<AdventureEvent> adventuresPool, int amount = ChoicesPerAdventure)
+        private readonly DataHandler cachedHandler;
+
+        public AdventureAction(UserData currentUser, DataHandler cachedHandler)
+        {
+            CurrentUser = currentUser;
+            this.cachedHandler = cachedHandler;
+        }
+
+        public AdventureEvent GetRandomAdventure(List<AdventureEvent> adventures) => adventures[Random.Shared.Next(0, adventures.Count)];
+
+        public List<AdventureEvent> FillRandomAdventures(List<AdventureEvent> adventuresPool, int amount = ChoicesPerAdventure)
         {
             var randomAdventures = new List<AdventureEvent>();
             while (randomAdventures.Count < amount)
@@ -31,23 +41,23 @@ namespace Eremite.Actions
             return randomAdventures;
         }
 
-        public static async Task GoOnAdventure(DataHandler dataHandler, ComponentInteractionCreateEventArgs args, UserData user, TimeGatedEvent timeGatedEvent, TimeGatedEvent previousEvent)
+        public async Task GoOnAdventure(ComponentInteractionCreateEventArgs args, TimeGatedEvent timeGatedEvent, TimeGatedEvent previousEvent)
         {
             if (timeGatedEvent == null) return;
 
-            user.Stats.TimesTraveled++;
-            TimeGatedAction.TickEvent(user, timeGatedEvent, previousEvent);
-            await Save(dataHandler, user);
+            CurrentUser.Stats.TimesTraveled++;
+            TimeGatedAction.TickEvent(CurrentUser, timeGatedEvent, previousEvent);
+            await Save();
 
             await args.Interaction.CreateResponseAsync(
                 InteractionResponseType.UpdateMessage,
-                new DiscordInteractionResponseBuilder().AddEmbed(TimeGatedAction.GetEventEmbed(user, timeGatedEvent)));
+                new DiscordInteractionResponseBuilder().AddEmbed(TimeGatedAction.GetEventEmbed(CurrentUser, timeGatedEvent)));
         }
 
-        private static async Task Save(DataHandler dataHandler, UserData user)
+        private async Task Save()
         {
-            var updateQuery = new UserUpdateQueryBuilder(user, QueryElement.Wallet, QueryElement.Stats, QueryElement.Events, QueryElement.Characters).Build();
-            await dataHandler.SendData(user, updateQuery);
+            var updateQuery = new UserUpdateQueryBuilder(CurrentUser, QueryElement.Wallet, QueryElement.Stats, QueryElement.Events, QueryElement.Characters).Build();
+            await cachedHandler.SendData(CurrentUser, updateQuery);
         }
     }
 }

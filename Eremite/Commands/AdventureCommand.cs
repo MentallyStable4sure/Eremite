@@ -5,11 +5,11 @@ using Eremite.Actions;
 using Eremite.Data.DiscordData;
 using Eremite.Data;
 using Eremite.Services;
+using Eremite.Base;
 using Newtonsoft.Json;
 using DSharpPlus.Entities;
 using DSharpPlus;
 using DSharpPlus.EventArgs;
-using Eremite.Base;
 
 namespace Eremite.Commands
 {
@@ -49,7 +49,9 @@ namespace Eremite.Commands
                 await context.RespondAsync(user.GetText(noAdventuresFound));
                 return;
             }
-            var randomAdventures = AdventureAction.FillRandomAdventures(CachedAdventures);
+
+            var action = new AdventureAction(user, DataHandler);
+            var randomAdventures = action.FillRandomAdventures(CachedAdventures);
             var buttons = CreateButtons(randomAdventures);
 
             await context.RespondAsync(new DiscordMessageBuilder().WithEmbed(new DiscordEmbedBuilder
@@ -60,12 +62,12 @@ namespace Eremite.Commands
                 Color = DiscordColor.Orange
             }).AddComponents(buttons.Values));
 
-            context.Client.ComponentInteractionCreated += async (sender, args) => await InteractionClicked(user, buttons, args);
+            context.Client.ComponentInteractionCreated += async (sender, args) => await InteractionClicked(action, buttons, args);
         }
 
-        private async Task InteractionClicked(UserData user, Dictionary<BaseIdentifier, DiscordButtonComponent> buttons, ComponentInteractionCreateEventArgs args)
+        private async Task InteractionClicked(AdventureAction action, Dictionary<BaseIdentifier, DiscordButtonComponent> buttons, ComponentInteractionCreateEventArgs args)
         {
-            if (args.User.Id.ToString() != user.UserId) return;
+            if (args.User.Id.ToString() != action.CurrentUser.UserId) return;
             if (buttons == null || buttons.Keys == null) return;
 
             bool isPossible = true;
@@ -73,11 +75,11 @@ namespace Eremite.Commands
             var adventure = buttons.Keys.FirstOrDefault(adventure => adventure.identifier == args.Id)?.content as AdventureEvent;
             if (adventure == null) return;
             
-            var previousEvent = TimeGatedAction.GetPreviousEventByType(user, AdventureAction.AdventuresType);
+            var previousEvent = TimeGatedAction.GetPreviousEventByType(action.CurrentUser, AdventureAction.AdventuresType);
             if (previousEvent != null) isPossible = TimeGatedAction.CheckTimeGatedEvent(previousEvent);
             if (!isPossible) return;
 
-            await AdventureAction.GoOnAdventure(DataHandler, args, user, adventure, previousEvent);
+            await action.GoOnAdventure(args, adventure, previousEvent);
         }
 
         private Dictionary<BaseIdentifier, DiscordButtonComponent> CreateButtons(List<AdventureEvent> adventures)
