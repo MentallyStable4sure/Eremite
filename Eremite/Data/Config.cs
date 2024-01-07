@@ -10,5 +10,9 @@
 
         //URLs
         public string DefaultAkashaImageUrl = "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/characters/nochar.png";
+
+        public string NotifyOfTheDay = "";
+        public string NotifyImage = "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/info.gif";
+        public TimeSpan NotifyOfTheDayCooldown = TimeSpan.FromHours(12);
     }
 }

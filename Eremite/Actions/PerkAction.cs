@@ -1,7 +1,5 @@
-﻿
-using Eremite.Services;
+﻿using Eremite.Services;
 using Eremite.Data.DiscordData;
-using System.Diagnostics;
 
 namespace Eremite.Actions
 {

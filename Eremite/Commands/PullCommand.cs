@@ -22,6 +22,7 @@ namespace Eremite.Commands
         public async Task PullCharacter(CommandContext context, int number)
         {
             var user = await DataHandler.GetData(context.User);
+            new InfoAction(DataHandler, context, user);
 
             if (user.Wallet.Primogems < DataHandler.Config.PullCost * number) await context.RespondAsync($"> {user.GetText(Localization.NoCurrencyKey)}");
             else

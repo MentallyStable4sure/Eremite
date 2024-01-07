@@ -18,6 +18,8 @@ namespace Eremite.Commands
         public async Task SetCharacter(CommandContext context, string name, string lastname)
         {
             var user = await DataHandler.GetData(context.User);
+            new InfoAction(DataHandler, context, user);
+
             var characters = CharactersHandler.ConvertIds(user.Characters);
 
             var matchingCharacter = characters.FirstOrDefault(character => 

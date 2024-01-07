@@ -1,5 +1,6 @@
 ﻿using DSharpPlus.CommandsNext;
 using DSharpPlus.CommandsNext.Attributes;
+using Eremite.Actions;
 using Eremite.Base.Interfaces;
 using Eremite.Builders;
 using Eremite.Data;
@@ -19,6 +20,7 @@ namespace Eremite.Commands
         public async Task ChangeLanguage(CommandContext context, string languageName)
         {
             var user = await DataHandler.GetData(context.User);
+            new InfoAction(DataHandler, context, user);
             languageName = languageName.ToLower();
 
             Language newLanguage = user.Stats.Language;

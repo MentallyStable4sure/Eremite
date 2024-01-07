@@ -26,6 +26,7 @@ namespace Eremite.Commands
         public async Task ShowAkasha(CommandContext context)
         {
             var user = await DataHandler.GetData(context.User);
+            new InfoAction(DataHandler, context, user);
 
             _layout = new AkashaLayout(user, DataHandler.Config.DefaultAkashaImageUrl);
 

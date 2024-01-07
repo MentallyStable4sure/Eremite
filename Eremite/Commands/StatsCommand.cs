@@ -20,6 +20,8 @@ namespace Eremite.Commands
         public async Task ShowStats(CommandContext context)
         {
             var user = await DataHandler.GetData(context.User);
+            new InfoAction(DataHandler, context, user);
+
             var buttons = await CreateButtons(user, context);
 
             var messageBuilder = new DiscordMessageBuilder()

@@ -19,6 +19,8 @@ namespace Eremite.Commands
         public async Task ShowShop(CommandContext context)
         {
             var user = await DataHandler.GetData(context.User);
+            new InfoAction(DataHandler, context, user);
+
             var shopAction = new ShopAction(user);
 
             var options = shopAction.CreateShopDropdown(context, user);

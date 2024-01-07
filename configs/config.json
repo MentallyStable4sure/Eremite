@@ -9,5 +9,8 @@
     "10":1
   },
 
-  "DefaultAkashaImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/characters/nochar.png"
+  "DefaultAkashaImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/characters/nochar.png",
+
+  "NotifyOfTheDay": "",
+  "NotifyOfTheDayCooldown": "12:00:00"
 }

@@ -1,8 +1,4 @@
-﻿using DSharpPlus.CommandsNext;
-using DSharpPlus.Entities;
-using DSharpPlus.EventArgs;
-using DSharpPlus;
-using Eremite.Builders;
+﻿using Eremite.Builders;
 using Eremite.Data.DiscordData;
 using Eremite.Data;
 using Eremite.Services;

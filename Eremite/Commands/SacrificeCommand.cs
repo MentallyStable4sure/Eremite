@@ -20,6 +20,8 @@ namespace Eremite.Commands
         public async Task Sacrifice(CommandContext context, string name, string lastname)
         {
             var user = await DataHandler.GetData(context.User);
+            new InfoAction(DataHandler, context, user);
+
             var characters = CharactersHandler.ConvertIds(user.Characters);
             var currentCharacter = CharactersHandler.ConvertId(user.EquippedCharacter);
 

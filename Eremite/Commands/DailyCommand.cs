@@ -22,6 +22,7 @@ namespace Eremite.Commands
         public async Task ShowDailyTask(CommandContext context)
         {
             var user = await DataHandler.GetData(context.User);
+            new InfoAction(DataHandler, context, user);
 
             if (CachedDailies == null) await CacheDailies();
             if (CachedDailies == null || CachedDailies.Count <= 0) return;
