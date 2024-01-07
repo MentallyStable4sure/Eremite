@@ -30,6 +30,7 @@ namespace Eremite.Commands
         public async Task ShowAdventures(CommandContext context)
         {
             var user = await DataHandler.GetData(context.User);
+            new InfoAction(DataHandler, context, user);
 
             var previousEvent = TimeGatedAction.GetPreviousEventByType(user, AdventureAction.AdventuresType);
 
