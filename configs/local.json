@@ -89,6 +89,10 @@
       "text": "wished for a character.."
     },
     {
+      "key": "pull.cashback",
+      "text": "Your cashback for duplicated characters:"
+    },
+    {
       "key": "not_enough_currency",
       "text": "Not enough currency! Try any activities like `!adventure`, `!daily`, etc. to get currency. (`!help` to see all commands)"
     },
@@ -401,6 +405,10 @@
     {
       "key": "pull.wish",
       "text": "a fait un vœu.."
+    },
+    {
+      "key": "pull.cashback",
+      "text": "Voici ton cashback pour tes duplicats:"
     },
     {
       "key": "not_enough_currency",
@@ -717,6 +725,10 @@
       "text": "загадує бажання.."
     },
     {
+      "key": "pull.cashback",
+      "text": "Твій кешбек за дублікати:"
+    },
+    {
       "key": "not_enough_currency",
       "text": "Не достає валюти! Спробуй активності, наприклад `!adventure`, `!daily`. (`!help` щоб побачити усі команди)"
     },
@@ -1029,6 +1041,10 @@
     {
       "key": "pull.wish",
       "text": "встречает персонажа.."
+    },
+    {
+      "key": "pull.cashback",
+      "text": "Твой кэшбэк за дубликаты:"
     },
     {
       "key": "not_enough_currency",
