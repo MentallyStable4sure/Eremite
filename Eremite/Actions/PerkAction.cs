@@ -1,10 +1,15 @@
 ﻿using Eremite.Services;
 using Eremite.Data.DiscordData;
+using Eremite.Base.Interfaces;
 
 namespace Eremite.Actions
 {
-    public class PerkAction
+    public class PerkAction : IEremiteService
     {
+        public DataHandler DataHandler { get; set; }
+
+        public PerkAction(DataHandler dataHandler) => DataHandler = dataHandler;
+
         public const int MinutesCooldownPerCharacterAdventure = 10;
         public const int MinutesCooldownPerCharacterDaily = 30;
         public const int ChancesPerCharacterResetCDAdventure = 5;
@@ -14,9 +19,9 @@ namespace Eremite.Actions
         public const int HoursCooldownAdventurePermanent = 1;
         public const int HoursCooldownDailyPermanent = 12;
 
-        public static void ApplyPerk(UserData user, TimeGatedEventType eventType, Award award)
+        public string ApplyPerk(UserData user, TimeGatedEventType eventType, Award award)
         {
-            if (!user.IsAnyCharacterEquipped()) return;
+            if (!user.IsAnyCharacterEquipped()) return string.Empty;
             var perk = (Perk)(CharactersHandler.ConvertId(user.EquippedCharacter).PerkStat);
             Console.WriteLine($"Applying perk from user {user.Username}, event type: {eventType.ToString()}, equipped char: {user.EquippedCharacter}, perk: {perk}");
 
@@ -94,18 +99,67 @@ namespace Eremite.Actions
                     ConvertPrimosToMora(award, 1);
                     break;
 
+                case Perk.ON_SACRIFICE_GIVES_10_PILLS_PER_CHAR_IN_INVENTORY:
+                    if (eventType != TimeGatedEventType.Sacrifice) break;
+                    GiveAwardPerChar(user, award, new Award(new DiscordWallet(0, 0, 10));
+                    break;
+
+                case Perk.ON_SACRIFICE_PRIMOS_1600:
+                    if (eventType != TimeGatedEventType.Sacrifice) break;
+                    award.CurrenciesToAdd.Primogems += 1600;
+                    break;
+
+                case Perk.ON_SACRIFICE_RANDOM_CHARACTER_AND_3600_PRIMOS:
+                    if (eventType != TimeGatedEventType.Sacrifice) break;
+                    award.CurrenciesToAdd.Primogems += 3600;
+
+                    var star = DataHandler.Config.Chances.GetStarByChance();
+                    var charactersPool = CharactersHandler.CharactersData.GetCharactersPoolByStar(star);
+
+                    var randomCharacter = charactersPool[Random.Shared.Next(0, charactersPool.Count)];
+                    award.CharactersToAdd.Add(randomCharacter);
+                    return $"> {award.CharactersToAdd.ToCharacterList(user)}";
+
+                case Perk.WHEN_SACRIFICED_REFRESHES_WELKIN_COOLDOWN:
+                    if (eventType != TimeGatedEventType.Sacrifice) break;
+                    var equippedChar = CharactersHandler.CharactersData.FirstOrDefault(character => character.CharacterId == user.EquippedCharacter);
+                    if (equippedChar == null) break;
+
+                    if (equippedChar.PerkStat != (int)Perk.WHEN_SACRIFICED_REFRESHES_WELKIN_COOLDOWN) break;
+                    user.RemovePulledCharacter(equippedChar);
+                    user.EquippedCharacter = 0;
+
+                    foreach (var userEvent in user.Events)
+                    {
+                        if (userEvent.EventType != TimeGatedEventType.Welkin) continue;
+
+                        userEvent.TimeBetweenTriggers = TimeSpan.FromSeconds(1);
+                    }
+                    break;
+
                 default:
                     break;
             }
+
+            return string.Empty;
         }
 
-        private static void GiveAwardPerChar(UserData user, Award award)
+        private static void GiveAwardPerChar(UserData user, Award award, Award rewardPerCharacter)
         {
             var charsCount = user.Characters.Count;
 
-            award.CurrenciesToAdd.Mora *= charsCount;
-            award.CurrenciesToAdd.Primogems *= charsCount;
-            award.CurrenciesToAdd.Pills *= charsCount;
+            award.CurrenciesToAdd.Mora += (charsCount * rewardPerCharacter.CurrenciesToAdd.Mora);
+            award.CurrenciesToAdd.Primogems += (charsCount * rewardPerCharacter.CurrenciesToAdd.Primogems);
+            award.CurrenciesToAdd.Pills += (charsCount * rewardPerCharacter.CurrenciesToAdd.Pills);
+        }
+
+        private static void MultiplyAwardPerChar(UserData user, Award award, int multiplier)
+        {
+            var charsCount = user.Characters.Count;
+
+            award.CurrenciesToAdd.Mora = (award.CurrenciesToAdd.Mora * multiplier) * charsCount;
+            award.CurrenciesToAdd.Primogems *= (award.CurrenciesToAdd.Primogems * multiplier) * charsCount;
+            award.CurrenciesToAdd.Pills *= (award.CurrenciesToAdd.Pills * multiplier) * charsCount;
         }
 
         public static void DoubleMora(Award award) => award.CurrenciesToAdd.Mora *= 2;

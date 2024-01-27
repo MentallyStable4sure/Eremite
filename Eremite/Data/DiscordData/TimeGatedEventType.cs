@@ -9,6 +9,7 @@ namespace Eremite.Data.DiscordData
         Teapot,
         Monthly,
         Permanent,
-        Welkin
+        Welkin,
+        Sacrifice
     }
 }

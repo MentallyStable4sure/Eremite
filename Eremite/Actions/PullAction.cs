@@ -53,13 +53,13 @@ namespace Eremite.Actions
             return (charactersGot, totalCashback);
         }
 
-        private List<Character> GetCharactersPoolByStar(List<Character> allCharacters, int star)
+        public static List<Character> GetCharactersPoolByStar(List<Character> allCharacters, int star)
         {
             return allCharacters.FindAll(character => character.StarsRarity == star);
         }
 
         //pseudo random on probability
-        private int GetStarByChance(Dictionary<int, int> chances)
+        public static int GetStarByChance(Dictionary<int, int> chances)
         {
             var randomPercent = Random.Shared.Next(0, 101);
             int starRarity = 3;
