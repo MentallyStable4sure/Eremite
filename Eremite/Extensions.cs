@@ -73,5 +73,26 @@ namespace Eremite
                         $"`stats`='{JsonConvert.SerializeObject(user.Stats)}',`events`='{JsonConvert.SerializeObject(user.Events)}'";
             }
         }
+
+        public static List<Character> GetCharactersPoolByStar(this List<Character> allCharacters, int star)
+        {
+            return allCharacters.FindAll(character => character.StarsRarity == star);
+        }
+
+        public static int GetStarByChance(this Dictionary<int, int> chances)
+        {
+            var randomPercent = Random.Shared.Next(0, 101);
+            int starRarity = 3;
+
+            foreach (var percentage in chances)
+            {
+                if (randomPercent > percentage.Value) continue;
+                if (starRarity > percentage.Key) continue;
+
+                starRarity = percentage.Key;
+            }
+
+            return starRarity;
+        }
     }
 }
