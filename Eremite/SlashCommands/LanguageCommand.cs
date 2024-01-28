@@ -22,7 +22,7 @@ namespace Eremite.SlashCommands
             var user = await DataHandler.GetData(context.User);
             new InfoAction(DataHandler, context, user);
             languageName = languageName.ToLower();
-            var message = new DiscordFollowupMessageBuilder();
+            var message = new DiscordInteractionResponseBuilder();
 
             Language newLanguage = user.Stats.Language;
             if (languageName.Contains("en")) newLanguage = Language.English;
@@ -32,12 +32,12 @@ namespace Eremite.SlashCommands
 
             if (newLanguage == user.Stats.Language)
             {
-                await context.FollowUpAsync(message.WithContent($"> {user.GetText(langNotFound)}"));
+                await context.CreateResponseAsync(message.WithContent($"> {user.GetText(langNotFound)}"));
                 return;
             }
 
             Services.Localization.ChangeLanugage(user, newLanguage);
-            await context.FollowUpAsync(message.WithContent($"> {user.GetText(langChanged)}"));
+            await context.CreateResponseAsync(message.WithContent($"> {user.GetText(langChanged)}"));
 
             IQueryBuilder query = new UserUpdateQueryBuilder(user, QueryElement.Stats);
             await DataHandler.SendData(user, query.Build());

@@ -16,12 +16,12 @@ namespace Eremite.SlashCommands
         private readonly string cantSacrificeCharacterError = "sacrifice.error";
         private readonly string sacrificed = "sacrifice.sacrificed";
 
-        [SlashCommand("sacrifice", "Sacrifice character for some pills")]
+        [SlashCommand("sacrificelong", "Sacrifice character for some pills with long name")]
         public async Task Sacrifice(InteractionContext context, [Option("name", "first name of the character")] string name, [Option("lastname", "lastname of the character")]  string lastname)
         {
             var user = await DataHandler.GetData(context.User);
             new InfoAction(DataHandler, context, user);
-            var message = new DiscordFollowupMessageBuilder();
+            var message = new DiscordInteractionResponseBuilder();
 
             var characters = CharactersHandler.ConvertIds(user.Characters);
             var currentCharacter = CharactersHandler.ConvertId(user.EquippedCharacter);
@@ -32,13 +32,13 @@ namespace Eremite.SlashCommands
 
             if (matchingCharacter == null)
             {
-                await context.FollowUpAsync(message.WithContent($"> {user.GetText(sacrificeCharacterNotFound)}"));
+                await context.CreateResponseAsync(message.WithContent($"> {user.GetText(sacrificeCharacterNotFound)}"));
                 return;
             }
 
             if (matchingCharacter.SellPrice <= 0)
             {
-                await context.FollowUpAsync(message.WithContent($">{user.GetText(cantSacrificeCharacterError)}"));
+                await context.CreateResponseAsync(message.WithContent($">{user.GetText(cantSacrificeCharacterError)}"));
                 return;
             }
 
@@ -57,7 +57,7 @@ namespace Eremite.SlashCommands
             var updateQuery = new UserUpdateQueryBuilder(user, QueryElement.EquippedCharacter, QueryElement.Characters, QueryElement.Wallet, QueryElement.Stats, QueryElement.Events).Build();
             await DataHandler.SendData(user, updateQuery);
 
-            await context.FollowUpAsync(message.WithContent($"{user.Username} {user.GetText(sacrificed)} {matchingCharacter.CharacterName} [{matchingCharacter.SellPrice} {Services.Localization.PillsEmoji}]\n{additionalMessage}"));
+            await context.CreateResponseAsync(message.WithContent($"{user.Username} {user.GetText(sacrificed)} {matchingCharacter.CharacterName} [{matchingCharacter.SellPrice} {Services.Localization.PillsEmoji}]\n{additionalMessage}"));
         }
 
         [SlashCommand("sacrifice", "Sacrifice character for some pills")]

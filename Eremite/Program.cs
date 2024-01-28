@@ -7,6 +7,8 @@ using DSharpPlus.Entities;
 using DSharpPlus.CommandsNext;
 using Microsoft.Extensions.DependencyInjection;
 using DSharpPlus.SlashCommands;
+using Eremite.SlashCommands;
+using Eremite.Commands;
 
 namespace Eremite
 {
@@ -44,7 +46,19 @@ namespace Eremite
             var slash = discord.UseSlashCommands(slashCommands);
 
             commandsNext.RegisterCommands(typeof(Program).Assembly); //registering usual commands
-            slash.RegisterCommands(typeof(Program).Assembly); //registering slash commands
+
+            //slash.RegisterCommands(typeof(Program).Assembly); //registering slash commands
+            slash.RegisterCommands<AdventureCommand>();
+            slash.RegisterCommands<AkashaCommand>();
+            slash.RegisterCommands<ConnectCommand>();
+            slash.RegisterCommands<DailyCommand>();
+            slash.RegisterCommands<LanguageCommand>();
+            slash.RegisterCommands<SacrificeCommand>();
+            slash.RegisterCommands<SetCharacterCommand>();
+            slash.RegisterCommands<ShopCommand>();
+            slash.RegisterCommands<StatsCommand>();
+            slash.RegisterCommands<AboutCommand>();
+            slash.RegisterCommands<PullCommand>();
 
             await discord.ConnectAsync(activity, UserStatus.Idle);
             await Task.Delay(-1);

@@ -2,7 +2,6 @@
 using Eremite.Data.DiscordData;
 using Newtonsoft.Json;
 using Eremite.Builders;
-using Eremite.Base.Interfaces;
 
 namespace Eremite.Services
 {
@@ -40,6 +39,7 @@ namespace Eremite.Services
                 user.EquippedCharacter = reader.GetInt32("equippedcharacter");
                 user.Stats = JsonConvert.DeserializeObject<Stats>(reader.GetString("stats"));
                 user.Events = JsonConvert.DeserializeObject<List<TimeGatedEvent>>(reader.GetString("events"));
+                user.Inventory = JsonConvert.DeserializeObject<List<UserItem>>(reader.GetString("inventory"));
             }
 
             reader.Close();
@@ -63,6 +63,7 @@ namespace Eremite.Services
                 user.EquippedCharacter = reader.GetInt32("equippedcharacter");
                 user.Stats = JsonConvert.DeserializeObject<Stats>(reader.GetString("stats"));
                 user.Events = JsonConvert.DeserializeObject<List<TimeGatedEvent>>(reader.GetString("events"));
+                user.Inventory = JsonConvert.DeserializeObject<List<UserItem>>(reader.GetString("inventory"));
 
                 users.Add(user);
             }
@@ -107,9 +108,9 @@ namespace Eremite.Services
         /// <returns>Query string for insertion for a completely NEW user (insert all rows)</returns>
         public static string GetUserInsertQuery(UserData user)
         {
-            string query = $"INSERT INTO `users`(`userid`, `username`, `wallet`, `characters`, `equippedcharacter`, `stats`, `events`) " +
+            string query = $"INSERT INTO `users`(`userid`, `username`, `wallet`, `characters`, `equippedcharacter`, `stats`, `events`, `inventory`) " +
                 $"VALUES ('{user.UserId}','{user.Username}','{JsonConvert.SerializeObject(user.Wallet)}','{JsonConvert.SerializeObject(user.Characters)}'," +
-                $"'{user.EquippedCharacter}','{JsonConvert.SerializeObject(user.Stats)}','{JsonConvert.SerializeObject(user.Events)}')";
+                $"'{user.EquippedCharacter}','{JsonConvert.SerializeObject(user.Stats)}','{JsonConvert.SerializeObject(user.Events)}','{JsonConvert.SerializeObject(user.Inventory)}')";
 
             return query;
         }

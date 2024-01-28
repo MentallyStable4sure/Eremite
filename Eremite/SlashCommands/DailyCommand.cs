@@ -23,6 +23,7 @@ namespace Eremite.SlashCommands
         {
             var user = await DataHandler.GetData(context.User);
             new InfoAction(DataHandler, context, user);
+            var messageBuilder = new DiscordInteractionResponseBuilder();
 
             if (CachedDailies == null) await CacheDailies();
             if (CachedDailies == null || CachedDailies.Count <= 0) return;
@@ -34,14 +35,14 @@ namespace Eremite.SlashCommands
             {
                 var previousEvent = user.GetPreviousEventByType(DailyType);
                 string countdown = previousEvent.LastTimeTriggered.Add(previousEvent.TimeBetweenTriggers).Subtract(DateTime.UtcNow).GetNormalTime();
-                await context.FollowUpAsync(new DiscordFollowupMessageBuilder().WithContent($"> {user.GetText(TimeGatedAction.eventAlreadyTriggered)}. {user.GetText(TimeGatedAction.triggerTimeSuggestion)} {countdown}"));
+                await context.CreateResponseAsync(messageBuilder.WithContent($"> {user.GetText(TimeGatedAction.eventAlreadyTriggered)}. {user.GetText(TimeGatedAction.triggerTimeSuggestion)} {countdown}"));
                 return;
             }
 
             user.Stats.TimesDailiesCompleted++;
             var updateQuery = new UserUpdateQueryBuilder(user, QueryElement.Wallet, QueryElement.Stats, QueryElement.Events, QueryElement.Characters).Build();
             await DataHandler.SendData(user, updateQuery);
-            await context.FollowUpAsync(new DiscordFollowupMessageBuilder().AddEmbed(TimeGatedAction.GetEventEmbed(user, randomDaily)));
+            await context.CreateResponseAsync(messageBuilder.AddEmbed(TimeGatedAction.GetEventEmbed(user, randomDaily)));
         }
 
         public async Task CacheDailies()

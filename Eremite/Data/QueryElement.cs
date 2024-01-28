@@ -11,6 +11,7 @@ namespace Eremite.Data
         EquippedCharacter,
         Stats,
         Events,
-        Username
+        Username,
+        Inventory
     }
 }

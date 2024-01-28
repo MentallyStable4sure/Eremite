@@ -26,7 +26,7 @@ namespace Eremite.SlashCommands
         {
             var user = await DataHandler.GetData(context.User);
             new InfoAction(DataHandler, context, user);
-
+            
             _layout = new AkashaLayout(user, DataHandler.Config.DefaultAkashaImageUrl);
 
             var buttons = CreateButtons(user, context);
@@ -34,11 +34,11 @@ namespace Eremite.SlashCommands
             var currentCharacter = CharactersHandler.ConvertId(user.EquippedCharacter);
             var characterIdsConverted = CharactersHandler.ConvertIds(user.Characters);
 
-            var messageBuilder = new DiscordFollowupMessageBuilder()
+            var messageBuilder = new DiscordInteractionResponseBuilder()
                 .AddComponents(buttons.Keys)
                 .AddEmbed(_layout.GetMainAkashaEmbed(user, characterIdsConverted, currentCharacter));
 
-            await context.FollowUpAsync(messageBuilder);
+            await context.CreateResponseAsync(messageBuilder);
         }
 
         [SlashCommand("profile", "Shows the current user profile with the current equipped character, mora and primos")]
@@ -66,7 +66,7 @@ namespace Eremite.SlashCommands
 
         private async Task Pull(InteractionContext context, ComponentInteractionCreateEventArgs args, UserData user)
         {
-            if (user.Wallet.Primogems < DataHandler.Config.PullCost) await context.FollowUpAsync(new DiscordFollowupMessageBuilder().WithContent($"> {user.GetText(Services.Localization.NoCurrencyKey)}"));
+            if (user.Wallet.Primogems < DataHandler.Config.PullCost) await context.CreateResponseAsync(new DiscordInteractionResponseBuilder().WithContent($"> {user.GetText(Services.Localization.NoCurrencyKey)}"));
             else
             {
                 var pullResult = await PullAction.ForUserAsyncSave(user, 1);

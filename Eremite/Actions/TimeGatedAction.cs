@@ -99,7 +99,7 @@ namespace Eremite.Actions
                 Color = DiscordColor.Purple,
                 Title = $"{user.Username} {user.GetText(triggeredKey)} {timeGatedEvent.EventType} {user.GetText(eventKey)}",
                 ImageUrl = timeGatedEvent.ImageUrl,
-                Description = $"{user.Username} {user.GetText(meetKey)} {characters} {user.GetText(collectedKey)} {award.CurrenciesToAdd} \n> {timeGatedEvent.Melusines}{Localization.MelusineEmoji}"
+                Description = $"{user.Username} {user.GetText(meetKey)} {characters} {user.GetText(collectedKey)} {award.CurrenciesToAdd} \n\n> {timeGatedEvent.Melusines} {Localization.MelusineEmoji}"
             };
         }
     }

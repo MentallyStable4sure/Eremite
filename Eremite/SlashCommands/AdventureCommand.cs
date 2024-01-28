@@ -34,19 +34,19 @@ namespace Eremite.SlashCommands
 
             bool isPossible = true;
 
-            var message = new DiscordFollowupMessageBuilder();
+            var message = new DiscordInteractionResponseBuilder();
             if (previousEvent != null) isPossible = TimeGatedAction.CheckTimeGatedEvent(previousEvent);
             if (!isPossible)
             {
                 string countdown = previousEvent.LastTimeTriggered.Add(previousEvent.TimeBetweenTriggers).Subtract(DateTime.UtcNow).GetNormalTime();
-                await context.FollowUpAsync(message.WithContent($"> {user.GetText(TimeGatedAction.eventAlreadyTriggered)}. {user.GetText(TimeGatedAction.triggerTimeSuggestion)} {countdown}"));
+                await context.CreateResponseAsync(message.WithContent($"> {user.GetText(TimeGatedAction.eventAlreadyTriggered)}. {user.GetText(TimeGatedAction.triggerTimeSuggestion)} {countdown}"));
                 return;
             }
 
             if (CachedAdventures == null) await CacheAdventures();
             if (CachedAdventures == null || CachedAdventures.Count <= 0)
             {
-                await context.FollowUpAsync(message.WithContent(user.GetText(noAdventuresFound)));
+                await context.CreateResponseAsync(message.WithContent(user.GetText(noAdventuresFound)));
                 return;
             }
 
@@ -54,7 +54,7 @@ namespace Eremite.SlashCommands
             var randomAdventures = action.FillRandomAdventures(CachedAdventures);
             var buttons = CreateButtons(randomAdventures);
 
-            await context.FollowUpAsync(new DiscordFollowupMessageBuilder().AddEmbed(new DiscordEmbedBuilder
+            await context.CreateResponseAsync(message.AddEmbed(new DiscordEmbedBuilder
             {
                 Title = $"{user.Username} {user.GetText(startAdventure)}",
                 Description = user.GetText(adventureDescription),

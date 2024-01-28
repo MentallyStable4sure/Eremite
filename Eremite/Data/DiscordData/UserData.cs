@@ -13,5 +13,6 @@ namespace Eremite.Data.DiscordData
         public List<TimeGatedEvent> Events = new List<TimeGatedEvent>(); //events user participated in with dateTimes
 
         public Stats Stats = new Stats(); //all the stats about visits/etc.
+        public List<UserItem> Inventory = new List<UserItem>(); //user items inventory
     }
 }

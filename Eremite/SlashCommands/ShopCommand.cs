@@ -25,12 +25,12 @@ namespace Eremite.SlashCommands
             var options = shopAction.CreateShopDropdown(context, user);
             var dropdown = new DiscordSelectComponent("shopdropdown", user.GetText(inputPlaceholder), options.Values, false, 1, 1);
 
-            var messageBuilder = new DiscordFollowupMessageBuilder()
+            var message = new DiscordInteractionResponseBuilder()
                 .AddComponents(dropdown)
                 .AddEmbed(ShopAction.GetEmbedWithShopInfo(user));
 
             shopAction.OnUserBought += SaveData;
-            await context.FollowUpAsync(messageBuilder);
+            await context.CreateResponseAsync(message);
         }
 
         private async void SaveData(UserData user, DoriLot lot)

@@ -23,11 +23,11 @@ namespace Eremite.SlashCommands
 
             var buttons = await CreateButtons(user, context);
 
-            var messageBuilder = new DiscordFollowupMessageBuilder()
+            var message = new DiscordInteractionResponseBuilder()
                 .AddComponents(buttons.Keys)
                 .AddEmbed(StatsAction.GetEmbedWithStats(context.User.AvatarUrl, user));
 
-            await context.FollowUpAsync(messageBuilder);
+            await context.CreateResponseAsync(message);
         }
 
         private async Task<Dictionary<DiscordButtonComponent, string>> CreateButtons(UserData user, InteractionContext context)
