@@ -10,7 +10,7 @@ namespace Eremite.SlashCommands
         public DataHandler DataHandler { get; set; }
 
         [SlashCommand("inventory", "Shows all owned inventory items")]
-        public async Task InventoryList(InteractionContext context,)
+        public async Task InventoryList(InteractionContext context)
         {
             var user = await DataHandler.GetData(context.User);
             new InfoAction(DataHandler, context, user);

@@ -1,6 +1,7 @@
 ﻿using DSharpPlus;
 using DSharpPlus.Entities;
 using Eremite.Base;
+using Eremite.Builders;
 using Eremite.Data;
 using Eremite.Data.DiscordData;
 using Eremite.Services;
@@ -140,63 +141,27 @@ namespace Eremite.Actions
             return sb.ToString();
         }
 
-        public async Task<string> Buy(UserData user, DoriLot lot)
+        public async Task<string> Buy(UserData user, DataHandler data, UserItem item)
         {
-            var allCharacters = CharactersHandler.CharactersData;
-            switch (lot)
-            {
-                case DoriLot.ONE_HUNDRED_PRIMOS:
-                    if (user.Wallet.Mora < 3000) return user.GetText(Localization.NoCurrencyKey);
-                    user.Wallet.Mora -= 3000;
-                    user.Wallet.Primogems += 100;
-                    ChangeStats(user, new DiscordWallet(100, -3000));
-                    break;
+            if (user.Wallet.Mora < item.BuyPrice.Mora) return "> Not enough resources to buy this lot.";
+            if (user.Wallet.Primogems < item.BuyPrice.Primogems) return "> Not enough resources to buy this lot.";
+            if (user.Wallet.Pills < item.BuyPrice.Pills) return "> Not enough resources to buy this lot.";
 
-                case DoriLot.CRIMSON_WITCH_HAT:
-                    if (user.Wallet.Pills < 2500) return user.GetText(Localization.NoCurrencyKey);
-                    user.Wallet.Pills -= 2500;
-                    user.AddPulledCharacter(allCharacters.Find(character => character.CharacterName.ToLower().Contains("signora")).CharacterId);
-                    ChangeStats(user, new DiscordWallet(0, 0, -2500));
-                    break;
+            user.AddCurrency(new DiscordWallet(-item.BuyPrice.Primogems, -item.BuyPrice.Mora, -item.BuyPrice.Pills));
 
-                case DoriLot.WELKIN_MOON:
-                    if (user.Wallet.Pills < 5000) return user.GetText(Localization.NoCurrencyKey);
-                    if(!ConnectAction.CheckGenshinUID(user.Stats.UserUID)) return user.GetText(uidNeeded);
-
-                    var canTrigger = user.HandleEvent(data, new TimeGatedEvent(TimeGatedEventType.Welkin, new TimeSpan(30, 0, 0, 0)));
-                    if(!canTrigger)
-                    {
-                        var previousEvent = user.GetPreviousEventByType(TimeGatedEventType.Welkin);
-                        string countdown = previousEvent.LastTimeTriggered.Add(previousEvent.TimeBetweenTriggers).Subtract(DateTime.UtcNow).GetNormalTime();
-                        return $"> {user.GetText(TimeGatedAction.eventAlreadyTriggered)}. {user.GetText(TimeGatedAction.triggerTimeSuggestion)} {countdown}";
-                    }
-
-                    var result = await SellerAction.BuyWelkin(user.Stats.UserUID);
-                    if (!result) return user.GetText(lotUnavaliable);
-
-                    user.Wallet.Pills -= 5000;
-                    ChangeStats(user, new DiscordWallet(0, 0, -5000));
-                    break;
-
-                case DoriLot.ONE_HUNDRED_PILLS:
-                    if (user.Wallet.Mora < 10000) return user.GetText(Localization.NoCurrencyKey);
-                    user.Wallet.Mora -= 10000;
-                    user.Wallet.Pills += 300;
-                    ChangeStats(user, new DiscordWallet(300, -10000, 0));
-                    break;
-            }
-
-            OnUserBought?.Invoke(user, lot);
+            await data.SendData(user, new UserUpdateQueryBuilder(user, QueryElement.Wallet, QueryElement.Stats, QueryElement.Inventory).Build());
             return string.Empty;
         }
 
-        private void ChangeStats(UserData user, DiscordWallet wallet)
+        public async Task<string> Sell(UserData user, DataHandler data, UserItem item)
         {
-            if (wallet.Pills > 0) user.Stats.TotalPillsEarned += wallet.Pills;
-            else user.Stats.TotalPillsSpent += wallet.Pills * -1;
+            if (!user.Inventory.Contains(item)) return "Seems like you dont have this item";
 
-            if (wallet.Primogems > 0) user.Stats.TotalPrimogemsEarned += wallet.Primogems;
-            else user.Stats.TotalPrimogemsSpent += wallet.Primogems * -1;
+            if (user.Stats.EquippedItem.ItemId == item.ItemId) user.Stats.EquippedItem = null;
+            user.AddCurrency(new DiscordWallet(item.SellPrice.Primogems, item.SellPrice.Mora, item.SellPrice.Pills));
+
+            await data.SendData(user, new UserUpdateQueryBuilder(user, QueryElement.Wallet, QueryElement.Stats, QueryElement.Inventory).Build());
+            return string.Empty;
         }
     }
 }
