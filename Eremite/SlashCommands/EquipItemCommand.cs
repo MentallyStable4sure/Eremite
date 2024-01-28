@@ -11,7 +11,7 @@ namespace Eremite.SlashCommands
         public DataHandler DataHandler { get; set; }
 
         [SlashCommand("equip", "Shows the current user profile with the current equipped character, mora and primos")]
-        public async Task EquipItem(InteractionContext context, [Option("itemId", "Item to equip (like fishin rod or something else)")] long itemId)
+        public async Task EquipItem(InteractionContext context, [Option("itemId", "Item to equip")] long itemId)
         {
             var user = await DataHandler.GetData(context.User);
             new InfoAction(DataHandler, context, user);

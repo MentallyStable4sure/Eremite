@@ -14,7 +14,7 @@ namespace Eremite.SlashCommands
 
         private readonly string inputPlaceholder = "shop.input_placeholder";
 
-        [SlashCommand("Harbor", "Shows the current Liyue harbor lots and prices.")]
+        [SlashCommand("harbor", "Shows the current Liyue harbor lots and prices.")]
         public async Task ShowShop(InteractionContext context)
         {
             var user = await DataHandler.GetData(context.User);
@@ -33,7 +33,7 @@ namespace Eremite.SlashCommands
             await context.CreateResponseAsync(message);
         }
 
-        [SlashCommand("Liyue Harbor", "Shows the current Liyue harbor lots and prices.")]
+        [SlashCommand("liyueharbor", "Shows the current Liyue harbor lots and prices.")]
         public async Task ShowHarbor(InteractionContext context) => await ShowShop(context);
 
         private async void SaveData(UserData user, HarborLot lot)
