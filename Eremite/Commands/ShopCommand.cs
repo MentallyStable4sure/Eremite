@@ -21,7 +21,7 @@ namespace Eremite.Commands
             var user = await DataHandler.GetData(context.User);
             new InfoAction(DataHandler, context, user);
 
-            var shopAction = new ShopAction(user);
+            var shopAction = new ShopAction(user, DataHandler);
 
             var options = shopAction.CreateShopDropdown(context, user);
             var dropdown = new DiscordSelectComponent("shopdropdown", user.GetText(inputPlaceholder), options.Values, false, 1, 1);

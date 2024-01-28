@@ -49,7 +49,7 @@ namespace Eremite.Commands
 
             var award = new Award(new DiscordWallet(0, 0, matchingCharacter.SellPrice));
             var perkAction = new PerkAction(DataHandler);
-            string additionalMessage = perkAction.ApplyPerk(user, TimeGatedEventType.Sacrifice, award);
+            string additionalMessage = perkAction.ApplyPerk(user, new TimeGatedEvent(TimeGatedEventType.Sacrifice, TimeSpan.Zero), award);
 
             user.AddAward(award);
 

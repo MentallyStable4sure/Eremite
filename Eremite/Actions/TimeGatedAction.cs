@@ -1,5 +1,6 @@
 ﻿using DSharpPlus.Entities;
 using Eremite.Data.DiscordData;
+using Eremite.Services;
 
 namespace Eremite.Actions
 {
@@ -38,7 +39,7 @@ namespace Eremite.Actions
         /// <param name="newEvent">Event to get award from and reset timer</param>
         /// <param name="oldEvent">Event to delete (which was used to compare, if it needs to be unique one in the list)</param>
         /// <param name="customAward">If you want to use custom award instead of event one</param>
-        public static void TickEvent(this UserData user, TimeGatedEvent newEvent, TimeGatedEvent oldEvent = null)
+        public static void TickEvent(this UserData user, DataHandler data, TimeGatedEvent newEvent, TimeGatedEvent oldEvent = null)
         {
             var ticks = oldEvent == null ? newEvent.TimesTicked + 1 : oldEvent.TimesTicked + 1;
             newEvent.TimesTicked = ticks;
@@ -49,7 +50,8 @@ namespace Eremite.Actions
 
 
             Console.WriteLine($"[EVENT] {newEvent.EventType} was triggered by the player {user.Username} | {user.UserId}");
-            PerkAction.ApplyPerk(user, newEvent.EventType, newEvent.Award);
+            var perkAction = new PerkAction(data);
+            perkAction.ApplyPerk(user, newEvent, newEvent.Award);
 
             user.AddAward(newEvent.Award);
         }
@@ -61,13 +63,13 @@ namespace Eremite.Actions
         /// <param name="user">User who participating in event</param>
         /// <param name="timeGatedEvent">Event to handle</param>
         /// <returns>Embed with result (error text with time or <see cref="GetEventEmbed(UserData, TimeGatedEvent)"/>)</returns>
-        public static bool HandleEvent(this UserData user, TimeGatedEvent participatedEvent)
+        public static bool HandleEvent(this UserData user, DataHandler data, TimeGatedEvent participatedEvent)
         {
             bool isPossible = true;
             var previousEvent = user.GetPreviousEventByType(participatedEvent.EventType);
             if (previousEvent == null)
             {
-                user.TickEvent(participatedEvent);
+                user.TickEvent(data, participatedEvent);
                 return isPossible; //havent triggered any events like this, so user is free to do so
             }
             else
@@ -77,7 +79,7 @@ namespace Eremite.Actions
 
             if (!isPossible) return isPossible;
 
-            user.TickEvent(participatedEvent, previousEvent); //tick the current event
+            user.TickEvent(data, participatedEvent, previousEvent); //tick the current event
             return isPossible;
         }
 
@@ -97,7 +99,7 @@ namespace Eremite.Actions
                 Color = DiscordColor.Purple,
                 Title = $"{user.Username} {user.GetText(triggeredKey)} {timeGatedEvent.EventType} {user.GetText(eventKey)}",
                 ImageUrl = timeGatedEvent.ImageUrl,
-                Description = $"{user.Username} {user.GetText(meetKey)} {characters} {user.GetText(collectedKey)} {award.CurrenciesToAdd}"
+                Description = $"{user.Username} {user.GetText(meetKey)} {characters} {user.GetText(collectedKey)} {award.CurrenciesToAdd} \n> {timeGatedEvent.Melusines}{Localization.MelusineEmoji}"
             };
         }
     }

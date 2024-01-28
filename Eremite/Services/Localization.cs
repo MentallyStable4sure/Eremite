@@ -13,6 +13,7 @@ namespace Eremite.Services
         public const string PrimosEmoji = "<:imf2pbtw:1113103136991756328>";
         public const string PillsEmoji = "<:pillwhite:1119700330259693629>";
         public const string StarEmoji = "<:Stardust3:1122370119608303716>";
+        public const string MelusineEmoji = "<:melusine_sticker:1200997903901134938>";
 
         public const string Mora = "currency.mora";
         public const string Primos = "currency.primogems";

@@ -15,10 +15,15 @@ namespace Eremite.Actions
         public const string NotEnoughMaterialsError = "> Not enough materials to buy this item. Try using !adventure, !pull, !daily, etc.";
 
         private UserData _user;
+        private DataHandler data;
 
         public Action<UserData, DoriLot> OnUserBought;
 
-        public ShopAction(UserData user) => _user = user;
+        public ShopAction(UserData user, DataHandler data)
+        {
+            _user = user;
+            this.data = data;
+        }
 
         public const string shopWelcome = "shop.welcome";
         public const string shopDescription = "shop.description";
@@ -84,7 +89,7 @@ namespace Eremite.Actions
                 {
                     if (args == null) continue;
                     if (!args.Values.Contains(option.Key.identifier)) continue;
-                    string response = await Buy(_user, (DoriLot)option.Key.content);
+                    string response = await Buy(_user, data, (DoriLot)option.Key.content);
                     string message = $"> {user.GetText(lotBought)}.";
 
                     if (response != null && response != string.Empty) message = response;
@@ -124,7 +129,7 @@ namespace Eremite.Actions
                     if (user.Wallet.Pills < 5000) return user.GetText(Localization.NoCurrencyKey);
                     if(!ConnectAction.CheckGenshinUID(user.Stats.UserUID)) return user.GetText(uidNeeded);
 
-                    var canTrigger = user.HandleEvent(new TimeGatedEvent(TimeGatedEventType.Welkin, new TimeSpan(30, 0, 0, 0)));
+                    var canTrigger = user.HandleEvent(data, new TimeGatedEvent(TimeGatedEventType.Welkin, new TimeSpan(30, 0, 0, 0)));
                     if(!canTrigger)
                     {
                         var previousEvent = user.GetPreviousEventByType(TimeGatedEventType.Welkin);

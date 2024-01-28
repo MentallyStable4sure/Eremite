@@ -29,7 +29,7 @@ namespace Eremite.Commands
 
             var randomDaily = CachedDailies[Random.Shared.Next(0, CachedDailies.Count)];
 
-            var isHandled = user.HandleEvent(randomDaily);
+            var isHandled = user.HandleEvent(DataHandler, randomDaily);
             if(!isHandled)
             {
                 var previousEvent = user.GetPreviousEventByType(DailyType);

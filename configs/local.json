@@ -89,10 +89,6 @@
       "text": "wished for a character.."
     },
     {
-      "key": "pull.cashback",
-      "text": "Your cashback for duplicated characters:"
-    },
-    {
       "key": "not_enough_currency",
       "text": "Not enough currency! Try any activities like `!adventure`, `!daily`, etc. to get currency. (`!help` to see all commands)"
     },
@@ -261,8 +257,36 @@
       "text": "Bonanus"
     },
     {
-      "key": "character.13.name",
-      "text": "Signora"
+      "key": "character.14.name",
+      "text": "Furina"
+    },
+    {
+      "key": "character.15.name",
+      "text": "Hu Tao"
+    },
+    {
+      "key": "character.16.name",
+      "text": "Layla"
+    },
+    {
+      "key": "character.17.name",
+      "text": "Yanfei"
+    },
+    {
+      "key": "character.18.name",
+      "text": "Zhongli"
+    },
+    {
+      "key": "character.19.name",
+      "text": "Charlotte"
+    },
+    {
+      "key": "character.20.name",
+      "text": "Klee"
+    },
+    {
+      "key": "character.21.name",
+      "text": "Ganyu"
     },
     {
       "key": "character.1.perk_info",
@@ -315,12 +339,44 @@
     {
       "key": "character.13.perk_info",
       "text": "[Crimson Witch] - Converts primogems into pills 💊 with 1/2 ratio, but burns all your mora upon receiving"
+    },
+    {
+      "key": "character.14.perk_info",
+      "text": "When Furina set as a main character each time you sacrifice a character you receive a melusines help by a 1600 primogems per melusines helped. You can help melusines if you see them on !adventure or while !fishblasting with Klee"
+    },
+    {
+      "key": "character.15.perk_info",
+      "text": "Hu Tao travels to an underworld whenever you sacrifice any character providing you with new random character she brought from underworld or 3600 primogems with 50%/50% chance"
+    },
+    {
+      "key": "character.16.perk_info",
+      "text": "Layla fell asleep but her lunatic side will give you 10 💊 per each character in the inventory whenever someone leaves her teams and being sacrificed"
+    },
+    {
+      "key": "character.17.perk_info",
+      "text": "Yanfei signed a contract with you. She can be sacrificed but will refresh your Blessing of the Welkin Moon cooldown."
+    },
+    {
+      "key": "character.18.perk_info",
+      "text": "[Passive] Zhongli is eating 1000 Mora each time you sacrifice someone [No matter who is set as main character]"
+    },
+    {
+      "key": "character.19.perk_info",
+      "text": "Charlotte is capturing rare shots of melusines with her camera making 3 times more rewards from adventures where melusines were found"
+    },
+    {
+      "key": "character.20.perk_info",
+      "text": "Klee is master at fishing! Each time Klee goes fishing she is finding some friends!"
+    },
+    {
+      "key": "character.21.perk_info",
+      "text": "[Frost Bolt] During fishblasting has 50% chance to froze an entire lake and receive rare rewards"
     }
   ],
   "french": [
     {
       "key": "currency.mora",
-      "text": "Moras"
+      "text": "Mora"
     },
     {
       "key": "currency.primogems",
@@ -356,7 +412,7 @@
     },
     {
       "key": "events.already_triggered",
-      "text": "Cet évènement a déjà été déclenché"
+      "text": "Cet évènement à déjà été déclenché"
     },
     {
       "key": "adventures.no_adventures_found",
@@ -364,7 +420,7 @@
     },
     {
       "key": "adventures.start_adventure",
-      "text": "part à l'aventure.."
+      "text": "pars à l'aventure.."
     },
     {
       "key": "adventures.description",
@@ -405,10 +461,6 @@
     {
       "key": "pull.wish",
       "text": "a fait un vœu.."
-    },
-    {
-      "key": "pull.cashback",
-      "text": "Voici ton cashback pour tes duplicats:"
     },
     {
       "key": "not_enough_currency",
@@ -516,11 +568,11 @@
     },
     {
       "key": "stats.total_primogems",
-      "text": "Total des gains/dépenses de primo-gemmes :"
+      "text": "Total des dépenses/gains de primo-gemmes :"
     },
     {
       "key": "stats.total_pills",
-      "text": "Total des gains/dépenses de pilules :"
+      "text": "Total des dépenses/gains de pilules :"
     },
     {
       "key": "localization.lang_changed",
@@ -583,6 +635,38 @@
       "text": "La Signora"
     },
     {
+      "key": "character.14.name",
+      "text": "Furina"
+    },
+    {
+      "key": "character.15.name",
+      "text": "Hu Tao"
+    },
+    {
+      "key": "character.16.name",
+      "text": "Layla"
+    },
+    {
+      "key": "character.17.name",
+      "text": "Yanfei"
+    },
+    {
+      "key": "character.18.name",
+      "text": "Zhongli"
+    },
+    {
+      "key": "character.19.name",
+      "text": "Charlotte"
+    },
+    {
+      "key": "character.20.name",
+      "text": "Klee"
+    },
+    {
+      "key": "character.21.name",
+      "text": "Ganyu"
+    },
+    {
       "key": "character.1.perk_info",
       "text": "Double les gains de Moras. Fonctionne avec toutes les commandes (!adventure, !daily, !pull, etc.)"
     },
@@ -633,6 +717,38 @@
     {
       "key": "character.13.perk_info",
       "text": "[Ardence] - Transforme 50% des primo-gemmes en pilules, mais détruit tous les Moras reçus en même temps."
+    },
+    {
+      "key": "character.14.perk_info",
+      "text": "Quand Furina est sélectionnée en tant que personnage principale, à chaque fois que tu sacrifies un personnage tu reçois 1600 primogemmes par Melusine aidé. Tu peux aider les Melusines si tu les vois pendant une !adventure ou pendant !fishblasting avec Klee."
+    },
+    {
+      "key": "character.15.perk_info",
+      "text": "Hu Tao voyage dans l'Au-delà à chaque fois que tu sacrifies un personnage, pour ramener soit un autre personnage, soit 3600 primogemmes (50/50)."
+    },
+    {
+      "key": "character.16.perk_info",
+      "text": "Layla s'est endormie mais son côté distrait te donnera 10 💊 pour chaque personnage dans l'inventaire à chaque fois que quelqu'un quitte son équipe et est sacrifié."
+    },
+    {
+      "key": "character.17.perk_info",
+      "text": "Yanfei a signé un contrat avec toi. Elle peut être sacrifiée mais diminue le temps d'obtention d'une Faveur de l'Astre."
+    },
+    {
+      "key": "character.18.perk_info",
+      "text": "[Passif] Zhongli consomme 1000 Moras à chaque fois que tu sacrifies quelqu'un. [Marche seulement si le personnage est mis en personnage principale]"
+    },
+    {
+      "key": "character.19.perk_info",
+      "text": "Charlotte photographie des Melusines avec sa camera, multipliant par 3 les récompenses d'aventure où se trouve des Melusines."
+    },
+    {
+      "key": "character.20.perk_info",
+      "text": "Klee est très douée à la pêche! À chaque fois qu'elle va pêcher, elle se fait des amis!"
+    },
+    {
+      "key": "character.21.perk_info",
+      "text": "[Grêle] Pendant !fishblasting, il y a 50% de chance de geler le lac entier et de recevoir des récompenses rares."
     }
   ],
   "ukrainian": [
@@ -723,10 +839,6 @@
     {
       "key": "pull.wish",
       "text": "загадує бажання.."
-    },
-    {
-      "key": "pull.cashback",
-      "text": "Твій кешбек за дублікати:"
     },
     {
       "key": "not_enough_currency",
@@ -901,6 +1013,38 @@
       "text": "Сеньйора"
     },
     {
+      "key": "character.14.name",
+      "text": "Фуріна"
+    },
+    {
+      "key": "character.15.name",
+      "text": "Ху Тао"
+    },
+    {
+      "key": "character.16.name",
+      "text": "Лайла"
+    },
+    {
+      "key": "character.17.name",
+      "text": "Янь Фей"
+    },
+    {
+      "key": "character.18.name",
+      "text": "Чжун Лі"
+    },
+    {
+      "key": "character.19.name",
+      "text": "Шарлотта"
+    },
+    {
+      "key": "character.20.name",
+      "text": "Клі"
+    },
+    {
+      "key": "character.21.name",
+      "text": "Гань Юй"
+    },
+    {
       "key": "character.1.perk_info",
       "text": "Отримує удвічі більше (x2) Мори з усіх ресурсів (!adventure, !daily, !pull, etc.)"
     },
@@ -951,6 +1095,38 @@
     {
       "key": "character.13.perk_info",
       "text": "[Crimson Witch] - Конвертує камінці у таблетки 💊 1 до 2, але уся Мора згорає коли її торкається відьма"
+    },
+    {
+      "key": "character.14.perk_info",
+      "text": "Коли Фуріна обрана як основний персонаж, кожного разу при !sacrifice ви отримуєте допомгу від Мелюзін 1600 Камінців за кожного. Ви можете допомогти Мелюзінам у !adventure або у !fishblasting разом з Клі."
+    },
+    {
+      "key": "character.15.perk_info",
+      "text": "Ху Тао відвідує потойбіччя кожного разу при !sacrifice та приводить нового покупця зі знижкою додаючи його, або якщо пощастить то знаходить 3600 Камінців з шансом 50%/50%"
+    },
+    {
+      "key": "character.16.perk_info",
+      "text": "Здається Лайла спить, але її лунатизм подарує вам 10 💊 кожного разу коли хтось покидає її команду та відходить у !sacrifice"
+    },
+    {
+      "key": "character.17.perk_info",
+      "text": "Янь Фей підписала з вами контракт. Вона може піти з команди завдяки !sacrifice але при цьому оновить таймер на Благословення Місяця (-30 днів)."
+    },
+    {
+      "key": "character.18.perk_info",
+      "text": "[Пассивно] Чжун Лі забирає в вас 1000 Мори кожного разу коли хтось покидає команду через !sacrifice [Навіть якщо він не встановлений головним персонажем]"
+    },
+    {
+      "key": "character.19.perk_info",
+      "text": "Шарлотта фотографує Мелюзін своєю камерою потроючи (х3) награду з !adventures де були знайдені Мелюзіни."
+    },
+    {
+      "key": "character.20.perk_info",
+      "text": "Клі дуже гарно рибачить! Кожного разу Клі йде на рибалку та знаходить нових друзів!"
+    },
+    {
+      "key": "character.21.perk_info",
+      "text": "[Морозний снаряд] Під час рибалки 50% шанс що заморозить усю воду та отримає ексклюзивні награди."
     }
   ],
   "russian": [
@@ -1041,10 +1217,6 @@
     {
       "key": "pull.wish",
       "text": "встречает персонажа.."
-    },
-    {
-      "key": "pull.cashback",
-      "text": "Твой кэшбэк за дубликаты:"
     },
     {
       "key": "not_enough_currency",
@@ -1219,6 +1391,38 @@
       "text": "Синьора"
     },
     {
+      "key": "character.14.name",
+      "text": "Фурина"
+    },
+    {
+      "key": "character.15.name",
+      "text": "Ху Тао"
+    },
+    {
+      "key": "character.16.name",
+      "text": "Лайла"
+    },
+    {
+      "key": "character.17.name",
+      "text": "Янь Фэй"
+    },
+    {
+      "key": "character.18.name",
+      "text": "Чжун Ли"
+    },
+    {
+      "key": "character.19.name",
+      "text": "Шарлотта"
+    },
+    {
+      "key": "character.20.name",
+      "text": "Кли"
+    },
+    {
+      "key": "character.21.name",
+      "text": "Гань Юй"
+    },
+    {
       "key": "character.1.perk_info",
       "text": "Получает в 2 раза больше (x2) Моры со всех ресурсов (!adventure, !daily, !pull, и т.д.)"
     },
@@ -1269,6 +1473,38 @@
     {
       "key": "character.13.perk_info",
       "text": "[Crimson Witch] - Конвертирует примогемы в таблетки 💊 в соотношении 1/2, но сжигает всю Мору как только она попадает в руки ведьмы"
+    },
+    {
+      "key": "character.14.perk_info",
+      "text": "Когда Фурина выбрана главным персонажем каждый !sacrifice вы получаете помощь от Мелюзин в виде 1600 Примогемов за каждого. Ви можете помочь Мелюзинам в !adventure или у !fishblasting вместе с Кли."
+    },
+    {
+      "key": "character.15.perk_info",
+      "text": "Ху Тао посещает потусторонний мир каждый раз при !sacrifice  та приводит нового покупателя к вам в команду, либо если повезет находит 3600 Примогемов с шансом 50%/50%"
+    },
+    {
+      "key": "character.16.perk_info",
+      "text": "Похоже Лайла уснула но ее лунатизм дарит вам 10 💊 каждый раз когда кто-то покидает команду через !sacrifice"
+    },
+    {
+      "key": "character.17.perk_info",
+      "text": "Янь Фэй подписала с вами контракт. Вона може уйти с команды с помощью !sacrifice но при этом обновит таймер получения Благословения Луны (-30 дней)."
+    },
+    {
+      "key": "character.18.perk_info",
+      "text": "[Пассивно] Чжун Ли забирает с вас 1000 Моры каждый раз когда кто-то покидает команду через !sacrifice [Даже если не выбран главным персонажем]"
+    },
+    {
+      "key": "character.19.perk_info",
+      "text": "Шарлотта фотографирует Мелюзин своей камерою утраивая (х3) награду с !adventures где были найдены Мелюзины."
+    },
+    {
+      "key": "character.20.perk_info",
+      "text": "Кли мастер в рыбалке! Каждый раз когда Кли идет рыбачить она приводить новых друзей!"
+    },
+    {
+      "key": "character.21.perk_info",
+      "text": "[Замороженный снаряд] Во время рыбалки есть 50% шанс что заморозит всю воду и получит редкие награды."
     }
   ]
 }

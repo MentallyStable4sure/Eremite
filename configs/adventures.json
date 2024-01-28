@@ -470,5 +470,149 @@
       },
       "CharactersToAdd": []
     }
+  },
+  {
+    "Region": 6,
+    "ButtonText": "Fontaine",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5237175Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/fontaine.gif",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 760,
+        "Primogems": 174,
+        "Pills": 12
+      },
+      "CharactersToAdd": []
+    },
+    "Melusines": 0
+  },
+  {
+    "Region": 6,
+    "ButtonText": "Fontaine",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5237175Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/fontaine2.gif",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 456,
+        "Primogems": 264,
+        "Pills": 24
+      },
+      "CharactersToAdd": []
+    },
+    "Melusines": 1
+  },
+  {
+    "Region": 6,
+    "ButtonText": "Fontaine",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5237175Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/fontaine3.gif",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 2135,
+        "Primogems": 23,
+        "Pills": 3
+      },
+      "CharactersToAdd": []
+    },
+    "Melusines": 1
+  },
+  {
+    "Region": 6,
+    "ButtonText": "Fontaine",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5237175Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/fontaine4.gif",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 5421,
+        "Primogems": 2,
+        "Pills": 5
+      },
+      "CharactersToAdd": []
+    },
+    "Melusines": 1
+  },
+  {
+    "Region": 6,
+    "ButtonText": "Fontaine",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5237175Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/fontaine5.gif",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 12,
+        "Primogems": 120,
+        "Pills": 44
+      },
+      "CharactersToAdd": []
+    },
+    "Melusines": 2
+  },
+  {
+    "Region": 6,
+    "ButtonText": "Fontaine",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5237175Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/fontaine6.gif",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 2,
+        "Primogems": 4,
+        "Pills": 76
+      },
+      "CharactersToAdd": []
+    },
+    "Melusines": 1
+  },
+  {
+    "Region": 6,
+    "ButtonText": "Fontaine",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5237175Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/fontaine7.gif",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 567,
+        "Primogems": 375,
+        "Pills": 33
+      },
+      "CharactersToAdd": []
+    },
+    "Melusines": 1
+  },
+  {
+    "Region": 6,
+    "ButtonText": "Fontaine",
+    "EventType": 2,
+    "LastTimeTriggered": "2023-05-11T17:14:46.5237175Z",
+    "TimeBetweenTriggers": "03:00:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventures/fontaine8.gif",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 423,
+        "Primogems": 654,
+        "Pills": 99
+      },
+      "CharactersToAdd": []
+    },
+    "Melusines": 0
   }
 ]

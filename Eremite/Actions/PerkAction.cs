@@ -20,9 +20,10 @@ namespace Eremite.Actions
         public const int HoursCooldownAdventurePermanent = 1;
         public const int HoursCooldownDailyPermanent = 12;
 
-        public string ApplyPerk(UserData user, TimeGatedEventType eventType, Award award)
+        public string ApplyPerk(UserData user, TimeGatedEvent timeGatedEvent, Award award)
         {
             if (!user.IsAnyCharacterEquipped()) return string.Empty;
+            var eventType = timeGatedEvent.EventType;
             var perk = (Perk)(CharactersHandler.ConvertId(user.EquippedCharacter).PerkStat);
             Console.WriteLine($"Applying perk from user {user.Username}, event type: {eventType.ToString()}, equipped char: {user.EquippedCharacter}, perk: {perk}");
 
@@ -136,7 +137,14 @@ namespace Eremite.Actions
 
                 case Perk.ON_SACRIFICE_RANDOM_CHARACTER_OR_3600_PRIMOS_50_50:
                     if (eventType != TimeGatedEventType.Sacrifice) break;
-                    award.CurrenciesToAdd.Primogems += 3600;
+
+                    bool isLucky = Random.Shared.Next(0, 101) <= 50;
+                    if (isLucky)
+                    {
+                        award.CurrenciesToAdd.Primogems += 3600;
+                        additionalInfo = $"> ➕3600{Localization.PrimosEmoji}";
+                        break;
+                    }
 
                     var star = DataHandler.Config.Chances.GetStarByChance();
                     var charactersPool = CharactersHandler.CharactersData.GetCharactersPoolByStar(star);
@@ -167,6 +175,12 @@ namespace Eremite.Actions
                     GiveAwardPerChar(user, award, new Award(new DiscordWallet(0, -1000)));
                     break;
 
+                case Perk.ADVENTURE_X3_REWARD_WHEN_MELUSINE_FOUND:
+                    if(eventType != TimeGatedEventType.Adventure) break;
+                    if (timeGatedEvent.Melusines <= 0) break;
+                    MultiplyAward(user, award, 3);
+                    break;
+
                 default:
                     break;
             }
@@ -194,13 +208,13 @@ namespace Eremite.Actions
             award.CurrenciesToAdd.Pills += (charsCount * rewardPerCharacter.CurrenciesToAdd.Pills);
         }
 
-        private static void MultiplyAwardPerChar(UserData user, Award award, int multiplier)
+        private static void MultiplyAward(UserData user, Award award, int multiplier)
         {
             var charsCount = user.Characters.Count;
 
-            award.CurrenciesToAdd.Mora = (award.CurrenciesToAdd.Mora * multiplier) * charsCount;
-            award.CurrenciesToAdd.Primogems *= (award.CurrenciesToAdd.Primogems * multiplier) * charsCount;
-            award.CurrenciesToAdd.Pills *= (award.CurrenciesToAdd.Pills * multiplier) * charsCount;
+            award.CurrenciesToAdd.Mora = (award.CurrenciesToAdd.Mora * multiplier);
+            award.CurrenciesToAdd.Primogems *= (award.CurrenciesToAdd.Primogems * multiplier);
+            award.CurrenciesToAdd.Pills *= (award.CurrenciesToAdd.Pills * multiplier);
         }
 
         public static void DoubleMora(Award award) => award.CurrenciesToAdd.Mora *= 2;

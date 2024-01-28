@@ -46,7 +46,7 @@ namespace Eremite.Actions
             if (timeGatedEvent == null) return;
 
             CurrentUser.Stats.TimesTraveled++;
-            TimeGatedAction.TickEvent(CurrentUser, timeGatedEvent, previousEvent);
+            TimeGatedAction.TickEvent(CurrentUser, cachedHandler, timeGatedEvent, previousEvent);
             await Save();
 
             await args.Interaction.CreateResponseAsync(
