@@ -10,7 +10,7 @@ namespace Eremite.Actions
 {
     public class FishblastingAction
     {
-        public const TimeGatedEventType AdventuresType = TimeGatedEventType.Fishblasting;
+        public const TimeGatedEventType FishblastingType = TimeGatedEventType.Fishblasting;
 
         public UserData CurrentUser { get; private set; }
 
@@ -22,41 +22,78 @@ namespace Eremite.Actions
             this.cachedHandler = cachedHandler;
         }
 
-        /*public AdventureEvent GetRandomAdventure(List<AdventureEvent> adventures) => adventures[Random.Shared.Next(0, adventures.Count)];
+        public FishblastingEvent GetRandomSpot(List<FishblastingEvent> events) => events[Random.Shared.Next(0, events.Count)];
 
-        public List<AdventureEvent> FillRandomAdventures(List<AdventureEvent> adventuresPool, int amount)
+        public List<FishblastingEvent> FillRandomSpots(List<FishblastingEvent> allFishSpots, int amount)
         {
-            var randomAdventures = new List<AdventureEvent>();
-            while (randomAdventures.Count < amount)
+            var randomSpots = new List<FishblastingEvent>();
+            while (randomSpots.Count < amount)
             {
-                var randomAdventure = GetRandomAdventure(adventuresPool);
-                while (randomAdventures.Find(adventure => adventure.Region == randomAdventure.Region) != null)
+                var randomSpot = GetRandomSpot(allFishSpots);
+                while (randomSpots.Contains(randomSpot))
                 {
-                    randomAdventure = GetRandomAdventure(adventuresPool);
+                    randomSpot = GetRandomSpot(allFishSpots);
                 }
 
-                randomAdventures.Add(randomAdventure);
+                randomSpots.Add(randomSpot);
             }
-            return randomAdventures;
+            return randomSpots;
         }
 
-        public async Task GoOnAdventure(ComponentInteractionCreateEventArgs args, TimeGatedEvent timeGatedEvent, TimeGatedEvent previousEvent)
+        public async Task GoOnFishing(ComponentInteractionCreateEventArgs args, FishblastingEvent timeGatedEvent, TimeGatedEvent previousEvent)
         {
             if (timeGatedEvent == null) return;
 
-            CurrentUser.Stats.TimesTraveled++;
+            var fishesToCatch = timeGatedEvent.FishesCanBeFound;
+            fishesToCatch.Sort();
+            int highestId = fishesToCatch[fishesToCatch.Count - 1];
+            int catchedFish = fishesToCatch[0];
+
+            if (ItemsDb.FishingRods.ContainsKey(CurrentUser.Stats.EquippedItem.ItemId))
+            {
+                var currentRod = CurrentUser.Stats.EquippedItem;
+                int increasedChanceByRod = currentRod.ItemId * 10 >= 100 ? 100 : currentRod.ItemId;
+
+                bool isLucky = Random.Shared.Next(0, 101) <= increasedChanceByRod;
+                if (isLucky)
+                {
+                    fishesToCatch = AddMoreLevelsToCatch(highestId, fishesToCatch, currentRod);
+                }
+
+                catchedFish = fishesToCatch[Random.Shared.Next(0, fishesToCatch.Count + 1)];
+            }
+            else catchedFish = fishesToCatch[Random.Shared.Next(0, fishesToCatch.Count + 1)];
+
+            CurrentUser.Inventory.Add(ItemsDb.Fishes[catchedFish]);
             TimeGatedAction.TickEvent(CurrentUser, cachedHandler, timeGatedEvent, previousEvent);
             await Save();
 
             await args.Interaction.CreateResponseAsync(
                 InteractionResponseType.UpdateMessage,
-                new DiscordInteractionResponseBuilder().AddEmbed(TimeGatedAction.GetEventEmbed(CurrentUser, timeGatedEvent)));
+                new DiscordInteractionResponseBuilder()
+                .AddEmbed(TimeGatedAction.GetEventEmbed(CurrentUser, timeGatedEvent))
+                .WithContent($"> {ItemsDb.Fishes[catchedFish].EmojiCode}"));
+        }
+
+        private List<int> AddMoreLevelsToCatch(int highestId, List<int> fishesToCatch, UserItem fishingRod)
+        {
+            int amountToAdd = fishingRod.ItemId; //level basically (the higher = the more fish can be catched)
+            while (amountToAdd > 0 || !ItemsDb.Fishes.ContainsKey(highestId + 1))
+            {
+                amountToAdd--;
+                fishesToCatch.Add(ItemsDb.Fishes[highestId + 1].ItemId);
+
+                fishesToCatch.Sort();
+                highestId = fishesToCatch[fishesToCatch.Count - 1];
+            }
+
+            return fishesToCatch;
         }
 
         private async Task Save()
         {
-            var updateQuery = new UserUpdateQueryBuilder(CurrentUser, QueryElement.Wallet, QueryElement.Stats, QueryElement.Events, QueryElement.Characters).Build();
+            var updateQuery = new UserUpdateQueryBuilder(CurrentUser, QueryElement.Wallet, QueryElement.Stats, QueryElement.Events, QueryElement.Characters, QueryElement.Inventory).Build();
             await cachedHandler.SendData(CurrentUser, updateQuery);
-        }*/
+        }
     }
 }

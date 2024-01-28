@@ -1,0 +1,87 @@
+[
+  {
+    "EventType": 8,
+    "ButtonText": "Inazuma Spot",
+    "LastTimeTriggered": "2022-05-10T11:45:30.2000957Z",
+    "TimeBetweenTriggers": "00:30:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/harbor/inazuma_spot.gif",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 400,
+        "Primogems": 280,
+        "Pills": 5
+      },
+      "CharactersToAdd": []
+    },
+    "FishesCanBeFound": [ 6, 7, 8 ]
+  },
+  {
+    "EventType": 8,
+    "ButtonText": "Lake Spot",
+    "LastTimeTriggered": "2022-05-10T11:45:30.2001193Z",
+    "TimeBetweenTriggers": "00:30:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/harbor/lake_spot.gif",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 400,
+        "Primogems": 280,
+        "Pills": 5
+      },
+      "CharactersToAdd": []
+    },
+    "FishesCanBeFound": [ 6, 7, 8 ]
+  },
+  {
+    "EventType": 8,
+    "ButtonText": "Mountains Spot",
+    "LastTimeTriggered": "2022-05-10T11:45:30.2001193Z",
+    "TimeBetweenTriggers": "00:30:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/harbor/mountains_spot.gif",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 400,
+        "Primogems": 280,
+        "Pills": 5
+      },
+      "CharactersToAdd": []
+    },
+    "FishesCanBeFound": [ 6, 7, 8, 9 ]
+  },
+  {
+    "EventType": 8,
+    "ButtonText": "Ruins Spot",
+    "LastTimeTriggered": "2022-05-10T11:45:30.2001193Z",
+    "TimeBetweenTriggers": "00:30:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/harbor/ruins_spot.gif",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 400,
+        "Primogems": 280,
+        "Pills": 5
+      },
+      "CharactersToAdd": []
+    },
+    "FishesCanBeFound": [ 6, 7, 8 ]
+  },
+  {
+    "EventType": 8,
+    "ButtonText": "Mountains Spot",
+    "LastTimeTriggered": "2022-05-10T11:45:30.2001193Z",
+    "TimeBetweenTriggers": "00:30:00",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/harbor/ducks_spot.gif",
+    "TimesTicked": 0,
+    "Award": {
+      "CurrenciesToAdd": {
+        "Mora": 400,
+        "Primogems": 280,
+        "Pills": 5
+      },
+      "CharactersToAdd": []
+    },
+    "FishesCanBeFound": [ 7, 8, 9 ]
+  }
+]

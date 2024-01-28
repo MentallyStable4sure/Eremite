@@ -24,5 +24,6 @@ namespace Eremite.Data.DiscordData
         public Language Language = Language.English;
         public string UserUID = string.Empty;
         public DateTime NotifyShowTimestamp = DateTime.MinValue;
+        public UserItem EquippedItem = null;
     }
 }
