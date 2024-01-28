@@ -49,14 +49,14 @@ namespace Eremite.Commands
 
             var award = new Award(new DiscordWallet(0, 0, matchingCharacter.SellPrice));
             var perkAction = new PerkAction(DataHandler);
-            perkAction.ApplyPerk(user, TimeGatedEventType.Sacrifice, award);
+            string additionalMessage = perkAction.ApplyPerk(user, TimeGatedEventType.Sacrifice, award);
 
             user.AddAward(award);
 
             var updateQuery = new UserUpdateQueryBuilder(user, QueryElement.EquippedCharacter, QueryElement.Characters, QueryElement.Wallet, QueryElement.Stats, QueryElement.Events).Build();
             await DataHandler.SendData(user, updateQuery);
 
-            await context.RespondAsync($"{user.Username} {user.GetText(sacrificed)} {matchingCharacter.CharacterName} [{matchingCharacter.SellPrice} {Localization.PillsEmoji}]");
+            await context.RespondAsync($"{user.Username} {user.GetText(sacrificed)} {matchingCharacter.CharacterName} [{matchingCharacter.SellPrice} {Localization.PillsEmoji}]\n{additionalMessage}");
         }
 
         [Command("sacrifice"), Description("Sacrifice character for some pills")]
