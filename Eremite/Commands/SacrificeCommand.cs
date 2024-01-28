@@ -48,7 +48,7 @@ namespace Eremite.Commands
             user.Stats.TotalPillsEarned += matchingCharacter.SellPrice;
 
             var award = new Award(new DiscordWallet(0, 0, matchingCharacter.SellPrice));
-            var perkAction = new PerkAction(DataHandler);
+            var perkAction = new PerkHandler(DataHandler);
             string additionalMessage = perkAction.ApplyPerk(user, new TimeGatedEvent(TimeGatedEventType.Sacrifice, TimeSpan.Zero), award);
 
             user.AddAward(award);

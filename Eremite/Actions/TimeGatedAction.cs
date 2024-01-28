@@ -50,7 +50,7 @@ namespace Eremite.Actions
 
 
             Console.WriteLine($"[EVENT] {newEvent.EventType} was triggered by the player {user.Username} | {user.UserId}");
-            var perkAction = new PerkAction(data);
+            var perkAction = new PerkHandler(data);
             perkAction.ApplyPerk(user, newEvent, newEvent.Award);
 
             user.AddAward(newEvent.Award);
