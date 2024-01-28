@@ -19,6 +19,7 @@ namespace Eremite.Data.DiscordData
         public int LargestCashback = 0;
         public int TotalCashback = 0;
         public int TotalCharactersSacrificed = 0;
+        public int MelusinesHelped = 0;
 
         public Language Language = Language.English;
         public string UserUID = string.Empty;

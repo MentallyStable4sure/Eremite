@@ -4,6 +4,7 @@ using Eremite.Base.Interfaces;
 
 namespace Eremite.Actions
 {
+    //TODO: DIVIDE PERKS INTO SMALLER PIECES AS CLASSES AND INTERFACES
     public class PerkAction : IEremiteService
     {
         public DataHandler DataHandler { get; set; }
@@ -25,6 +26,11 @@ namespace Eremite.Actions
             var perk = (Perk)(CharactersHandler.ConvertId(user.EquippedCharacter).PerkStat);
             Console.WriteLine($"Applying perk from user {user.Username}, event type: {eventType.ToString()}, equipped char: {user.EquippedCharacter}, perk: {perk}");
 
+            int baseAmount = 0;
+            int convertion = 0;
+            string additionalInfo = string.Empty;
+
+            //TODO: DIVIDE PERKS INTO SMALLER PIECES AS CLASSES AND INTERFACES WTF IS THAT WORM OF CASES BRO
             switch (perk)
             {
                 case Perk.NO_BUFF:
@@ -40,12 +46,16 @@ namespace Eremite.Actions
                     break;
 
                 case Perk.DOUBLE_PRIMOS_LOWER_MORA:
+                    baseAmount = award.CurrenciesToAdd.Mora;
                     DoublePrimos(award);
                     award.CurrenciesToAdd.Mora = award.CurrenciesToAdd.Mora > 0 ? award.CurrenciesToAdd.Mora / 2 : 0;
+                    additionalInfo = $"> {baseAmount}{Localization.MoraEmoji} x2 => {award.CurrenciesToAdd.Mora}{Localization.MoraEmoji}";
                     break;
 
                 case Perk.DOUBLE_PRIMOS:
+                    baseAmount = award.CurrenciesToAdd.Primogems;
                     DoublePrimos(award);
+                    additionalInfo = $"> {baseAmount}{Localization.PrimosEmoji} x2 => {award.CurrenciesToAdd.Primogems}{Localization.PrimosEmoji}";
                     break;
 
                 case Perk.TWICE_ADVENTURE_BOUNTY:
@@ -75,41 +85,56 @@ namespace Eremite.Actions
 
                 case Perk.DOUBLE_PILLS_DAILY:
                     if (eventType != TimeGatedEventType.Daily) break;
+                    baseAmount = award.CurrenciesToAdd.Pills;
                     DoublePills(award);
+                    additionalInfo = $"> {baseAmount}{Localization.PillsEmoji} x2 => {award.CurrenciesToAdd.Pills}{Localization.PillsEmoji}";
                     break;
 
                 case Perk.CONVERT_PRIMOS_INTO_PILLS_ALL_1TO2_NO_MORA:
+                    baseAmount = award.CurrenciesToAdd.Primogems;
                     award.CurrenciesToAdd.Mora = 0;
-                    ConvertPrimosToPills(award, 2);
+                    convertion = ConvertPrimosToPills(award, 2);
+                    additionalInfo = $"> {baseAmount}{Localization.PrimosEmoji} => {convertion}{Localization.PillsEmoji}";
                     break;
 
                 case Perk.CONVERT_PRIMOS_INTO_PILLS_ALL_1TO2:
-                    ConvertPrimosToPills(award, 2);
+                    baseAmount = award.CurrenciesToAdd.Primogems;
+                    convertion = ConvertPrimosToPills(award, 2);
+                    additionalInfo = $"> {baseAmount}{Localization.PrimosEmoji} => {convertion}{Localization.PillsEmoji}";
                     break;
 
                 case Perk.CONVERT_MORA_INTO_PRIMOGEMS_ADVENTURE_1TO2:
-                    ConvertMoraToPrimos(award, 2);
+                    baseAmount = award.CurrenciesToAdd.Mora;
+                    convertion = ConvertMoraToPrimos(award, 2);
+                    additionalInfo = $"> {baseAmount}{Localization.MoraEmoji} => {convertion}{Localization.PrimosEmoji}";
                     break;
 
                 case Perk.CONVERT_MORA_INTO_PRIMOGEMS_ALL_1TO1:
-                    ConvertMoraToPrimos(award, 1);
+                    baseAmount = award.CurrenciesToAdd.Mora;
+                    convertion = ConvertMoraToPrimos(award, 1);
+                    additionalInfo = $"> {baseAmount}{Localization.MoraEmoji} => {convertion}{Localization.PrimosEmoji}";
                     break;
 
                 case Perk.CONVERT_PRIMOS_INTO_MORA_ALL_1TO1:
-                    ConvertPrimosToMora(award, 1);
+                    baseAmount = award.CurrenciesToAdd.Primogems;
+                    convertion = ConvertPrimosToMora(award, 1);
+                    additionalInfo = $"> {baseAmount}{Localization.PrimosEmoji} => {convertion}{Localization.MoraEmoji}";
                     break;
 
                 case Perk.ON_SACRIFICE_GIVES_10_PILLS_PER_CHAR_IN_INVENTORY:
                     if (eventType != TimeGatedEventType.Sacrifice) break;
-                    GiveAwardPerChar(user, award, new Award(new DiscordWallet(0, 0, 10));
+                    GiveAwardPerChar(user, award, new Award(new DiscordWallet(0, 0, 10)));
+                    additionalInfo = $"> ➕{award.CurrenciesToAdd.Pills * user.Characters.Count}{Localization.PillsEmoji}";
                     break;
 
-                case Perk.ON_SACRIFICE_PRIMOS_1600:
+                case Perk.ON_SACRIFICE_PRIMOS_1600_PER_MELUSINE:
                     if (eventType != TimeGatedEventType.Sacrifice) break;
-                    award.CurrenciesToAdd.Primogems += 1600;
+                    int amountToAdd = user.Stats.MelusinesHelped <= 0 ? 1600 : 1600 * user.Stats.MelusinesHelped;
+                    award.CurrenciesToAdd.Primogems += amountToAdd;
+                    additionalInfo = $"> ➕{amountToAdd}{Localization.PrimosEmoji}";
                     break;
 
-                case Perk.ON_SACRIFICE_RANDOM_CHARACTER_AND_3600_PRIMOS:
+                case Perk.ON_SACRIFICE_RANDOM_CHARACTER_OR_3600_PRIMOS_50_50:
                     if (eventType != TimeGatedEventType.Sacrifice) break;
                     award.CurrenciesToAdd.Primogems += 3600;
 
@@ -118,16 +143,11 @@ namespace Eremite.Actions
 
                     var randomCharacter = charactersPool[Random.Shared.Next(0, charactersPool.Count)];
                     award.CharactersToAdd.Add(randomCharacter);
-                    return $"> {award.CharactersToAdd.ToCharacterList(user)}";
+                    additionalInfo = $"> 🆕 {award.CharactersToAdd.ToCharacterList(user)}";
+                    break;
 
                 case Perk.WHEN_SACRIFICED_REFRESHES_WELKIN_COOLDOWN:
                     if (eventType != TimeGatedEventType.Sacrifice) break;
-                    var equippedChar = CharactersHandler.CharactersData.FirstOrDefault(character => character.CharacterId == user.EquippedCharacter);
-                    if (equippedChar == null) break;
-
-                    if (equippedChar.PerkStat != (int)Perk.WHEN_SACRIFICED_REFRESHES_WELKIN_COOLDOWN) break;
-                    user.RemovePulledCharacter(equippedChar);
-                    user.EquippedCharacter = 0;
 
                     foreach (var userEvent in user.Events)
                     {
@@ -137,11 +157,32 @@ namespace Eremite.Actions
                     }
                     break;
 
+                case Perk.ON_SACRIFICE_GIVES_10000_MORA_PER_CHAR_IN_INVENTORY:
+                    if (eventType != TimeGatedEventType.Sacrifice) break;
+                    GiveAwardPerChar(user, award, new Award(new DiscordWallet(0, 10000)));
+                    break;
+
+                case Perk.MINUS1000MORA_PER_ACTION:
+                    if (user.Wallet.Mora < 1000) break;
+                    GiveAwardPerChar(user, award, new Award(new DiscordWallet(0, -1000)));
+                    break;
+
                 default:
                     break;
             }
 
-            return string.Empty;
+            RemoveCharacterIfNeeded(user);
+            return additionalInfo;
+        }
+
+        private void RemoveCharacterIfNeeded(UserData user)
+        {
+            var equippedChar = CharactersHandler.ConvertId(user.EquippedCharacter);
+            if (equippedChar == null) return;
+            if (equippedChar.ShouldBeDestroyed == false) return;
+
+            SetCharacterAction.Dequip(user);
+            user.RemovePulledCharacter(equippedChar);
         }
 
         private static void GiveAwardPerChar(UserData user, Award award, Award rewardPerCharacter)
@@ -191,31 +232,37 @@ namespace Eremite.Actions
             timeGatedEvent.LastTimeTriggered = timeGatedEvent.LastTimeTriggered.AddHours(hoursCooldownDecrease);
         }
 
-        public static void ConvertMoraToPrimos(Award award, int ratio = 2)
+        public static int ConvertMoraToPrimos(Award award, int ratio = 2)
         {
-            if (award.CurrenciesToAdd.Mora < ratio) return;
+            if (award.CurrenciesToAdd.Mora < ratio) return 0;
 
             int converted = (int)(award.CurrenciesToAdd.Mora / ratio);
             award.CurrenciesToAdd.Primogems += converted;
             award.CurrenciesToAdd.Mora = 0;
+            
+            return converted;
         }
 
-        public static void ConvertPrimosToMora(Award award, int ratio = 2)
+        public static int ConvertPrimosToMora(Award award, int ratio = 2)
         {
-            if (award.CurrenciesToAdd.Primogems < ratio) return;
+            if (award.CurrenciesToAdd.Primogems < ratio) return 0;
 
             int converted = (int)(award.CurrenciesToAdd.Primogems / ratio);
             award.CurrenciesToAdd.Mora += converted;
             award.CurrenciesToAdd.Primogems = 0;
+
+            return converted;
         }
 
-        public static void ConvertPrimosToPills(Award award, int ratio = 2)
+        public static int ConvertPrimosToPills(Award award, int ratio = 2)
         {
-            if (award.CurrenciesToAdd.Primogems < ratio) return;
+            if (award.CurrenciesToAdd.Primogems < ratio) return 0;
 
             int converted = (int)(award.CurrenciesToAdd.Primogems / ratio);
             award.CurrenciesToAdd.Pills += converted;
             award.CurrenciesToAdd.Primogems = 0;
+
+            return converted;
         }
     }
 }
