@@ -2,8 +2,8 @@
 using Eremite.Data.DiscordData;
 using Eremite.Data;
 using Eremite.Services;
-using DSharpPlus.CommandsNext;
 using DSharpPlus.Entities;
+using DSharpPlus.SlashCommands;
 
 namespace Eremite.Actions
 {
@@ -11,9 +11,9 @@ namespace Eremite.Actions
     {
         private DataHandler data;
         private UserData? userAffected;
-        private CommandContext currentContext;
+        private InteractionContext currentContext;
 
-        public InfoAction(DataHandler data, CommandContext context, UserData? user = null)
+        public InfoAction(DataHandler data, InteractionContext context, UserData? user = null)
         {
             this.data = data;
             userAffected = user;
@@ -43,12 +43,12 @@ namespace Eremite.Actions
 
             var updateQuery = new UserUpdateQueryBuilder(userAffected, QueryElement.Stats).Build();
             await data.SendData(userAffected, updateQuery);
-            await currentContext.RespondAsync(new DiscordEmbedBuilder()
+            await currentContext.FollowUpAsync(new DiscordFollowupMessageBuilder().AddEmbed(new DiscordEmbedBuilder()
             {
                 Color = DiscordColor.Yellow,
                 ImageUrl = data.Config.NotifyImage,
                 Description = data.Config.NotifyOfTheDay
-            }.Build());
+            }.Build()));
         }
     }
 }

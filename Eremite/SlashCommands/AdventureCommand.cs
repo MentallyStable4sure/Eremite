@@ -1,7 +1,4 @@
-﻿
-using DSharpPlus.CommandsNext;
-using DSharpPlus.CommandsNext.Attributes;
-using Eremite.Actions;
+﻿using Eremite.Actions;
 using Eremite.Data.DiscordData;
 using Eremite.Data;
 using Eremite.Services;
@@ -10,10 +7,11 @@ using Newtonsoft.Json;
 using DSharpPlus.Entities;
 using DSharpPlus;
 using DSharpPlus.EventArgs;
+using DSharpPlus.SlashCommands;
 
-namespace Eremite.Commands
+namespace Eremite.SlashCommands
 {
-    public sealed class AdventureCommand : BaseCommandModule
+    public sealed class AdventureCommand : ApplicationCommandModule
     {
         public DataHandler DataHandler { get; set; }
         public List<AdventureEvent> CachedAdventures { get; private set; } = null;
@@ -26,28 +24,29 @@ namespace Eremite.Commands
         public const string AdventuresConfig = "adventures.json";
         public const string AdventuresImage = "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/adventure.png";
 
-        [Command("adventure"), Description("Travel to regions or to a desert with eremites and find mora or akasha knowledge in return")]
-        public async Task ShowAdventures(CommandContext context)
+        [SlashCommand("adventure", "Travel to regions and find rewards or new teammates")]
+        public async Task ShowAdventures(InteractionContext context)
         {
             var user = await DataHandler.GetData(context.User);
             new InfoAction(DataHandler, context, user);
 
-            var previousEvent = TimeGatedAction.GetPreviousEventByType(user, AdventureAction.AdventuresType);
+            var previousEvent = user.GetPreviousEventByType(AdventureAction.AdventuresType);
 
             bool isPossible = true;
 
+            var message = new DiscordFollowupMessageBuilder();
             if (previousEvent != null) isPossible = TimeGatedAction.CheckTimeGatedEvent(previousEvent);
             if (!isPossible)
             {
                 string countdown = previousEvent.LastTimeTriggered.Add(previousEvent.TimeBetweenTriggers).Subtract(DateTime.UtcNow).GetNormalTime();
-                await context.RespondAsync($"> {user.GetText(TimeGatedAction.eventAlreadyTriggered)}. {user.GetText(TimeGatedAction.triggerTimeSuggestion)} {countdown}");
+                await context.FollowUpAsync(message.WithContent($"> {user.GetText(TimeGatedAction.eventAlreadyTriggered)}. {user.GetText(TimeGatedAction.triggerTimeSuggestion)} {countdown}"));
                 return;
             }
 
             if (CachedAdventures == null) await CacheAdventures();
             if (CachedAdventures == null || CachedAdventures.Count <= 0)
             {
-                await context.RespondAsync(user.GetText(noAdventuresFound));
+                await context.FollowUpAsync(message.WithContent(user.GetText(noAdventuresFound)));
                 return;
             }
 
@@ -55,13 +54,13 @@ namespace Eremite.Commands
             var randomAdventures = action.FillRandomAdventures(CachedAdventures);
             var buttons = CreateButtons(randomAdventures);
 
-            await context.RespondAsync(new DiscordMessageBuilder().WithEmbed(new DiscordEmbedBuilder
+            await context.FollowUpAsync(new DiscordFollowupMessageBuilder().AddEmbed(new DiscordEmbedBuilder
             {
                 Title = $"{user.Username} {user.GetText(startAdventure)}",
                 Description = user.GetText(adventureDescription),
                 ImageUrl = AdventuresImage,
                 Color = DiscordColor.Orange
-            }).AddComponents(buttons.Values));
+            }.Build()).AddComponents(buttons.Values));
 
             context.Client.ComponentInteractionCreated += async (sender, args) => await InteractionClicked(action, buttons, args);
         }
@@ -75,8 +74,8 @@ namespace Eremite.Commands
 
             var adventure = buttons.Keys.FirstOrDefault(adventure => adventure.identifier == args.Id)?.content as AdventureEvent;
             if (adventure == null) return;
-            
-            var previousEvent = TimeGatedAction.GetPreviousEventByType(action.CurrentUser, AdventureAction.AdventuresType);
+
+            var previousEvent = action.CurrentUser.GetPreviousEventByType(AdventureAction.AdventuresType);
             if (previousEvent != null) isPossible = TimeGatedAction.CheckTimeGatedEvent(previousEvent);
             if (!isPossible) return;
 

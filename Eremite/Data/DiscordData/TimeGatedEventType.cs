@@ -10,6 +10,7 @@ namespace Eremite.Data.DiscordData
         Monthly,
         Permanent,
         Welkin,
-        Sacrifice
+        Sacrifice,
+        Fishblasting
     }
 }

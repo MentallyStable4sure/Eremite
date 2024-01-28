@@ -1,14 +1,13 @@
 ﻿using DSharpPlus;
 using DSharpPlus.Entities;
-using DSharpPlus.CommandsNext;
-using DSharpPlus.CommandsNext.Attributes;
 using Eremite.Services;
 using Eremite.Actions;
 using Eremite.Data.DiscordData;
+using DSharpPlus.SlashCommands;
 
-namespace Eremite.Commands
+namespace Eremite.SlashCommands
 {
-    public sealed class StatsCommand : BaseCommandModule
+    public sealed class StatsCommand : ApplicationCommandModule
     {
         public DataHandler DataHandler { get; set; }
 
@@ -16,22 +15,22 @@ namespace Eremite.Commands
         private readonly string topByPrimosKey = "stats.top.by_primos";
         private readonly string topByPillsKey = "stats.top.by_pills";
 
-        [Command("stats"), Description("Shows the current user eremite stats such as teapot times visited, daily challenges done, characters pulled, etc.")]
-        public async Task ShowStats(CommandContext context)
+        [SlashCommand("stats", "Shows the current user eremite stats: dailies done, characters pulled, etc.")]
+        public async Task ShowStats(InteractionContext context)
         {
             var user = await DataHandler.GetData(context.User);
             new InfoAction(DataHandler, context, user);
 
             var buttons = await CreateButtons(user, context);
 
-            var messageBuilder = new DiscordMessageBuilder()
+            var messageBuilder = new DiscordFollowupMessageBuilder()
                 .AddComponents(buttons.Keys)
-                .WithEmbed(StatsAction.GetEmbedWithStats(context.User.AvatarUrl, user));
+                .AddEmbed(StatsAction.GetEmbedWithStats(context.User.AvatarUrl, user));
 
-            await context.RespondAsync(messageBuilder);
+            await context.FollowUpAsync(messageBuilder);
         }
 
-        private async Task<Dictionary<DiscordButtonComponent, string>> CreateButtons(UserData user, CommandContext context)
+        private async Task<Dictionary<DiscordButtonComponent, string>> CreateButtons(UserData user, InteractionContext context)
         {
             var topPulls = Guid.NewGuid().ToString();
             var topPrimos = Guid.NewGuid().ToString();

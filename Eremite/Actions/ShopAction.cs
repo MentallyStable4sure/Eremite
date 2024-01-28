@@ -1,7 +1,5 @@
 ﻿using DSharpPlus;
-using DSharpPlus.CommandsNext;
 using DSharpPlus.Entities;
-using DSharpPlus.EventArgs;
 using Eremite.Base;
 using Eremite.Data.DiscordData;
 using Eremite.Services;
@@ -50,7 +48,7 @@ namespace Eremite.Actions
             };
         }
 
-        public Dictionary<Identifier, DiscordSelectComponentOption> CreateShopDropdown(CommandContext context, UserData user)
+        public Dictionary<Identifier, DiscordSelectComponentOption> CreateShopDropdown(DSharpPlus.SlashCommands.InteractionContext context, UserData user)
         {
             var oneHundredPrimosGuid = Guid.NewGuid().ToString();
             var crimsonWitchHatGuid = Guid.NewGuid().ToString();
@@ -89,7 +87,7 @@ namespace Eremite.Actions
                 {
                     if (args == null) continue;
                     if (!args.Values.Contains(option.Key.identifier)) continue;
-                    string response = await Buy(_user, data, (DoriLot)option.Key.content);
+                    string response = await Buy(_user, (DoriLot)option.Key.content);
                     string message = $"> {user.GetText(lotBought)}.";
 
                     if (response != null && response != string.Empty) message = response;

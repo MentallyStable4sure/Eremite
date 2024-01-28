@@ -38,12 +38,12 @@ namespace Eremite.Actions
                 new OnSacrifice10PillPerChar(),
                 new OnSacrifice10kMoraPerChar(),
                 new OnSacrificeRefreshWelkinCooldown(),
-                new FishblastingFishPerSacrificableChar(),
+                //new FishblastingFishPerSacrificableChar(),
                 new Minus1kMoraPerAction(),
-                new FishblastingRareReward5050(),
-                new FishblastingRareRewards(),
+                //new FishblastingRareReward5050(),
+                //new FishblastingRareRewards(),
                 new Adventurex3RewardOnMelusineFound(),
-                new FishblastingRandomCharacter()
+                //new FishblastingRandomCharacter()
             };
         }
 

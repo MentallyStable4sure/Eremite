@@ -1,14 +1,14 @@
-﻿using DSharpPlus.CommandsNext;
-using DSharpPlus.CommandsNext.Attributes;
-using Eremite.Actions;
+﻿using Eremite.Actions;
 using Eremite.Services;
 using Eremite.Data;
 using Eremite.Data.DiscordData;
 using Eremite.Builders;
+using DSharpPlus.SlashCommands;
+using DSharpPlus.Entities;
 
-namespace Eremite.Commands
+namespace Eremite.SlashCommands
 {
-    public sealed class SacrificeCommand : BaseCommandModule
+    public sealed class SacrificeCommand : ApplicationCommandModule
     {
         public DataHandler DataHandler { get; set; }
 
@@ -16,11 +16,12 @@ namespace Eremite.Commands
         private readonly string cantSacrificeCharacterError = "sacrifice.error";
         private readonly string sacrificed = "sacrifice.sacrificed";
 
-        [Command("sacrifice"), Description("Sacrifice character for some pills")]
-        public async Task Sacrifice(CommandContext context, string name, string lastname)
+        [SlashCommand("sacrifice", "Sacrifice character for some pills")]
+        public async Task Sacrifice(InteractionContext context, [Option("name", "first name of the character")] string name, [Option("lastname", "lastname of the character")]  string lastname)
         {
             var user = await DataHandler.GetData(context.User);
             new InfoAction(DataHandler, context, user);
+            var message = new DiscordFollowupMessageBuilder();
 
             var characters = CharactersHandler.ConvertIds(user.Characters);
             var currentCharacter = CharactersHandler.ConvertId(user.EquippedCharacter);
@@ -31,13 +32,13 @@ namespace Eremite.Commands
 
             if (matchingCharacter == null)
             {
-                await context.RespondAsync($"> {user.GetText(sacrificeCharacterNotFound)}");
+                await context.FollowUpAsync(message.WithContent($"> {user.GetText(sacrificeCharacterNotFound)}"));
                 return;
             }
 
-            if(matchingCharacter.SellPrice <= 0)
+            if (matchingCharacter.SellPrice <= 0)
             {
-                await context.RespondAsync($">{user.GetText(cantSacrificeCharacterError)}");
+                await context.FollowUpAsync(message.WithContent($">{user.GetText(cantSacrificeCharacterError)}"));
                 return;
             }
 
@@ -56,10 +57,10 @@ namespace Eremite.Commands
             var updateQuery = new UserUpdateQueryBuilder(user, QueryElement.EquippedCharacter, QueryElement.Characters, QueryElement.Wallet, QueryElement.Stats, QueryElement.Events).Build();
             await DataHandler.SendData(user, updateQuery);
 
-            await context.RespondAsync($"{user.Username} {user.GetText(sacrificed)} {matchingCharacter.CharacterName} [{matchingCharacter.SellPrice} {Localization.PillsEmoji}]\n{additionalMessage}");
+            await context.FollowUpAsync(message.WithContent($"{user.Username} {user.GetText(sacrificed)} {matchingCharacter.CharacterName} [{matchingCharacter.SellPrice} {Services.Localization.PillsEmoji}]\n{additionalMessage}"));
         }
 
-        [Command("sacrifice"), Description("Sacrifice character for some pills")]
-        public async Task Sacrifice(CommandContext context, string name) => await Sacrifice(context, name, string.Empty);
+        [SlashCommand("sacrifice", "Sacrifice character for some pills")]
+        public async Task Sacrifice(InteractionContext context, [Option("name", "first name of the character")] string name) => await Sacrifice(context, name, string.Empty);
     }
 }

@@ -1,16 +1,15 @@
 ﻿using Eremite.Actions;
 using Eremite.Services;
-using DSharpPlus.CommandsNext;
-using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 using DSharpPlus;
 using Eremite.Data.DiscordData;
 using DSharpPlus.EventArgs;
 using Eremite.Builders;
+using DSharpPlus.SlashCommands;
 
-namespace Eremite.Commands
+namespace Eremite.SlashCommands
 {
-    public sealed class PullCommand : BaseCommandModule
+    public sealed class PullCommand : ApplicationCommandModule
     {
         public DataHandler DataHandler { get; set; }
         public PullAction PullAction { get; set; }
@@ -18,31 +17,34 @@ namespace Eremite.Commands
         private readonly string overviewKey = "pull.overview_new_char_info";
         private readonly string setKey = "pull.set_new_char_as_main";
 
-        [Command("pull"), Description("Pull for a character X times")]
-        public async Task PullCharacter(CommandContext context, int number)
+        [SlashCommand("pull", "Pull for a character X times")]
+        public async Task PullCharacter(InteractionContext context, [Option("number", "Number of times to pull at once")] long number)
         {
+            if (number > 50) return;
+
             var user = await DataHandler.GetData(context.User);
             new InfoAction(DataHandler, context, user);
+            var message = new DiscordFollowupMessageBuilder();
 
-            if (user.Wallet.Primogems < DataHandler.Config.PullCost * number) await context.RespondAsync($"> {user.GetText(Localization.NoCurrencyKey)}");
+            if (user.Wallet.Primogems < DataHandler.Config.PullCost * number) await context.FollowUpAsync(message.WithContent($"> {user.GetText(Services.Localization.NoCurrencyKey)}"));
             else
             {
-                var pullResult = await PullAction.ForUserAsyncSave(user, number);
+                var pullResult = await PullAction.ForUserAsyncSave(user, (int)number);
                 var charactersPulled = pullResult.Item1;
                 var cashback = pullResult.Item2;
 
                 var buttons = CreateButtons(context, user, charactersPulled.GetHighestTier());
 
-                await context.RespondAsync(new DiscordMessageBuilder()
-                    .WithEmbed(PullAction.GetEmbedWithCharacters(charactersPulled, CashbackAction.GetCashbackMessage(user, cashback), user))
+                await context.FollowUpAsync(message
+                    .AddEmbed(PullAction.GetEmbedWithCharacters(charactersPulled, CashbackAction.GetCashbackMessage(user, cashback), user))
                     .AddComponents(buttons.Keys));
             };
         }
 
-        [Command("pull"), Description("Pull for a character onces")]
-        public async Task PullCharacter(CommandContext context) => await PullCharacter(context, 1);
+        [SlashCommand("pull", "Pull for a character onces")]
+        public async Task PullCharacter(InteractionContext context) => await PullCharacter(context, 1);
 
-        private Dictionary<DiscordButtonComponent, string> CreateButtons(CommandContext context, UserData user, Character highestTier)
+        private Dictionary<DiscordButtonComponent, string> CreateButtons(InteractionContext context, UserData user, Character highestTier)
         {
             var setMainGuid = Guid.NewGuid().ToString();
             var statsGuid = Guid.NewGuid().ToString();

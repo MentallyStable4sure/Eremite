@@ -1,17 +1,17 @@
-﻿using DSharpPlus.CommandsNext;
-using DSharpPlus.Entities;
+﻿using DSharpPlus.Entities;
 using DSharpPlus;
 using Eremite.Data.DiscordData;
 using DSharpPlus.EventArgs;
 using Eremite.Services;
 using Eremite.Data;
 using Eremite.Builders;
+using DSharpPlus.SlashCommands;
 
 namespace Eremite.Actions
 {
     public class AkashaAction
     {
-        public static async Task ShowAccountStats(CommandContext context, ComponentInteractionCreateEventArgs args, UserData user)
+        public static async Task ShowAccountStats(InteractionContext context, ComponentInteractionCreateEventArgs args, UserData user)
         {
             var embed = StatsAction.GetEmbedWithStats(context.User.AvatarUrl, user);
 

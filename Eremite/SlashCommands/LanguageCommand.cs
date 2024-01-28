@@ -1,5 +1,5 @@
-﻿using DSharpPlus.CommandsNext;
-using DSharpPlus.CommandsNext.Attributes;
+﻿using DSharpPlus.Entities;
+using DSharpPlus.SlashCommands;
 using Eremite.Actions;
 using Eremite.Base.Interfaces;
 using Eremite.Builders;
@@ -7,21 +7,22 @@ using Eremite.Data;
 using Eremite.Data.Localization;
 using Eremite.Services;
 
-namespace Eremite.Commands
+namespace Eremite.SlashCommands
 {
-    public sealed class LanguageCommand : BaseCommandModule
+    public sealed class LanguageCommand : ApplicationCommandModule
     {
         public DataHandler DataHandler { get; set; }
 
         private readonly string langChanged = "localization.lang_changed";
         private readonly string langNotFound = "localization.lang_not_found";
 
-        [Command("language"), Description("Changes the bot language for corresponding user")]
-        public async Task ChangeLanguage(CommandContext context, string languageName)
+        [SlashCommand("language", "Changes the bot language for corresponding user")]
+        public async Task ChangeLanguage(InteractionContext context, [Option("languageName", "Language short name ('fr', 'en', 'ua', etc.)")]  string languageName)
         {
             var user = await DataHandler.GetData(context.User);
             new InfoAction(DataHandler, context, user);
             languageName = languageName.ToLower();
+            var message = new DiscordFollowupMessageBuilder();
 
             Language newLanguage = user.Stats.Language;
             if (languageName.Contains("en")) newLanguage = Language.English;
@@ -30,19 +31,19 @@ namespace Eremite.Commands
             if (languageName.Contains("ru")) newLanguage = Language.Russian;
 
             if (newLanguage == user.Stats.Language)
-            {   
-                await context.RespondAsync($"> {user.GetText(langNotFound)}");
+            {
+                await context.FollowUpAsync(message.WithContent($"> {user.GetText(langNotFound)}"));
                 return;
             }
 
-            Localization.ChangeLanugage(user, newLanguage);
-            await context.RespondAsync($"> {user.GetText(langChanged)}");
+            Services.Localization.ChangeLanugage(user, newLanguage);
+            await context.FollowUpAsync(message.WithContent($"> {user.GetText(langChanged)}"));
 
             IQueryBuilder query = new UserUpdateQueryBuilder(user, QueryElement.Stats);
             await DataHandler.SendData(user, query.Build());
         }
 
-        [Command("lang"), Description("Changes the bot language for corresponding user")]
-        public async Task ChangeLang(CommandContext context, string languageName) => await ChangeLanguage(context, languageName);
+        [SlashCommand("lang", "Changes the bot language for corresponding user")]
+        public async Task ChangeLang(InteractionContext context, [Option("languageName", "Language short name ('fr', 'en', 'ua', etc.)")]  string languageName) => await ChangeLanguage(context, languageName);
     }
 }

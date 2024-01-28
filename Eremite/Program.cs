@@ -1,14 +1,12 @@
 ﻿using Eremite.Data;
 using Eremite.Actions;
 using Eremite.Services;
-using Eremite.Base.Interfaces;
 using Newtonsoft.Json;
 using DSharpPlus;
 using DSharpPlus.Entities;
 using DSharpPlus.CommandsNext;
 using Microsoft.Extensions.DependencyInjection;
 using DSharpPlus.SlashCommands;
-using Eremite.SlashCommands;
 
 namespace Eremite
 {
@@ -44,8 +42,6 @@ namespace Eremite
 
             var commandsNext = discord.UseCommandsNext(commands);
             var slash = discord.UseSlashCommands(slashCommands);
-
-            commandsNext.SetHelpFormatter<HelperAboutFormatter>(); //overriding default help method
 
             commandsNext.RegisterCommands(typeof(Program).Assembly); //registering usual commands
             slash.RegisterCommands(typeof(Program).Assembly); //registering slash commands

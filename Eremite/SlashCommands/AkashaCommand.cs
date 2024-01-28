@@ -1,16 +1,15 @@
 ﻿using DSharpPlus;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
-using DSharpPlus.CommandsNext;
-using DSharpPlus.CommandsNext.Attributes;
 using Eremite.Actions;
 using Eremite.Services;
 using Eremite.Data.DiscordData;
 using Eremite.Layouts;
+using DSharpPlus.SlashCommands;
 
-namespace Eremite.Commands
+namespace Eremite.SlashCommands
 {
-    public sealed class AkashaCommand : BaseCommandModule
+    public sealed class AkashaCommand : ApplicationCommandModule
     {
         public DataHandler DataHandler { get; set; }
         public PullAction PullAction { get; set; }
@@ -22,8 +21,8 @@ namespace Eremite.Commands
 
         private AkashaLayout _layout;
 
-        [Command("akasha"), Description("Shows the current user profile with the current equipped character, mora and primos")]
-        public async Task ShowAkasha(CommandContext context)
+        [SlashCommand("akasha", "Shows the current user profile with the current equipped character, mora and primos")]
+        public async Task ShowAkasha(InteractionContext context)
         {
             var user = await DataHandler.GetData(context.User);
             new InfoAction(DataHandler, context, user);
@@ -35,17 +34,17 @@ namespace Eremite.Commands
             var currentCharacter = CharactersHandler.ConvertId(user.EquippedCharacter);
             var characterIdsConverted = CharactersHandler.ConvertIds(user.Characters);
 
-            var messageBuilder = new DiscordMessageBuilder()
+            var messageBuilder = new DiscordFollowupMessageBuilder()
                 .AddComponents(buttons.Keys)
-                .WithEmbed(_layout.GetMainAkashaEmbed(user, characterIdsConverted, currentCharacter));
+                .AddEmbed(_layout.GetMainAkashaEmbed(user, characterIdsConverted, currentCharacter));
 
-            await context.RespondAsync(messageBuilder);
+            await context.FollowUpAsync(messageBuilder);
         }
 
-        [Command("profile"), Description("Shows the current user profile with the current equipped character, mora and primos")]
-        public async Task ShowProfile(CommandContext context) => await ShowAkasha(context);
+        [SlashCommand("profile", "Shows the current user profile with the current equipped character, mora and primos")]
+        public async Task ShowProfile(InteractionContext context) => await ShowAkasha(context);
 
-        public Dictionary<DiscordButtonComponent, string> CreateButtons(UserData user, CommandContext context)
+        public Dictionary<DiscordButtonComponent, string> CreateButtons(UserData user, InteractionContext context)
         {
             var pullGuid = Guid.NewGuid().ToString();
             var statsGuid = Guid.NewGuid().ToString();
@@ -65,9 +64,9 @@ namespace Eremite.Commands
             };
         }
 
-        private async Task Pull(CommandContext context, ComponentInteractionCreateEventArgs args, UserData user)
+        private async Task Pull(InteractionContext context, ComponentInteractionCreateEventArgs args, UserData user)
         {
-            if (user.Wallet.Primogems < DataHandler.Config.PullCost) await context.RespondAsync($"> {user.GetText(Localization.NoCurrencyKey)}");
+            if (user.Wallet.Primogems < DataHandler.Config.PullCost) await context.FollowUpAsync(new DiscordFollowupMessageBuilder().WithContent($"> {user.GetText(Services.Localization.NoCurrencyKey)}"));
             else
             {
                 var pullResult = await PullAction.ForUserAsyncSave(user, 1);
