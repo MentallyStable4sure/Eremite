@@ -1,17 +1,19 @@
 {
   "PullCost": 160,
-  "MaxCashback": 3001,
+  "MaxCashback": 1001,
   
   "Chances":
   {
-    "4":35,
-    "5":12,
+    "4":30,
+    "5":14,
+    "6":9,
     "7":5,
+    "9":3,
     "10":1
   },
 
   "DefaultAkashaImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/characters/nochar.png",
 
-  "NotifyOfTheDay": "",
+  "NotifyOfTheDay": "New Eremite v2.0.28 update is out, sorry for the delay, we added you a fishing rod and a chili pepper to the inventory as well as 1000 Pills, 3000 Primos and 10k Mora. All commands now in the /slash commands, more news and info check out in #news channel at our server: discord.gg/mentallystable4sure",
   "NotifyOfTheDayCooldown": "12:00:00"
 }
