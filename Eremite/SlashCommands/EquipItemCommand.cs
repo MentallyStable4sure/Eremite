@@ -23,7 +23,7 @@ namespace Eremite.SlashCommands
             if (user.Stats.EquippedItem == null) return;
             if (user.Stats.EquippedItem.ItemId != itemId) return;
 
-            var updateQuery = new UserUpdateQueryBuilder(user, QueryElement.Stats).Build();
+            var updateQuery = new UserUpdateQueryBuilder(user, QueryElement.Stats, QueryElement.Inventory).Build();
             await DataHandler.SendData(user, updateQuery);
             await context.CreateResponseAsync($"> Item equipped: {user.Stats.EquippedItem.EmojiCode}");
         }

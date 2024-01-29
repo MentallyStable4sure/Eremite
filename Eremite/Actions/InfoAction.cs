@@ -43,7 +43,7 @@ namespace Eremite.Actions
 
             var updateQuery = new UserUpdateQueryBuilder(userAffected, QueryElement.Stats).Build();
             await data.SendData(userAffected, updateQuery);
-            await currentContext.FollowUpAsync(new DiscordFollowupMessageBuilder().AddEmbed(new DiscordEmbedBuilder()
+            await currentContext.CreateResponseAsync(new DiscordInteractionResponseBuilder().AddEmbed(new DiscordEmbedBuilder()
             {
                 Color = DiscordColor.Yellow,
                 ImageUrl = data.Config.NotifyImage,

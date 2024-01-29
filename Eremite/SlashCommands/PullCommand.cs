@@ -70,12 +70,12 @@ namespace Eremite.SlashCommands
         {
             SetCharacterAction.Equip(user, highestTier);
             await DataHandler.SendData(user, new UserUpdateQueryBuilder(user, Data.QueryElement.EquippedCharacter).Build());
-            await args.Interaction.CreateFollowupMessageAsync(new DiscordFollowupMessageBuilder().AddEmbed(SetCharacterAction.GetEmbedWithCharacterInfo(user, highestTier)));
+            await args.Interaction.CreateResponseAsync(DSharpPlus.InteractionResponseType.UpdateMessage, new DiscordInteractionResponseBuilder().AddEmbed(SetCharacterAction.GetEmbedWithCharacterInfo(user, highestTier)));
         }
 
         private async Task ShowCharacterStats(ComponentInteractionCreateEventArgs args, UserData user, Character highestTier)
         {
-            await args.Interaction.CreateFollowupMessageAsync(new DiscordFollowupMessageBuilder().AddEmbed(SetCharacterAction.GetEmbedWithCharacterInfo(user, highestTier)));
+            await args.Interaction.CreateResponseAsync(DSharpPlus.InteractionResponseType.UpdateMessage, new DiscordInteractionResponseBuilder().AddEmbed(SetCharacterAction.GetEmbedWithCharacterInfo(user, highestTier)));
         }
     }
 }

@@ -17,6 +17,7 @@ namespace Eremite.Services
         /// <returns>user with filled data</returns>
         public static UserData GetUserFromQuery(string userId, DbConnector connector)
         {
+            Console.WriteLine($"[LOAD] Trying to get user from Query | {userId}");
             string query = GetSelectUserQuery(userId);
             var selectCommand = new MySqlCommand(query, connector.Connection);
 
@@ -42,6 +43,7 @@ namespace Eremite.Services
                 user.Inventory = JsonConvert.DeserializeObject<List<UserItem>>(reader.GetString("inventory"));
             }
 
+            Console.WriteLine($"[SUCCESS] Got user from db: {user.Username} | {user.UserId}");
             reader.Close();
             return user;
         }

@@ -14,6 +14,7 @@ namespace Eremite.Layouts
         public const string mainCharacterKey = "profile.main_character";
         public const string characterBuffKey = "profile.character_buff";
         public const string charactersObtained = "profile.characters_obtained";
+        public const string equippedItemKey = "profile.current_item";
 
         public AkashaLayout(UserData user, string defaultBannerImage)
         {
@@ -24,7 +25,7 @@ namespace Eremite.Layouts
         public DiscordEmbedBuilder GetMainAkashaEmbed(UserData user, List<Character> characters, Character current)
         {
             var info = new AkashaEmbedInfo(user, current, defaultBannerImage);
-            var equippedInfo = user.Stats.EquippedItem == null ? string.Empty : $"Equipped: {user.Stats.EquippedItem.EmojiCode}";
+            var equippedInfo = user.Stats.EquippedItem == null ? $"{user.GetText(equippedItemKey)}:" : $"{user.GetText(equippedItemKey)}: {user.Stats.EquippedItem.EmojiCode}";
             return new DiscordEmbedBuilder()
             {
                 Color = DiscordColor.Orange,
@@ -32,7 +33,7 @@ namespace Eremite.Layouts
                 ImageUrl = info.profileImageUrl,
                 Description = $"[ID:{user.UserId}]\n\n> **{user.GetText(mainCharacterKey)} {info.characterName}**" +
                     $"\n> {user.GetText(characterBuffKey)} {info.characterBuffInfo}\n\n{user.GetText(charactersObtained)} {characters.ToCharacterList(user)}" +
-                    $"\n\n`{user.Wallet.Primogems}` {Localization.PrimosEmoji} | `{user.Wallet.Mora}` {Localization.MoraEmoji} | `{user.Wallet.Pills}` {Localization.PillsEmoji} | \n>{equippedInfo}"
+                    $"\n\n`{user.Wallet.Primogems}` {Localization.PrimosEmoji} | `{user.Wallet.Mora}` {Localization.MoraEmoji} | `{user.Wallet.Pills}` {Localization.PillsEmoji}\n> {equippedInfo}"
             };
         }
 

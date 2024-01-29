@@ -36,11 +36,13 @@ namespace Eremite.Services
             if (!user.IsValid()) query = QueryHandler.GetUserInsertQuery(user);
             else query = customQuery != string.Empty ? customQuery : new UserUpdateQueryBuilder(user, QueryElement.All).Build();
 
+            Console.WriteLine($"[LOAD] Sending user data to a db: {user.Username}");
             var updateCommand = new MySqlCommand(query, connector.Connection);
             await updateCommand.ExecuteScalarAsync();
 
             await updateCommand.DisposeAsync();
 
+            Console.WriteLine($"[SUCCESS] Data updated for user: {user.Username}");
             //close connection
             await connector.CloseAndDisposeAsync();
         }
