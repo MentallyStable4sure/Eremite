@@ -44,5 +44,14 @@ namespace Eremite.Data
                 //{ 22, new UserItem(22, "<:Peach_of_the_Deep_Waves:1201123133961277490>", new Status(new Award(new DiscordWallet())), new DiscordWallet(7800, 34400, 475), new DiscordWallet(10, 198000)) },
                 //{ 23, new UserItem(23, "<:melusine_sticker:1200997903901134938>", new Status(new Award(new DiscordWallet(12200, 56800, 640))), new DiscordWallet(10, 10, 10), new DiscordWallet(1000, 640000)) },
             });
+
+        internal static UserItem GetItemById(int itemId)
+        {
+            if(FishingRods.ContainsKey(itemId)) return FishingRods[itemId];
+            if(Fishes.ContainsKey(itemId)) return Fishes[itemId];
+            if(Items.ContainsKey(itemId)) return Items[itemId];
+
+            return null;
+        }
     }
 }

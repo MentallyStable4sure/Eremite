@@ -64,7 +64,9 @@ namespace Eremite.Actions
             }
             else catchedFish = fishesToCatch[Random.Shared.Next(0, fishesToCatch.Count + 1)];
 
-            CurrentUser.Inventory.Add(ItemsDb.Fishes[catchedFish]);
+            var inventory = new InventoryAction(CurrentUser);
+            inventory.AddItem(catchedFish);
+
             TimeGatedAction.TickEvent(CurrentUser, cachedHandler, timeGatedEvent, previousEvent);
             await Save();
 
@@ -72,7 +74,7 @@ namespace Eremite.Actions
                 InteractionResponseType.UpdateMessage,
                 new DiscordInteractionResponseBuilder()
                 .AddEmbed(TimeGatedAction.GetEventEmbed(CurrentUser, timeGatedEvent))
-                .WithContent($"> {ItemsDb.Fishes[catchedFish].EmojiCode}"));
+                .WithContent($"> ✨ You caught: {ItemsDb.Fishes[catchedFish].EmojiCode} 🆕"));
         }
 
         private List<int> AddMoreLevelsToCatch(int highestId, List<int> fishesToCatch, UserItem fishingRod)

@@ -77,6 +77,10 @@
       "text": "Characters Obtained:"
     },
     {
+      "key": "profile.current_item",
+      "text": "Equipped Item:"
+    },
+    {
       "key": "pull.set_new_char_as_main",
       "text": "Set this character as main"
     },
@@ -87,6 +91,10 @@
     {
       "key": "pull.wish",
       "text": "wished for a character.."
+    },
+    {
+      "key": "pull.cashback",
+      "text": "Your cashback for duplicated characters:"
     },
     {
       "key": "not_enough_currency",
@@ -257,6 +265,10 @@
       "text": "Bonanus"
     },
     {
+      "key": "character.13.name",
+      "text": "Signora"
+    },
+    {
       "key": "character.14.name",
       "text": "Furina"
     },
@@ -376,7 +388,7 @@
   "french": [
     {
       "key": "currency.mora",
-      "text": "Mora"
+      "text": "Moras"
     },
     {
       "key": "currency.primogems",
@@ -412,7 +424,7 @@
     },
     {
       "key": "events.already_triggered",
-      "text": "Cet évènement à déjà été déclenché"
+      "text": "Cet évènement a déjà été déclenché"
     },
     {
       "key": "adventures.no_adventures_found",
@@ -420,7 +432,7 @@
     },
     {
       "key": "adventures.start_adventure",
-      "text": "pars à l'aventure.."
+      "text": "part à l'aventure.."
     },
     {
       "key": "adventures.description",
@@ -451,6 +463,10 @@
       "text": "Personnages obtenus:"
     },
     {
+      "key": "profile.current_item",
+      "text": "Objet équipé:"
+    },
+    {
       "key": "pull.set_new_char_as_main",
       "text": "Définir ce personnage comme principal"
     },
@@ -461,6 +477,10 @@
     {
       "key": "pull.wish",
       "text": "a fait un vœu.."
+    },
+    {
+      "key": "pull.cashback",
+      "text": "Voici ton cashback pour tes duplicats:"
     },
     {
       "key": "not_enough_currency",
@@ -568,11 +588,11 @@
     },
     {
       "key": "stats.total_primogems",
-      "text": "Total des dépenses/gains de primo-gemmes :"
+      "text": "Total des gains/dépenses de primo-gemmes :"
     },
     {
       "key": "stats.total_pills",
-      "text": "Total des dépenses/gains de pilules :"
+      "text": "Total des gains/dépenses de pilules :"
     },
     {
       "key": "localization.lang_changed",
@@ -829,6 +849,10 @@
       "text": "Мої персонажі:"
     },
     {
+      "key": "profile.current_item",
+      "text": "Обраний предмет:"
+    },
+    {
       "key": "pull.set_new_char_as_main",
       "text": "Зробити головним персонажем"
     },
@@ -839,6 +863,10 @@
     {
       "key": "pull.wish",
       "text": "загадує бажання.."
+    },
+    {
+      "key": "pull.cashback",
+      "text": "Твій кешбек за дублікати:"
     },
     {
       "key": "not_enough_currency",
@@ -1207,6 +1235,10 @@
       "text": "Персонажи получены:"
     },
     {
+      "key": "profile.current_item",
+      "text": "Экипированный предмет:"
+    },
+    {
       "key": "pull.set_new_char_as_main",
       "text": "Выбрать этого персонажа главным"
     },
@@ -1217,6 +1249,10 @@
     {
       "key": "pull.wish",
       "text": "встречает персонажа.."
+    },
+    {
+      "key": "pull.cashback",
+      "text": "Твой кэшбэк за дубликаты:"
     },
     {
       "key": "not_enough_currency",

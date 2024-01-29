@@ -25,7 +25,7 @@ namespace Eremite.Layouts
         public DiscordEmbedBuilder GetMainAkashaEmbed(UserData user, List<Character> characters, Character current)
         {
             var info = new AkashaEmbedInfo(user, current, defaultBannerImage);
-            var equippedInfo = user.Stats.EquippedItem == null ? $"{user.GetText(equippedItemKey)}:" : $"{user.GetText(equippedItemKey)}: {user.Stats.EquippedItem.EmojiCode}";
+            var equippedInfo = user.Stats.EquippedItem == null ? $"{user.GetText(equippedItemKey)}" : $"{user.GetText(equippedItemKey)} {user.Stats.EquippedItem.EmojiCode}";
             return new DiscordEmbedBuilder()
             {
                 Color = DiscordColor.Orange,

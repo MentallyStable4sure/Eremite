@@ -17,7 +17,6 @@ namespace Eremite.SlashCommands
 
         public List<FishblastingEvent> CachedEvents { get; protected set; } = null;
 
-        public const TimeGatedEventType FishblatingType = TimeGatedEventType.Fishblasting;
         public const string FishblastingConfigs = "fishblasting.json";
 
         public const string BaseFishblastingImage = "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/fishblasting.jpg";
@@ -34,10 +33,11 @@ namespace Eremite.SlashCommands
 
             var action = new FishblastingAction(currentUser, DataHandler);
 
-            var isHandled = currentUser.HandleEvent(DataHandler, action.GetRandomSpot(CachedEvents));
-            if (!isHandled)
+            bool isPossible = true;
+            var previousEvent = currentUser.GetPreviousEventByType(FishblastingAction.FishblastingType);
+            if (previousEvent != null) isPossible = TimeGatedAction.CheckTimeGatedEvent(previousEvent);
+            if (!isPossible)
             {
-                var previousEvent = currentUser.GetPreviousEventByType(FishblatingType);
                 string countdown = previousEvent.LastTimeTriggered.Add(previousEvent.TimeBetweenTriggers).Subtract(DateTime.UtcNow).GetNormalTime();
                 await context.CreateResponseAsync(message.WithContent($"> {currentUser.GetText(TimeGatedAction.eventAlreadyTriggered)}. {currentUser.GetText(TimeGatedAction.triggerTimeSuggestion)} {countdown}"));
                 return;
@@ -48,7 +48,7 @@ namespace Eremite.SlashCommands
             await context.CreateResponseAsync(message.AddEmbed(new DiscordEmbedBuilder
             {
                 Title = $"🐟🐡🐠",
-                Description = "> Choose a spot! Dont forget to /equip the fishing rod. If you dont know rod id check out /inventory.",
+                Description = "> Choose a spot! Dont forget to /equip the fishing rod. If you dont know rod id check out your /inventory.",
                 ImageUrl = BaseFishblastingImage,
                 Color = DiscordColor.Cyan
             }.Build()).AddComponents(buttons.Values));
@@ -60,17 +60,16 @@ namespace Eremite.SlashCommands
         {
             if (args.User.Id.ToString() != action.CurrentUser.UserId) return;
             if (buttons == null || buttons.Keys == null) return;
-
             bool isPossible = true;
 
-            var adventure = buttons.Keys.FirstOrDefault(adventure => adventure.identifier == args.Id)?.content as FishblastingEvent;
-            if (adventure == null) return;
+            var fishSpotToGo = buttons.Keys.FirstOrDefault(adventure => adventure.identifier == args.Id)?.content as FishblastingEvent;
+            if (fishSpotToGo == null) return;
 
-            var previousEvent = action.CurrentUser.GetPreviousEventByType(AdventureAction.AdventuresType);
+            var previousEvent = action.CurrentUser.GetPreviousEventByType(FishblastingAction.FishblastingType);
             if (previousEvent != null) isPossible = TimeGatedAction.CheckTimeGatedEvent(previousEvent);
             if (!isPossible) return;
 
-            await action.GoOnFishing(args, adventure, previousEvent);
+            await action.GoOnFishing(args, fishSpotToGo, previousEvent);
         }
 
         private Dictionary<BaseIdentifier, DiscordButtonComponent> CreateButtons(List<FishblastingEvent> spots)
@@ -80,7 +79,7 @@ namespace Eremite.SlashCommands
             foreach (var spot in spots)
             {
                 var guid = Guid.NewGuid().ToString();
-                var identifier = new BaseIdentifier(guid, spots);
+                var identifier = new BaseIdentifier(guid, spot);
                 spot.ButtonGuid = guid.ToString();
                 var button = new DiscordButtonComponent(ButtonStyle.Secondary, spot.ButtonGuid, spot.ButtonText);
                 buttons.Add(identifier, button);

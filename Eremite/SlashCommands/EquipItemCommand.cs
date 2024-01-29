@@ -3,12 +3,16 @@ using Eremite.Services;
 using DSharpPlus.SlashCommands;
 using Eremite.Data;
 using Eremite.Builders;
+using Newtonsoft.Json;
+using Eremite.Data.DiscordData;
 
 namespace Eremite.SlashCommands
 {
     public sealed class EquipItemCommand : ApplicationCommandModule
     {
         public DataHandler DataHandler { get; set; }
+
+        public const string equippedItemKey = "profile.current_item";
 
         [SlashCommand("equip", "Shows the current user profile with the current equipped character, mora and primos")]
         public async Task EquipItem(InteractionContext context, [Option("itemId", "Item to equip")] long itemId)
@@ -25,7 +29,7 @@ namespace Eremite.SlashCommands
 
             var updateQuery = new UserUpdateQueryBuilder(user, QueryElement.Stats, QueryElement.Inventory).Build();
             await DataHandler.SendData(user, updateQuery);
-            await context.CreateResponseAsync($"> Item equipped: {user.Stats.EquippedItem.EmojiCode}");
+            await context.CreateResponseAsync($"> {user.GetText(equippedItemKey)} {user.Stats.EquippedItem.EmojiCode}");
         }
     }
 }
