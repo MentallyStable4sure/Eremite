@@ -4,7 +4,7 @@
     "ButtonText": "Inazuma Spot",
     "LastTimeTriggered": "2022-05-10T11:45:30.2000957Z",
     "TimeBetweenTriggers": "00:30:00",
-    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/harbor/inazuma_spot.gif",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/fishblasting/inazuma_spot.gif",
     "TimesTicked": 0,
     "Award": {
       "CurrenciesToAdd": {
@@ -21,7 +21,7 @@
     "ButtonText": "Lake Spot",
     "LastTimeTriggered": "2022-05-10T11:45:30.2001193Z",
     "TimeBetweenTriggers": "00:30:00",
-    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/harbor/lake_spot.gif",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/fishblasting/lake_spot.gif",
     "TimesTicked": 0,
     "Award": {
       "CurrenciesToAdd": {
@@ -38,7 +38,7 @@
     "ButtonText": "Mountains Spot",
     "LastTimeTriggered": "2022-05-10T11:45:30.2001193Z",
     "TimeBetweenTriggers": "00:30:00",
-    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/harbor/mountains_spot.gif",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/fishblasting/mountains_spot.gif",
     "TimesTicked": 0,
     "Award": {
       "CurrenciesToAdd": {
@@ -55,7 +55,7 @@
     "ButtonText": "Ruins Spot",
     "LastTimeTriggered": "2022-05-10T11:45:30.2001193Z",
     "TimeBetweenTriggers": "00:30:00",
-    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/harbor/ruins_spot.gif",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/fishblasting/ruins_spot.gif",
     "TimesTicked": 0,
     "Award": {
       "CurrenciesToAdd": {
@@ -72,7 +72,7 @@
     "ButtonText": "Mountains Spot",
     "LastTimeTriggered": "2022-05-10T11:45:30.2001193Z",
     "TimeBetweenTriggers": "00:30:00",
-    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/harbor/ducks_spot.gif",
+    "ImageUrl": "https://raw.githubusercontent.com/MentallyStable4sure/Eremite/main/content/events/fishblasting/ducks_spot.gif",
     "TimesTicked": 0,
     "Award": {
       "CurrenciesToAdd": {
