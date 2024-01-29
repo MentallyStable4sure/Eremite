@@ -9,7 +9,7 @@ namespace Eremite.PerkActions
         {
             PerkNeededToProc = Perk.MINUS1000MORA_PER_ACTION;
 
-            EventsWhereCanBeProced = new TimeGatedEventType[] { TimeGatedEventType.Sacrifice, TimeGatedEventType.Daily, TimeGatedEventType.Adventure };
+            EventsWhereCanBeProced = new TimeGatedEventType[] { TimeGatedEventType.Sacrifice, TimeGatedEventType.Daily, TimeGatedEventType.Adventure, TimeGatedEventType.Fishblasting };
         }
 
         protected override string OnProced(UserData user, DataHandler data, TimeGatedEvent eventProced, Award award)
