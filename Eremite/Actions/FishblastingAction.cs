@@ -49,7 +49,7 @@ namespace Eremite.Actions
             int highestId = fishesToCatch[fishesToCatch.Count - 1];
             int catchedFish = fishesToCatch[0];
 
-            if (ItemsDb.FishingRods.ContainsKey(CurrentUser.Stats.EquippedItem.ItemId))
+            if (CurrentUser.Stats.EquippedItem != null && ItemsDb.FishingRods.ContainsKey(CurrentUser.Stats.EquippedItem.ItemId))
             {
                 var currentRod = CurrentUser.Stats.EquippedItem;
                 int increasedChanceByRod = currentRod.ItemId * 10 >= 100 ? 100 : currentRod.ItemId;
