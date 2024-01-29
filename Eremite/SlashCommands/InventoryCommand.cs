@@ -20,7 +20,7 @@ namespace Eremite.SlashCommands
             foreach (var item in user.Inventory)
             {
                 var price = item.SellPrice;
-                sb.AppendLine($"> [ID: {item.ItemId}] {item.EmojiCode}x{item.Amount} | SELL $$$: {price.Mora}{Services.Localization.MoraEmoji} {price.Primogems}{Services.Localization.PrimosEmoji} {price.Pills}{Services.Localization.PillsEmoji}");
+                sb.AppendLine($"> {item.EmojiCode}`x{item.Amount}` `[ID: {item.ItemId}]`「`SELL:` `{price.Mora}`{Services.Localization.MoraEmoji} `{price.Primogems}`{Services.Localization.PrimosEmoji} `{price.Pills}`{Services.Localization.PillsEmoji}」");
             }
 
             await context.CreateResponseAsync(sb.ToString());
