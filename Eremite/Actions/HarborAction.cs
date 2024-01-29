@@ -36,9 +36,9 @@ namespace Eremite.Actions
             return new DiscordEmbedBuilder()
             {
                 Color = DiscordColor.Orange,
-                Title = user.GetText(shopWelcome),
+                Title = "Liyue Harbor",
                 ImageUrl = HarborBannerUrl,
-                Description = $"> {user.GetText(shopDescription)}"
+                Description = $"> Currently under construction.. ⚒️"
             };
         }
 
@@ -96,7 +96,7 @@ namespace Eremite.Actions
                     {
                         Color = DiscordColor.Red,
                         Title = "Fishing Rods",
-                        Description = $"> {GetTotalShopStringByElements(ItemsDb.FishingRods)}",
+                        Description = $"{GetTotalShopStringByElements(ItemsDb.FishingRods)}",
                         ImageUrl = HarborBannerUrl
                     }.Build();
 
@@ -105,7 +105,7 @@ namespace Eremite.Actions
                     {
                         Color = DiscordColor.Red,
                         Title = "Fishes",
-                        Description = $"> {GetTotalShopStringByElements(ItemsDb.Fishes)}",
+                        Description = $"{GetTotalShopStringByElements(ItemsDb.Fishes)}",
                         ImageUrl = HarborBannerUrl
                     }.Build();
 
@@ -114,7 +114,7 @@ namespace Eremite.Actions
                     {
                         Color = DiscordColor.Red,
                         Title = "Items and Ores",
-                        Description = $"> {GetTotalShopStringByElements(ItemsDb.Items)}",
+                        Description = $"{GetTotalShopStringByElements(ItemsDb.Items)}",
                         ImageUrl = HarborBannerUrl
                     }.Build();
 
@@ -135,7 +135,8 @@ namespace Eremite.Actions
             {
                 var buyPrice = item.BuyPrice;
                 var sellPrice = item.SellPrice;
-                sb.AppendLine($"{item.ItemId} | {item.EmojiCode} | BUY: {buyPrice.Mora}{Localization.MoraEmoji} {buyPrice.Primogems}{Localization.PrimosEmoji} | SELL: {sellPrice.Mora}{Localization.MoraEmoji} {sellPrice.Primogems}{Localization.PrimosEmoji} {sellPrice.Pills}{Localization.PillsEmoji}\n");
+                //`SELL:` `{sellPrice.Mora}`{Localization.MoraEmoji} `{sellPrice.Primogems}`{Localization.PrimosEmoji} `{sellPrice.Pills}`{Localization.PillsEmoji}
+                sb.AppendLine($"> 「{item.EmojiCode}」 [ID: {item.ItemId}] 「`{buyPrice.Mora}`{Localization.MoraEmoji} `{buyPrice.Primogems}`{Localization.PrimosEmoji}」");
             }
 
             return sb.ToString();

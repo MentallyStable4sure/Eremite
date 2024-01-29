@@ -27,7 +27,7 @@ namespace Eremite.SlashCommands
 
             var message = new DiscordInteractionResponseBuilder()
                 .AddComponents(dropdown)
-                .AddEmbed(ShopAction.GetEmbedWithShopInfo(user));
+                .AddEmbed(HarborAction.GetEmbedWithShopInfo(user));
 
             shopAction.OnUserBought += SaveData;
             await context.CreateResponseAsync(message);
