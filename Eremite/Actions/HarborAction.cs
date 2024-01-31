@@ -150,7 +150,7 @@ namespace Eremite.Actions
 
             user.AddCurrency(new DiscordWallet(-item.BuyPrice.Primogems, -item.BuyPrice.Mora, -item.BuyPrice.Pills));
 
-            await data.SendData(user, new UserUpdateQueryBuilder(user, QueryElement.Wallet, QueryElement.Stats, QueryElement.Inventory).Build());
+            await data.SendData(user, new UserUpdateQueryBuilder(user, QueryElement.Wallet, QueryElement.Stats, QueryElement.Inventory, QueryElement.Characters).Build());
             return string.Empty;
         }
 
@@ -161,7 +161,7 @@ namespace Eremite.Actions
             if (user.Stats.EquippedItem.ItemId == item.ItemId) user.Stats.EquippedItem = null;
             user.AddCurrency(new DiscordWallet(item.SellPrice.Primogems, item.SellPrice.Mora, item.SellPrice.Pills));
 
-            await data.SendData(user, new UserUpdateQueryBuilder(user, QueryElement.Wallet, QueryElement.Stats, QueryElement.Inventory).Build());
+            await data.SendData(user, new UserUpdateQueryBuilder(user, QueryElement.Wallet, QueryElement.Stats, QueryElement.Inventory, QueryElement.Characters).Build());
             return string.Empty;
         }
     }

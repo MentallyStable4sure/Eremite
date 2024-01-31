@@ -63,6 +63,8 @@ namespace Eremite
             slash.RegisterCommands<EquipItemCommand>();
             slash.RegisterCommands<FishblastingCommand>();
             slash.RegisterCommands<HarborShopCommand>();
+            slash.RegisterCommands<HarborBuyCommand>();
+            slash.RegisterCommands<HarborSellCommand>();
 
             await discord.ConnectAsync(activity, UserStatus.Idle);
             await Task.Delay(-1);
