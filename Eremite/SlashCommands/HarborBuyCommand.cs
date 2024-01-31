@@ -21,6 +21,7 @@ namespace Eremite.SlashCommands
             var harbor = new HarborAction(user, DataHandler);
             var response = await harbor.Buy(user, DataHandler, ItemsDb.GetItemById((int)itemId));
 
+            if (response == string.Empty) response = $"✨ `{user.GetText(ShopAction.lotBought)}` ✅";
             await context.CreateResponseAsync(message.WithContent(response));
         }
     }

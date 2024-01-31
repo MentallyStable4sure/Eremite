@@ -20,7 +20,7 @@ namespace Eremite.SlashCommands
 
             var harbor = new HarborAction(user, DataHandler);
             var response = await harbor.Sell(user, DataHandler, ItemsDb.GetItemById((int)itemId));
-
+            if (response == string.Empty) response = "✨ `SOLD!` ✅";
             await context.CreateResponseAsync(message.WithContent(response));
         }
     }
