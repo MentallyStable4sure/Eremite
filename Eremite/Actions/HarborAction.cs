@@ -149,6 +149,8 @@ namespace Eremite.Actions
             if (user.Wallet.Pills < item.BuyPrice.Pills) return "> Not enough resources to buy this lot.";
 
             user.AddCurrency(new DiscordWallet(-item.BuyPrice.Primogems, -item.BuyPrice.Mora, -item.BuyPrice.Pills));
+            var inventory = new InventoryAction(user);
+            inventory.AddItem(item);
 
             await data.SendData(user, new UserUpdateQueryBuilder(user, QueryElement.Wallet, QueryElement.Stats, QueryElement.Inventory, QueryElement.Characters).Build());
             return string.Empty;
@@ -156,10 +158,14 @@ namespace Eremite.Actions
 
         public async Task<string> Sell(UserData user, DataHandler data, UserItem item)
         {
-            if (!user.Inventory.Contains(item)) return "Seems like you dont have this item";
+            var inventory = new InventoryAction(user);
+            bool isHasItem = inventory.HasItem(item);
+
+            if (!isHasItem) return "Seems like you dont have this item";
 
             if (user.Stats.EquippedItem.ItemId == item.ItemId) user.Stats.EquippedItem = null;
             user.AddCurrency(new DiscordWallet(item.SellPrice.Primogems, item.SellPrice.Mora, item.SellPrice.Pills));
+            inventory.RemoveItem(item);
 
             await data.SendData(user, new UserUpdateQueryBuilder(user, QueryElement.Wallet, QueryElement.Stats, QueryElement.Inventory, QueryElement.Characters).Build());
             return string.Empty;

@@ -33,5 +33,14 @@ namespace Eremite.Actions
             
             if(user.Inventory[foundItem].Amount <= 0) user.Inventory.RemoveAt(foundItem);
         }
+
+        public bool HasItem(UserItem item)
+        {
+            if (item == null) return false;
+            var foundItem = user.Inventory.FindIndex(itemToSearch => item.ItemId == itemToSearch.ItemId);
+
+            if (foundItem == -1) return false;
+            return true;
+        }
     }
 }
